@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WebAppMedicalAssistant_Core\WebAppMedicalAssistant_Core.csproj" />
+    <ProjectReference Include="..\WebAppMedicalAssistant_Data.Abstractions\WebAppMedicalAssistant_Data.Abstractions.csproj" />
+    <ProjectReference Include="..\WebAppMedicalAssistant_DataBase\WebAppMedicalAssistant_DataBase.csproj" />
+  </ItemGroup>
+
+</Project>

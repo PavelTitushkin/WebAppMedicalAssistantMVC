@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.FluorographyDto>
+
+@{
+    ViewData["Title"] = "Мои флюраграции";
+}
+
+<h1>Мои флюраграфии</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Дата начала действия
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDateOfSurvey)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberFluorography)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Result)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MedicalInstitutionDto)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataOfExamination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDateOfSurvey)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberFluorography)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Result)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem=> item.MedicalInstitutionDto.NameMedicalInstitution)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
