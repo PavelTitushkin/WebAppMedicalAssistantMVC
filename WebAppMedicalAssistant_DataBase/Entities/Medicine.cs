@@ -6,7 +6,6 @@
         public string NameOfMedicine { get; set; }
         public string ShortDescriptionOfMedicine { get; set; }
 
-        public virtual PrescribedMedication PrescribedMedication { get; set; }
-        public int PrescribedMedicationId { get; set; }
+        public List<PrescribedMedication> PrescribedMedications { get; set; }
     }
 }

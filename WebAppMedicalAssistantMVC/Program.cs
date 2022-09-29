@@ -28,6 +28,11 @@ namespace WebAppMedicalAssistantMVC
 
             //Add Dependencies
             builder.Services.AddScoped<IFluorographyService, FluorographyService>();
+            builder.Services.AddScoped<IAnalysisService, AnalysisService>();
+            builder.Services.AddScoped<IVaccinationService, VaccinacionService>();
+            builder.Services.AddScoped<IMedicalExaminationService, MedicalExaminationService>();
+            builder.Services.AddScoped<ITransferredDiseaseService, TransferredDiseaseService>();
+            builder.Services.AddScoped<IDoctorVisitService, DoctorVisitService>();
 
             builder.Services.AddScoped<IRepository<Analysis>, Repository<Analysis>>();
             builder.Services.AddScoped<IRepository<Appointment>, Repository<Appointment>>();

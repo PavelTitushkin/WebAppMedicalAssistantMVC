@@ -6,10 +6,10 @@
         public string DescriptionOfDestination { get; set; }
 
 
-        public virtual List<MedicalExamination> MedicalExaminations { get; set; }
-        public virtual List<PhysicalTherapy> PhysicalTherapys { get; set; }
-        public virtual List<PrescribedMedication> PrescribedMedications { get; set; }
-        public virtual DoctorVisit DoctorVisit { get; set; }
+        public List<MedicalExamination> MedicalExaminations { get; set; }
+        public List<PhysicalTherapy> PhysicalTherapys { get; set; }
+        public List<PrescribedMedication> PrescribedMedications { get; set; }
+        public DoctorVisit? DoctorVisit { get; set; }
         public int? DoctorVisitId { get; set; }
     }
 }

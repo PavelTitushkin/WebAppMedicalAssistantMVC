@@ -7,10 +7,10 @@
         public decimal PriceVisit { get; set; }
 
         //навигационные свойства
-        public List<MedicalInstitutionDto> MedicalInstitutionsDto { get; set; }
-        public List<DoctorDto> DoctorsDto { get; set; }
+        public MedicalInstitutionDto MedicalInstitutionDto { get; set; }
+        public DoctorDto DoctorDto { get; set; }
         public List<AppointmentDto> AppointmentsDto { get; set; }
-        public List<TransferredDiseaseDto> TransferredDiseasesDto { get; set; }
+        public TransferredDiseaseDto TransferredDiseaseDto { get; set; }
         public UserDto UserDto { get; set; }
     }
 }

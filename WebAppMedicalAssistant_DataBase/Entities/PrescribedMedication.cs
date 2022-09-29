@@ -8,12 +8,13 @@
         public string MedicineDose { get; set; }
         public decimal MedicinePrice { get; set; }
 
-        public virtual List<Medicine> Medicines { get; set; }
-        public virtual User User { get; set; }
+        public Medicine Medicine { get; set; }
+        public int? MedicineId { get; set; }
+        public User User { get; set; }
         public int UserId { get; set; }
-        public virtual TransferredDisease TransferredDisease { get; set; }
+        public TransferredDisease TransferredDisease { get; set; }
         public int? TransferredDiseaseId { get; set; }
-        public virtual Appointment Appointment { get; set; }
+        public Appointment Appointment { get; set; }
         public int? AppointmentId { get; set; }
     }
 }

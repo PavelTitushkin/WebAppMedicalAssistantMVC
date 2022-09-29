@@ -7,9 +7,11 @@
         public DateTime StartPhysicalTherapy { get; set; }
         public DateTime EndPhysicalTherapy { get; set; }
 
-        public virtual Appointment Appointment { get; set; }
+        public Appointment Appointment { get; set; }
         public int? AppointmentId { get; set; }
-        public virtual TransferredDisease TransferredDisease { get; set; }
+        public TransferredDisease TransferredDisease { get; set; }
         public int? TransferredDiseaseId { get; set; }
+        public MedicalInstitution MedicalInstitution { get; set; }
+        public int? MedicalInstitutionId { get; set; }
     }
 }

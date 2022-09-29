@@ -9,6 +9,6 @@
         public string Specializacion { get; set; }
         public float? Rating { get; set; }
 
-        public DoctorVisitDto DoctorVisitDto { get; set; }
+        public List<DoctorVisitDto> DoctorVisitsDto { get; set; }
     }
 }

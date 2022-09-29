@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.VaccinationDto>
+
+@{
+    ViewData["Title"] = "Мои прививки";
+}
+
+<h2>Мои привики</h2>
+
+<p>
+    <a asp-action="Create">Добавить новую прививку</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Назначение прививки
+            </th>
+            <th>
+                Название прививки
+            </th>
+            <th>
+                Доза
+            </th>
+            <th>
+                Серия
+            </th>
+            <th>
+                Дата прививания
+            </th>
+            <th>
+                Дата окончания действия прививки
+            </th>
+            <th>
+                Медицинское учреждение
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationOfVaccine)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameOfVaccine)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VacineDose)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VacineSeria)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfVaccination)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VaccinationExpirationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicalInstitutionsDto.NameMedicalInstitution)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

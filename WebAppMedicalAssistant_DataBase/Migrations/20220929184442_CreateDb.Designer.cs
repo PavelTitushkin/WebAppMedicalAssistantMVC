@@ -12,8 +12,8 @@ using WebAppMedicalAssistant_DataBase;
 namespace WebAppMedicalAssistant_DataBase.Migrations
 {
     [DbContext(typeof(MedicalAssistantContext))]
-    [Migration("20220911133508_AddResultToTableFlorografy")]
-    partial class AddResultToTableFlorografy
+    [Migration("20220929184442_CreateDb")]
+    partial class CreateDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,9 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Property<DateTime>("DateOfAnalysis")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("MedicalInstitutionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("NameOfAnalysis")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -46,6 +49,8 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MedicalInstitutionId");
 
                     b.HasIndex("UserId");
 
@@ -67,14 +72,9 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Property<int?>("DoctorVisitId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MedicalExaminationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorVisitId");
-
-                    b.HasIndex("MedicalExaminationId");
 
                     b.ToTable("Appointments");
                 });
@@ -113,9 +113,6 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DoctorVisitId")
-                        .HasColumnType("int");
-
                     b.Property<string>("FirstNameDoctor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -137,8 +134,6 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorVisitId");
-
                     b.ToTable("Doctors");
                 });
 
@@ -153,13 +148,28 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Property<DateTime>("DateVisit")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("PriceVisit")
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MedicalInstitutionId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("PriceVisit")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("TransferredDiseaseId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("MedicalInstitutionId");
+
+                    b.HasIndex("TransferredDiseaseId");
 
                     b.HasIndex("UserId");
 
@@ -177,7 +187,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Property<DateTime>("DataOfExamination")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EndDateOfSurvey")
+                    b.Property<DateTime?>("EndDateOfSurvey")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("MedicalInstitutionId")
@@ -210,8 +220,14 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AppointmentId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateOfMedicalExamination")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("MedicalInstitutionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("NameOfMedicalExamination")
                         .IsRequired()
@@ -227,6 +243,10 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("MedicalInstitutionId");
 
                     b.HasIndex("UserId");
 
@@ -248,9 +268,6 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Property<string>("Contact")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DoctorVisitId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NameMedicalInstitution")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -258,14 +275,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Property<string>("OperatingMode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("VaccinationId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("DoctorVisitId");
-
-                    b.HasIndex("VaccinationId");
 
                     b.ToTable("MedicalInstitutions");
                 });
@@ -282,18 +292,51 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PrescribedMedicationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ShortDescriptionOfMedicine")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PrescribedMedicationId");
-
                     b.ToTable("Medicines");
+                });
+
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.PhysicalTherapy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AppointmentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("EndPhysicalTherapy")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("MedicalInstitutionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NameOfPhysicalTherapy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartPhysicalTherapy")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("TransferredDiseaseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("MedicalInstitutionId");
+
+                    b.HasIndex("TransferredDiseaseId");
+
+                    b.ToTable("PhysicalTherapy");
                 });
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.PrescribedMedication", b =>
@@ -304,6 +347,9 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AppointmentId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EndDateOfMedication")
                         .HasColumnType("datetime2");
 
@@ -311,20 +357,49 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("MedicineId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("MedicinePrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("StartDateOfMedication")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("TransferredDiseaseId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppointmentId");
+
+                    b.HasIndex("MedicineId");
+
+                    b.HasIndex("TransferredDiseaseId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("PrescribedMedications");
+                });
+
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.TransferredDisease", b =>
@@ -340,6 +415,12 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
 
                     b.Property<DateTime?>("DateOfRecovery")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("FormOfTransferredDisease")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("TypeOfTreatment")
+                        .HasColumnType("bit");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -382,7 +463,12 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -401,6 +487,9 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
 
                     b.Property<DateTime>("DateOfVaccination")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("MedicalInstitutionId")
+                        .HasColumnType("int");
 
                     b.Property<string>("NameOfVaccine")
                         .IsRequired()
@@ -421,6 +510,8 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MedicalInstitutionId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Vaccinations");
@@ -428,11 +519,19 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Analysis", b =>
                 {
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.MedicalInstitution", "MedicalInstitution")
+                        .WithMany("Analyses")
+                        .HasForeignKey("MedicalInstitutionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WebAppMedicalAssistant_DataBase.Entities.User", "User")
                         .WithMany("Analyzes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("MedicalInstitution");
 
                     b.Navigation("User");
                 });
@@ -443,13 +542,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .WithMany("Appointments")
                         .HasForeignKey("DoctorVisitId");
 
-                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.MedicalExamination", "MedicalExamination")
-                        .WithMany("Appointments")
-                        .HasForeignKey("MedicalExaminationId");
-
                     b.Navigation("DoctorVisit");
-
-                    b.Navigation("MedicalExamination");
                 });
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Disease", b =>
@@ -463,24 +556,31 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Navigation("TransferredDisease");
                 });
 
-            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Doctor", b =>
-                {
-                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.DoctorVisit", "DoctorVisit")
-                        .WithMany("Doctors")
-                        .HasForeignKey("DoctorVisitId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DoctorVisit");
-                });
-
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.DoctorVisit", b =>
                 {
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.Doctor", "Doctor")
+                        .WithMany("DoctorVisits")
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.MedicalInstitution", "MedicalInstitution")
+                        .WithMany("DoctorVisits")
+                        .HasForeignKey("MedicalInstitutionId");
+
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.TransferredDisease", "TransferredDisease")
+                        .WithMany("DoctorVisits")
+                        .HasForeignKey("TransferredDiseaseId");
+
                     b.HasOne("WebAppMedicalAssistant_DataBase.Entities.User", "User")
                         .WithMany("DoctorVisits")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Doctor");
+
+                    b.Navigation("MedicalInstitution");
+
+                    b.Navigation("TransferredDisease");
 
                     b.Navigation("User");
                 });
@@ -504,48 +604,73 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.MedicalExamination", b =>
                 {
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.Appointment", "Appointment")
+                        .WithMany("MedicalExaminations")
+                        .HasForeignKey("AppointmentId");
+
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.MedicalInstitution", "MedicalInstitution")
+                        .WithMany("medicalExaminations")
+                        .HasForeignKey("MedicalInstitutionId");
+
                     b.HasOne("WebAppMedicalAssistant_DataBase.Entities.User", "User")
                         .WithMany("MedicalExaminations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Appointment");
+
+                    b.Navigation("MedicalInstitution");
+
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.MedicalInstitution", b =>
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.PhysicalTherapy", b =>
                 {
-                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.DoctorVisit", "DoctorVisit")
-                        .WithMany("MedicalInstitutions")
-                        .HasForeignKey("DoctorVisitId");
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.Appointment", "Appointment")
+                        .WithMany("PhysicalTherapys")
+                        .HasForeignKey("AppointmentId");
 
-                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.Vaccination", "Vaccination")
-                        .WithMany("MedicalInstitutions")
-                        .HasForeignKey("VaccinationId");
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.MedicalInstitution", "MedicalInstitution")
+                        .WithMany("physicalTherapies")
+                        .HasForeignKey("MedicalInstitutionId");
 
-                    b.Navigation("DoctorVisit");
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.TransferredDisease", "TransferredDisease")
+                        .WithMany("PhysicalTherapies")
+                        .HasForeignKey("TransferredDiseaseId");
 
-                    b.Navigation("Vaccination");
-                });
+                    b.Navigation("Appointment");
 
-            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Medicine", b =>
-                {
-                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.PrescribedMedication", "PrescribedMedication")
-                        .WithMany("Medicines")
-                        .HasForeignKey("PrescribedMedicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("MedicalInstitution");
 
-                    b.Navigation("PrescribedMedication");
+                    b.Navigation("TransferredDisease");
                 });
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.PrescribedMedication", b =>
                 {
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.Appointment", "Appointment")
+                        .WithMany("PrescribedMedications")
+                        .HasForeignKey("AppointmentId");
+
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.Medicine", "Medicine")
+                        .WithMany("PrescribedMedications")
+                        .HasForeignKey("MedicineId");
+
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.TransferredDisease", "TransferredDisease")
+                        .WithMany("PrescribedMedications")
+                        .HasForeignKey("TransferredDiseaseId");
+
                     b.HasOne("WebAppMedicalAssistant_DataBase.Entities.User", "User")
                         .WithMany("PrescribedMedication")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Appointment");
+
+                    b.Navigation("Medicine");
+
+                    b.Navigation("TransferredDisease");
 
                     b.Navigation("User");
                 });
@@ -561,44 +686,87 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.User", b =>
+                {
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.Role", "Roles")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Roles");
+                });
+
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Vaccination", b =>
                 {
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.MedicalInstitution", "MedicalInstitutions")
+                        .WithMany("Vaccinations")
+                        .HasForeignKey("MedicalInstitutionId");
+
                     b.HasOne("WebAppMedicalAssistant_DataBase.Entities.User", "User")
                         .WithMany("Vaccinations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("MedicalInstitutions");
+
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.DoctorVisit", b =>
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Appointment", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("MedicalExaminations");
 
-                    b.Navigation("Doctors");
+                    b.Navigation("PhysicalTherapys");
 
-                    b.Navigation("MedicalInstitutions");
+                    b.Navigation("PrescribedMedications");
                 });
 
-            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.MedicalExamination", b =>
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Doctor", b =>
+                {
+                    b.Navigation("DoctorVisits");
+                });
+
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.DoctorVisit", b =>
                 {
                     b.Navigation("Appointments");
                 });
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.MedicalInstitution", b =>
                 {
+                    b.Navigation("Analyses");
+
+                    b.Navigation("DoctorVisits");
+
                     b.Navigation("Fluorographys");
+
+                    b.Navigation("Vaccinations");
+
+                    b.Navigation("medicalExaminations");
+
+                    b.Navigation("physicalTherapies");
                 });
 
-            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.PrescribedMedication", b =>
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Medicine", b =>
                 {
-                    b.Navigation("Medicines");
+                    b.Navigation("PrescribedMedications");
+                });
+
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.TransferredDisease", b =>
                 {
                     b.Navigation("Diseases");
+
+                    b.Navigation("DoctorVisits");
+
+                    b.Navigation("PhysicalTherapies");
+
+                    b.Navigation("PrescribedMedications");
                 });
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.User", b =>
@@ -616,11 +784,6 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Navigation("TransferredDiseases");
 
                     b.Navigation("Vaccinations");
-                });
-
-            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Vaccination", b =>
-                {
-                    b.Navigation("MedicalInstitutions");
                 });
 #pragma warning restore 612, 618
         }

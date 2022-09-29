@@ -18,7 +18,7 @@ namespace WebAppMedicalAssistant_DataBase
         public DbSet<TransferredDisease> TransferredDiseases { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vaccination> Vaccinations { get; set; }
-
+        public DbSet<Role> Roles { get; set; }
         public MedicalAssistantContext(DbContextOptions<MedicalAssistantContext> options) : base(options)
         {
 

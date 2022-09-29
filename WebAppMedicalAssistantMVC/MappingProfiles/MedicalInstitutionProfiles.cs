@@ -13,9 +13,7 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
                 .ForMember(dto => dto.NameMedicalInstitution, opt => opt.MapFrom(medInst => medInst.NameMedicalInstitution))
                 .ForMember(dto => dto.Adress, opt => opt.MapFrom(medInst => medInst.Adress))
                 .ForMember(dto => dto.OperatingMode, opt => opt.MapFrom(medInst => medInst.OperatingMode))
-                .ForMember(dto => dto.Contact, opt => opt.MapFrom(medInst => medInst.Contact))
-                .ForMember(dto => dto.NameMedicalInstitution, opt => opt.MapFrom(medInst => medInst.NameMedicalInstitution));
-
+                .ForMember(dto => dto.Contact, opt => opt.MapFrom(medInst => medInst.Contact));
         }
     }
 }

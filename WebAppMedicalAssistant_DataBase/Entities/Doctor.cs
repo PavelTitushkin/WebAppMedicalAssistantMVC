@@ -9,7 +9,6 @@
         public string Specializacion { get; set; }
         public float? Rating { get; set; }
 
-        public  virtual DoctorVisit DoctorVisit { get; set; }
-        public int DoctorVisitId { get; set; }
+        public List<DoctorVisit> DoctorVisits { get; set; }
     }
 }

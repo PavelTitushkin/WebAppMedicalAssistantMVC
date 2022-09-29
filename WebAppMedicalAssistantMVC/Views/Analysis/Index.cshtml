@@ -1,0 +1,42 @@
+﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.AnalysisDto>
+
+@{
+    ViewData["Title"] = "Мои анализы";
+}
+
+<h2>Мои анализы</h2>
+
+<p>
+    <a asp-action="Create">Добавить новый анализ</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название анализа
+            </th>
+            <th>
+                Дата сдачи анализа
+            </th>
+            <th>
+                Медицинское учреждение
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameOfAnalysis)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfAnalysis)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.DoctorVisitDto>
+
+@{
+    ViewData["Title"] = "Мои посещения врачей";
+}
+
+<h2>Мои посещения врачей</h2>
+
+<p>
+    <a asp-action="Create">Добавить новое посещение</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Дата посещения
+            </th>
+            <th>
+                Название медицинского учреждения
+            </th>
+            <th>
+                Ф.И.О. врача
+            </th>
+            <th>
+                История болезней
+            </th>
+            <th>
+                Стоимость посещения
+            </th>
+            <th>
+                Назначения
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateVisit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DoctorDto.LastNameDoctor)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var itemDisease in item.TransferredDiseaseDto.DiseasesDto)
+                        {
+                            <li class="">
+                                @itemDisease.NameOfDisease
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=> item.PriceVisit)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var appointments in item.AppointmentsDto)
+                        {
+                            <li class="">
+                                @appointments.DescriptionOfDestination
+                            </li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

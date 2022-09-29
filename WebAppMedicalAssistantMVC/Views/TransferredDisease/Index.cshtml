@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.TransferredDiseaseDto>
+
+@{
+    ViewData["Title"] = "Моя история болезней";
+}
+
+<h2>Моя история болезней</h2>
+
+<p>
+    <a asp-action="Create">Добавить новое заболевание</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название болезни
+            </th>
+            <th>
+                Дата заболевания
+            </th>
+            <th>
+                Дата выздоровления
+            </th>
+            <th>
+                Вид лечения
+            </th>
+            <th>
+                Форма протекания болезни
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <ul>
+                        @foreach (var itemDisease in item.DiseasesDto)
+                        {
+                            <li class="">
+                                @itemDisease.NameOfDisease
+                            </li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfDisease)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfRecovery)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TypeOfTreatment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=> item.FormOfTransferredDiseaseDto)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

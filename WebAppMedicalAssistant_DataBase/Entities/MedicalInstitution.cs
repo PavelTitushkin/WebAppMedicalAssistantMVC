@@ -9,12 +9,11 @@
         public string? Contact { get; set; }
 
         //навигационное свойство
-        public virtual DoctorVisit DoctorVisit { get; set; }
-        public int? DoctorVisitId { get; set; }
-        public virtual Vaccination Vaccination { get; set; }
-        public int? VaccinationId { get; set; }
-
-        public virtual List<Fluorography> Fluorographys { get; set; }
-        public virtual List<Analysis> Analyses { get; set; }
+        public List<DoctorVisit> DoctorVisits { get; set; }
+        public List<Vaccination> Vaccinations { get; set; }
+        public List<Fluorography> Fluorographys { get; set; }
+        public List<Analysis> Analyses { get; set; }
+        public List<MedicalExamination> medicalExaminations { get; set; }
+        public List<PhysicalTherapy> physicalTherapies { get; set; }
     }
 }

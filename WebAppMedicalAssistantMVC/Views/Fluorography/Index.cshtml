@@ -1,31 +1,31 @@
 ﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.FluorographyDto>
 
 @{
-    ViewData["Title"] = "Мои флюраграции";
+    ViewData["Title"] = "Мои флюраграфии";
 }
 
-<h1>Мои флюраграфии</h1>
+<h2>Мои флюраграфии</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Добавить новую флюраграфию</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                Дата начала действия
+                Дата снимка
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EndDateOfSurvey)
+                Дата окончания действия снимка
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NumberFluorography)
+                Номер флюраграфии
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Result)
+                Результат
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MedicalInstitutionDto)
+                Медицинское учреждение
             </th>
             <th></th>
         </tr>
@@ -52,3 +52,10 @@
 }
     </tbody>
 </table>
+
+@section Scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
