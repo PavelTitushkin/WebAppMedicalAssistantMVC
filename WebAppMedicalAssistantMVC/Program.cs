@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging.Core;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
@@ -18,6 +19,16 @@ namespace WebAppMedicalAssistantMVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            //Add Authentication
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.ExpireTimeSpan = TimeSpan.FromHours(12);
+                    options.LoginPath = new PathString(@"/Account/Login");
+                    options.LogoutPath = new PathString(@"/Account/Login");
+                    options.AccessDeniedPath = new PathString(@"/Account/Login");
+                });
             
             //Connection Db
             var connectionString = builder.Configuration.GetConnectionString("DbMedicalAssistant");
@@ -33,6 +44,8 @@ namespace WebAppMedicalAssistantMVC
             builder.Services.AddScoped<IMedicalExaminationService, MedicalExaminationService>();
             builder.Services.AddScoped<ITransferredDiseaseService, TransferredDiseaseService>();
             builder.Services.AddScoped<IDoctorVisitService, DoctorVisitService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
 
             builder.Services.AddScoped<IRepository<Analysis>, Repository<Analysis>>();
             builder.Services.AddScoped<IRepository<Appointment>, Repository<Appointment>>();
@@ -48,6 +61,7 @@ namespace WebAppMedicalAssistantMVC
             builder.Services.AddScoped<IRepository<TransferredDisease>, Repository<TransferredDisease>>();
             builder.Services.AddScoped<IRepository<User>, Repository<User>>();
             builder.Services.AddScoped<IRepository<Vaccination>, Repository<Vaccination>>();
+            builder.Services.AddScoped<IRepository<Role>, Repository<Role>>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -66,7 +80,12 @@ namespace WebAppMedicalAssistantMVC
 
             app.UseRouting();
 
+            app.UseAuthentication(); //set HttpContext.User
             app.UseAuthorization();
+
+            app.MapControllerRoute(
+                name: "Login",
+                pattern: "{controller=Account}/{action=Login}/{id?}");
 
             app.MapControllerRoute(
                 name: "default",

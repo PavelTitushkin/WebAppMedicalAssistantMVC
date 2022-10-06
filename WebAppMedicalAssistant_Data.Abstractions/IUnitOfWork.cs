@@ -19,6 +19,7 @@ namespace WebAppMedicalAssistant_Data.Abstractions
         IRepository<TransferredDisease> TransferredDisease { get; }
         IRepository<User> User { get; }
         IRepository<Vaccination> Vaccination { get; }
+        IRepository<Role> Roles { get; }
 
         Task<int> Commit();
     }

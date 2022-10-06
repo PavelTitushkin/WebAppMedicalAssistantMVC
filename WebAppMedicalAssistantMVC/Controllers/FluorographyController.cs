@@ -7,12 +7,14 @@ namespace WebAppMedicalAssistantMVC.Controllers
     public class FluorographyController : Controller
     {
         private readonly IFluorographyService _fluorographyService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public FluorographyController(IFluorographyService fluorographyService, IMapper mapper)
+        public FluorographyController(IFluorographyService fluorographyService, IMapper mapper, IUserService userService)
         {
             _fluorographyService = fluorographyService;
             _mapper = mapper;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -20,8 +22,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
         {
             try
             {
-                var fluorographies = await _fluorographyService.GetAllFluorographiesAsync();
-                if (fluorographies != null)
+                var emailUser = HttpContext.User.Identity?.Name;
+                var dtoUser = await _userService.GetUserByEmailAsync(emailUser);
+                var fluorographies = await _fluorographyService.GetAllFluorographiesAsync(dtoUser.Id);
+                if (fluorographies.Any())
                 {
                     return View(fluorographies);
                 }

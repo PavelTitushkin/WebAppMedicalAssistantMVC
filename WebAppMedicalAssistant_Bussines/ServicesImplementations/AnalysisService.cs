@@ -13,6 +13,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 {
     public class AnalysisService : IAnalysisService
     {
+        
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -22,14 +23,16 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<AnalysisDto>> GetAllAnalysisAsync()
+        public async Task<List<AnalysisDto>> GetAllAnalysisAsync(int userId)
         {
             try
             {
-                var listAnalysis = await _unitOfWork.Analysis.Get()
+                var listAnalysis = await _unitOfWork.Analysis
+                    .FindBy(entity => entity.UserId.Equals(userId))
                .Include(include => include.MedicalInstitution)
                .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
                .ToListAsync();
+
                 return listAnalysis;
             }
             catch (Exception)

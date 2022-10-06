@@ -4,6 +4,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
 {
     public interface IFluorographyService
     {
-        Task<List<FluorographyDto>> GetAllFluorographiesAsync();
+        Task<List<FluorographyDto>> GetAllFluorographiesAsync(int userId);
     }
 }

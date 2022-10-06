@@ -20,7 +20,8 @@ namespace WebAppMedicalAssistantMVC.Controllers
         {
             try
             {
-                var listAnalisis = await _analysisService.GetAllAnalysisAsync();
+                var id = 2;
+                var listAnalisis = await _analysisService.GetAllAnalysisAsync(id);
                 if(listAnalisis.Any())
                 {
                     return View(listAnalisis);

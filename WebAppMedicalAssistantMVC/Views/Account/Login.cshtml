@@ -1,0 +1,26 @@
+﻿@model LoginModel
+
+@{
+    ViewData["Title"] = "Вход в приложение";
+    Layout = "_LoginLayout";
+}
+
+<div>
+    <h2>Вход</h2>
+
+    <form asp-controller="Account" asp-action="Login" method="post">
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input asp-for="Email" type="email" class="form-control" id="email" required />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Пароль:</label>
+            <input asp-for="Password" type="password" class="form-control" id="password" required/>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <input type="submit" class="btn btn-primary m-1" value="Вход"/>
+        <a class="btn btn-primary m-1" role="button" asp-controller="Account" asp-action="Register">Зарегистрироваться</a>
+    </form>
+</div>
