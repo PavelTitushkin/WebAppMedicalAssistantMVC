@@ -44,6 +44,7 @@ namespace WebAppMedicalAssistantMVC
             builder.Services.AddScoped<IMedicalExaminationService, MedicalExaminationService>();
             builder.Services.AddScoped<ITransferredDiseaseService, TransferredDiseaseService>();
             builder.Services.AddScoped<IDoctorVisitService, DoctorVisitService>();
+            builder.Services.AddScoped<IPrescribedMedicationService, PrescribedMedicationService>();
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IRoleService, RoleService>();
 

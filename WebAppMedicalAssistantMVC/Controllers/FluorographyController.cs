@@ -25,14 +25,8 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 var emailUser = HttpContext.User.Identity?.Name;
                 var dtoUser = await _userService.GetUserByEmailAsync(emailUser);
                 var fluorographies = await _fluorographyService.GetAllFluorographiesAsync(dtoUser.Id);
-                if (fluorographies.Any())
-                {
-                    return View(fluorographies);
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
+
+                return View(fluorographies);
             }
             catch (Exception)
             {

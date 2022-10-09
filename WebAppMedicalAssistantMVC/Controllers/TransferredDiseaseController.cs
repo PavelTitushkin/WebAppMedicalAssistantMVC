@@ -8,26 +8,24 @@ namespace WebAppMedicalAssistantMVC.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ITransferredDiseaseService _transferredDiseaseService;
+        private readonly IUserService _userService;
 
-        public TransferredDiseaseController(IMapper mapper, ITransferredDiseaseService transferredDiseaseService)
+        public TransferredDiseaseController(IMapper mapper, ITransferredDiseaseService transferredDiseaseService, IUserService userService)
         {
             _mapper = mapper;
             _transferredDiseaseService = transferredDiseaseService;
+            _userService = userService;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                var listTransferredDisease = await _transferredDiseaseService.GetAllTransferredDiseaseAsync();
-                if(listTransferredDisease.Any())
-                {
-                    return View(listTransferredDisease);
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
+                var emailUser = HttpContext.User.Identity.Name;
+                var userDto = await _userService.GetUserByEmailAsync(emailUser);
+                var listTransferredDisease = await _transferredDiseaseService.GetAllTransferredDiseaseAsync(userDto.Id);
+
+                return View(listTransferredDisease);
             }
             catch (Exception)
             {

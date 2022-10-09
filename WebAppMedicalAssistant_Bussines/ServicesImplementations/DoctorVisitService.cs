@@ -22,11 +22,12 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<DoctorVisitDto>> GetAllDoctorVisitAsync()
+        public async Task<List<DoctorVisitDto>> GetAllDoctorVisitAsync(int userId)
         {
             try
             {
                 var listDoctorVisit = await _unitOfWork.DoctorVisit.Get()
+                    .Where(user=>user.UserId.Equals(userId))
                     .Include(dto => dto.Appointments)
                     .Include(dto => dto.TransferredDisease.Diseases)
                     .Include(dto=>dto.MedicalInstitution)

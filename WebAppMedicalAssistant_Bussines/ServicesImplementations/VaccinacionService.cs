@@ -16,12 +16,13 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<VaccinationDto>> GetAllVaccinationsAsync()
+        public async Task<List<VaccinationDto>> GetAllVaccinationsAsync(int id)
         {
             try
             {
                 var listVaccination = await _unitOfWork.Vaccination
-                    .Get().Include(dto => dto.MedicalInstitutions)
+                    .FindBy(entity=>entity.UserId.Equals(id))
+                    .Include(dto => dto.MedicalInstitutions)
                     .Select(vaccination => _mapper.Map<VaccinationDto>(vaccination))
                     .ToListAsync();
                 return listVaccination;

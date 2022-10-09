@@ -8,11 +8,13 @@ namespace WebAppMedicalAssistantMVC.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IDoctorVisitService _doctorVisitService;
+        private readonly IUserService _userService;
 
-        public DoctorVisitController(IMapper mapper, IDoctorVisitService doctorVisitService)
+        public DoctorVisitController(IMapper mapper, IDoctorVisitService doctorVisitService, IUserService userService)
         {
             _mapper = mapper;
             _doctorVisitService = doctorVisitService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -20,15 +22,11 @@ namespace WebAppMedicalAssistantMVC.Controllers
         {
             try
             {
-                var listDoctorVisits = await _doctorVisitService.GetAllDoctorVisitAsync();
-                if(listDoctorVisits.Any())
-                {
-                    return View(listDoctorVisits);
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
+                var emailUser = HttpContext.User.Identity.Name;
+                var userDto = await _userService.GetUserByEmailAsync(emailUser);
+                var listDoctorVisits = await _doctorVisitService.GetAllDoctorVisitAsync(userDto.Id);
+                
+                return View(listDoctorVisits);
             }
             catch (Exception)
             {

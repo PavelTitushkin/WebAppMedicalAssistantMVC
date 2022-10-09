@@ -8,9 +8,9 @@
         public string? MedicineDose { get; set; }
         public decimal MedicinePrice { get; set; }
 
+        public List<DiseaseDto>? DiseasesDto { get; set; }
         public MedicineDto? MedicinesDto { get; set; }
         public UserDto? UserDto { get; set; }
-        public TransferredDiseaseDto? TransferredDiseaseDto { get; set; }
         public AppointmentDto? AppointmentDto { get; set; }
     }
 }

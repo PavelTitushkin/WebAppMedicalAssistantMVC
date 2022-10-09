@@ -12,32 +12,34 @@ using WebAppMedicalAssistant_DataBase.Entities;
 
 namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 {
-    public class TransferredDiseaseService : ITransferredDiseaseService
+    public class PrescribedMedicationService : IPrescribedMedicationService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TransferredDiseaseService(IMapper mapper, IUnitOfWork unitOfWork)
+        public PrescribedMedicationService(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<TransferredDiseaseDto>> GetAllTransferredDiseaseAsync(int id)
+        public async Task<List<PrescribedMedicationDto>> GetAllPrescribedMedicationsAsync(int id)
         {
             try
             {
-                var listTransferredDiseaseis = await _unitOfWork.TransferredDisease
-                    .FindBy(entity=>entity.UserId.Equals(id))
-                    .Include(dto=>dto.Diseases)
-                    .Select(transferredDisease => _mapper.Map<TransferredDiseaseDto>(transferredDisease))
+                var prescribedMedication = await _unitOfWork.PrescribedMedication
+                    .Get().Where(entity => entity.UserId.Equals(id))
+                    .Include(include => include.TransferredDisease.Diseases)
+                    .Include(include => include.Medicine)
+                    .Select(entity => _mapper.Map<PrescribedMedicationDto>(entity))
                     .ToListAsync();
-                return listTransferredDiseaseis;
+
+                return prescribedMedication;
             }
             catch (Exception)
             {
 
-                throw;
+                throw new ArgumentException();
             }
         }
     }

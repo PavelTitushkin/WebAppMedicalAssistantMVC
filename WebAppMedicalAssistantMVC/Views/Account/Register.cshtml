@@ -20,10 +20,17 @@
         </div>
         <div class="mb-3">
             <label for="password-confirmation" class="form-label">Подтверждение пароля:</label>
-            <input asp-for="PasswordConfirmation" type="password" class="form-control" id="password-confirmation" required />
+            <input type="password" asp-for="PasswordConfirmation" class="form-control" id="password-confirmation">
             <span asp-validation-for="PasswordConfirmation" class="text-danger"></span>
+
         </div>
 
         <input type="submit" class="btn btn-primary" value="Зарегистрироваться" />
     </form>
 </div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    }

@@ -32,7 +32,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            var isPasswordCorrect = await _userService.CheckUserPassword(loginModel.Email, loginModel.Password);
+            var isPasswordCorrect = await _userService.CheckUserPasswordAsync(loginModel.Email, loginModel.Password);
             if(isPasswordCorrect)
             {
                 await Authenticate(loginModel.Email);
@@ -49,6 +49,18 @@ namespace WebAppMedicalAssistantMVC.Controllers
         public IActionResult Register()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CheckEmail(string email)
+        {
+            var isUserExist = await _userService.IsUserExistAsync(email);
+            if(isUserExist)
+            {
+                return Ok(false);
+            }
+
+            return Ok(true);
         }
 
         [HttpPost]
@@ -89,8 +101,13 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 ClaimsIdentity.DefaultNameClaimType,
                 ClaimsIdentity.DefaultRoleClaimType
                 );
-
+            
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+        }
+
+        private async Task Exit(string email)
+        {
+
         }
     }
 }

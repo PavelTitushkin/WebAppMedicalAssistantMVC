@@ -4,6 +4,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
 {
     public interface IMedicalExaminationService
     {
-        Task<List<MedicalExaminationDto>> GetAllMedicalExaminationAsync();
+        Task<List<MedicalExaminationDto>> GetAllMedicalExaminationAsync(int userId);
     }
 }

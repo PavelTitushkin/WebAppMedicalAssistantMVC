@@ -14,8 +14,8 @@ namespace WebAppMedicalAssistant_DataBase.Entities
         public List<PrescribedMedication> PrescribedMedications { get; set; }
         public List<PhysicalTherapy> PhysicalTherapies { get; set; }
         public List<DoctorVisit> DoctorVisits { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public User? User { get; set; }
+        public int? UserId { get; set; }
 
     }
 }

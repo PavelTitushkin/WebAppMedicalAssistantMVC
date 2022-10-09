@@ -8,26 +8,25 @@ namespace WebAppMedicalAssistantMVC.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IMedicalExaminationService _medicalExaminationService;
+        private readonly IUserService _userService;
 
-        public MedicalExaminationController(IMapper mapper, IMedicalExaminationService medicalExaminationService)
+        public MedicalExaminationController(IMapper mapper, IMedicalExaminationService medicalExaminationService, IUserService userService)
         {
             _mapper = mapper;
             _medicalExaminationService = medicalExaminationService;
+            _userService = userService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             try
             {
-                var listMedicalExaminations = await _medicalExaminationService.GetAllMedicalExaminationAsync();
-                if(listMedicalExaminations.Any())
-                {
-                    return View(listMedicalExaminations);
-                }
-                else
-                {
-                    throw new ArgumentException();
-                }
+                var emailUser = HttpContext.User.Identity.Name;
+                var userDto = await _userService.GetUserByEmailAsync(emailUser);
+                var listMedicalExaminations = await _medicalExaminationService.GetAllMedicalExaminationAsync(userDto.Id);
+
+                return View(listMedicalExaminations);
             }
             catch (Exception)
             {

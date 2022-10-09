@@ -26,7 +26,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> CheckUserPassword(string email, string password)
+        public async Task<bool> CheckUserPasswordAsync(string email, string password)
         {
             var dbPasswordHash = (await _unitOfWork.User.Get().FirstOrDefaultAsync(user => user.Email.Equals(email)))?.PasswordHash;
 
@@ -41,11 +41,19 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             return userDto; 
         }
 
+        public async Task<bool> IsUserExistAsync(string email)
+        {
+            var isExit = await _unitOfWork.User.FindBy(user => user.Email.Equals(email)).FirstOrDefaultAsync();
+
+            return isExit != null;
+        }
+
         public async Task<int> RegisterUser(UserDto userDto)
         {
             var user = _mapper.Map<User>(userDto);
 
             user.PasswordHash = CreateMd5(userDto.PasswordHash);
+            user.Email = user.Email.ToLower();
 
             await _unitOfWork.User.AddEntityAsync(user);
 

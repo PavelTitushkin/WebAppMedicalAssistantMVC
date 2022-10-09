@@ -21,11 +21,12 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<MedicalExaminationDto>> GetAllMedicalExaminationAsync()
+        public async Task<List<MedicalExaminationDto>> GetAllMedicalExaminationAsync(int id)
         {
             try
             {
-                var listMedicalExaminations = await _unitOfWork.MedicalExamination.Get()
+                var listMedicalExaminations = await _unitOfWork.MedicalExamination
+                    .FindBy(entity=>entity.UserId.Equals(id))
                     .Include(dto=>dto.Appointment)
                     .Select(medicalExamination=>_mapper.Map<MedicalExaminationDto>(medicalExamination))
                     .ToListAsync();

@@ -4,6 +4,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
 {
     public interface ITransferredDiseaseService
     {
-        Task<List<TransferredDiseaseDto>> GetAllTransferredDiseaseAsync();
+        Task<List<TransferredDiseaseDto>> GetAllTransferredDiseaseAsync(int userId);
     }
 }

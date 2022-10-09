@@ -4,6 +4,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
 {
     public interface IVaccinationService
     {
-        Task<List<VaccinationDto>> GetAllVaccinationsAsync();
+        Task<List<VaccinationDto>> GetAllVaccinationsAsync(int userId);
     }
 }

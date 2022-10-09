@@ -14,7 +14,7 @@
         public List<Appointment> Appointments { get; set; }
         public TransferredDisease TransferredDisease { get; set; }
         public int? TransferredDiseaseId { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; }
+        public User? User { get; set; }
+        public int? UserId { get; set; }
     }
 }
