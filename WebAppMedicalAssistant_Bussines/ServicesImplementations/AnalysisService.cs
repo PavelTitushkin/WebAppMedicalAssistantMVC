@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
+using WebAppMedicalAssistant_DataBase.Entities;
 
 namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 {
@@ -41,5 +42,46 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 throw;
             }
         }
+
+        public async Task<List<MedicalInstitutionDto>> GetMedicalInstitutionsAsync()
+        {
+            try
+            {
+                var listMedicalInstitution = await _unitOfWork.MedicalInstitution
+                    .Get()
+                    .Select(entity => _mapper.Map<MedicalInstitutionDto>(entity))
+                    .ToListAsync();
+
+                return listMedicalInstitution;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<int> CreateAnalysisAsync(AnalysisDto analysisDto)
+        {
+            try
+            {
+                var analysis = _mapper.Map<Analysis>(analysisDto);
+                if(analysis != null)
+                {
+                    await _unitOfWork.Analysis.AddEntityAsync(analysis);
+                    var resultAdd = await _unitOfWork.Commit();
+                    return resultAdd;
+                }
+                else
+                {
+                    throw new ArgumentException();
+                }
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException();
+            }
+        }
+
     }
 }

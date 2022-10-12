@@ -34,5 +34,19 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

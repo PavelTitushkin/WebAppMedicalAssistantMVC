@@ -1,0 +1,36 @@
+﻿@model AnalysisModel
+
+@{
+    ViewData["Title"] = "Добавить анализ";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>Добавление нового анализа</h2>
+
+    <form asp-controller="Analysis" asp-action="Create" method="post">
+        <div class="mb-3">
+            <label for="NameOfAnalysis" class="form-label">Название анализа:</label>
+            <input asp-for="NameOfAnalysis" type="text" class="form-control" id="NameOfAnalysis" required />
+            <span asp-validation-for="NameOfAnalysis" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="DateOfAnalysis" class="form-label">Дата сдачи анализа:</label>
+            <input asp-for="DateOfAnalysis" type="date" class="form-control" id="DateOfAnalysis" required />
+            <span asp-validation-for="DateOfAnalysis" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
+            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
+        </div>
+        <a asp-controller="" asp-action="">Добавить медицинское учреждение</a>
+
+        <input type="submit" class="btn btn-primary m-1" value="Добавить анализ" />
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

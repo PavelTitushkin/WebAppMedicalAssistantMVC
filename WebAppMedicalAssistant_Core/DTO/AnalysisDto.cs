@@ -7,7 +7,9 @@
         public DateTime DateOfAnalysis { get; set; }
         public byte[]? ScanOfAnalysisDocument { get; set; }
 
+        public int UserId { get; set; }
         public UserDto? UserDto { get; set; }
         public MedicalInstitutionDto? MedicalInstitutionDto { get; set; }
+        public int MedicalInstitutionDtoId { get; set; }
     }
 }

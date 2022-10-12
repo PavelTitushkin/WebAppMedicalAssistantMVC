@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAppMedicalAssistant_DataBase;
 
@@ -11,9 +12,10 @@ using WebAppMedicalAssistant_DataBase;
 namespace WebAppMedicalAssistant_DataBase.Migrations
 {
     [DbContext(typeof(MedicalAssistantContext))]
-    partial class MedicalAssistantContextModelSnapshot : ModelSnapshot
+    [Migration("20221012200253_ChangeNullAnalysisMedicalInstitution")]
+    partial class ChangeNullAnalysisMedicalInstitution
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

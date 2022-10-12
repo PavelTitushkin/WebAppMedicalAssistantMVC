@@ -105,9 +105,11 @@ namespace WebAppMedicalAssistantMVC.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
         }
 
-        private async Task Exit(string email)
+        [HttpGet]
+        public async Task<IActionResult> Exit()
         {
-
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Login", "Account");
         }
     }
 }

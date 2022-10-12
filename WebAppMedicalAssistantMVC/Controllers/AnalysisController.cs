@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WebAppMedicalAssistant_Core.Abstractions;
+using WebAppMedicalAssistant_Core.DTO;
+using WebAppMedicalAssistantMVC.Models;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
@@ -32,6 +35,54 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 throw;
             }
             
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            try
+            {
+                var medicalInstitutionsDto = await _analysisService.GetMedicalInstitutionsAsync();
+
+                var analysisModel = new AnalysisModel();
+                analysisModel.MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution");
+
+                return View(analysisModel);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(AnalysisModel analysisModel)
+        {
+            try
+            {
+                if(!ModelState.IsValid)
+                {
+                    var emailUser = HttpContext.User.Identity.Name;
+                    var userDto = await _userService.GetUserByEmailAsync(emailUser);
+                    analysisModel.UserId = userDto.Id;
+
+                    var analysisDto = _mapper.Map<AnalysisDto>(analysisModel);
+                    await _analysisService.CreateAnalysisAsync(analysisDto);
+                    
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View(analysisModel);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }
