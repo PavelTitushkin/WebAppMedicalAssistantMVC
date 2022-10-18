@@ -10,6 +10,7 @@ using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
 using WebAppMedicalAssistant_DataBase;
+using WebAppMedicalAssistant_DataBase.Entities;
 
 namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 {
@@ -24,7 +25,22 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _mapper = mapper;
         }
 
-        
+        public async Task<int> CreatefluorographyAsync(FluorographyDto fluorographyDto)
+        {
+            try
+            {
+                var entity = _mapper.Map<Fluorography>(fluorographyDto);
+                await _unitOfWork.Fluorography.AddEntityAsync(entity);
+                var result = await _unitOfWork.Commit();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException();
+            }
+        }
+
         public async Task<List<FluorographyDto>> GetAllFluorographiesAsync(int userId) 
         {
             try

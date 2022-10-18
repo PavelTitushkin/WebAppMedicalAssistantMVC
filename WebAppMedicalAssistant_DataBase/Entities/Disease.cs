@@ -6,7 +6,6 @@
         public string NameOfDisease { get; set; }
         public string ShotDescriptionDisease { get; set; }
 
-        public TransferredDisease TransferredDisease { get; set; }
-        public int TransferredDiseaseId { get; set; }
+        public List<TransferredDisease> TransferredDiseases { get; set; }
     }
 }

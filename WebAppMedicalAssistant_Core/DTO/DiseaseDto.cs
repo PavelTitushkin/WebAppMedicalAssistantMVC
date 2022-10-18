@@ -6,6 +6,5 @@
         public string? NameOfDisease { get; set; }
         public string? ShotDescriptionDisease { get; set; }
 
-        public TransferredDiseaseDto? TransferredDiseaseDto { get; set; }
     }
 }

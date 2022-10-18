@@ -8,31 +8,29 @@ using System.Threading.Tasks;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
-using WebAppMedicalAssistant_DataBase.Entities;
 
 namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 {
-    public class TransferredDiseaseService : ITransferredDiseaseService
+    public class DoctorService : IDoctorService
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public TransferredDiseaseService(IMapper mapper, IUnitOfWork unitOfWork)
+        public DoctorService(IMapper mapper, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<TransferredDiseaseDto>> GetAllTransferredDiseaseAsync(int id)
+        public async Task<List<DoctorDto>> GetAllDoctorAsync()
         {
             try
             {
-                var listTransferredDiseaseis = await _unitOfWork.TransferredDisease
-                    .FindBy(entity => entity.UserId.Equals(id))
-                    .Include(include => include.Disease)
-                    .Select(transferredDisease => _mapper.Map<TransferredDiseaseDto>(transferredDisease))
+                var doctorsList = await _unitOfWork.Doctor.Get()
+                    .Select(entity => _mapper.Map<DoctorDto>(entity))
                     .ToListAsync();
-                return listTransferredDiseaseis;
+
+                return doctorsList;
             }
             catch (Exception)
             {

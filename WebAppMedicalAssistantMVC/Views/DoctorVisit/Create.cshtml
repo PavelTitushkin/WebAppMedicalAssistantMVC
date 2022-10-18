@@ -1,31 +1,37 @@
-﻿@model AnalysisModel
+﻿@model DoctorVisitModel
 
 @{
-    ViewData["Title"] = "Добавить анализ";
+    ViewData["Title"] = "Добавить запись к врачу";
     Layout = "_Layout";
 }
 
 <div>
-    <h2>Добавление нового анализа</h2>
+    <h2>Добавление новой записи</h2>
 
-    <form asp-controller="Analysis" asp-action="Create" method="post">
+    <form asp-controller="DoctorVisit" asp-action="Create" method="post">
         <div class="mb-3">
-            <label for="NameOfAnalysis" class="form-label">Название анализа:</label>
-            <input asp-for="NameOfAnalysis" type="text" class="form-control" id="NameOfAnalysis" required />
-            <span asp-validation-for="NameOfAnalysis" class="text-danger"></span>
-        </div>
-        <div class="mb-3">
-            <label for="DateOfAnalysis" class="form-label">Дата сдачи анализа:</label>
-            <input asp-for="DateOfAnalysis" type="date" class="form-control" id="DateOfAnalysis" required />
-            <span asp-validation-for="DateOfAnalysis" class="text-danger"></span>
+            <label for="DateVisit" class="form-label">Дата поещения врача:</label>
+            <input asp-for="DateVisit" type="date" class="form-control" asp-format="{0:yyyy-MM-dd}" id="DateVisit" required />
+            <span asp-validation-for="DateVisit" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
             <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
+            <a asp-controller="" asp-action="">Добавить медицинское учреждение</a>
         </div>
-        <a asp-controller="" asp-action="">Добавить медицинское учреждение</a>
+        <div class="mb-3">
+            <label for="DoctorId" class="form-label">Врач:</label>
+            <select asp-for="DoctorId" asp-items="@Model.DoctorList"></select>
+            <a asp-controller="" asp-action="">Добавить врача</a>
+        </div>
+        <div class="mb-3">
+            <label for="PriceVisit" class="form-label">Стоимость посещения:</label>
+            <input asp-for="PriceVisit" type="number" class="form-control" id="PriceVisit" required />
+            <span asp-validation-for="PriceVisit" class="text-danger"></span>
+        </div>
 
-        <input type="submit" class="btn btn-primary m-1" value="Добавить анализ" />
+        <input type="submit" class="btn btn-primary m-1" value="Добавить запись" />
+        <a class="btn btn-primary m-1" role="button" asp-controller="DoctorVisit" asp-action="Index">Отмена</a>
     </form>
 </div>
 

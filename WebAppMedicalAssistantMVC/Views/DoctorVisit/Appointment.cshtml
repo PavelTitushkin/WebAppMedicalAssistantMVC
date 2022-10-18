@@ -1,0 +1,103 @@
+﻿@model WebAppMedicalAssistant_Core.DTO.AppointmentDto
+
+@{
+    ViewData["Title"] = "Моё назначение";
+    Layout = "_layout";
+}
+
+
+<div class="container">
+    <h2 class="m-1">Моё назначение</h2>
+
+    <div class="row">
+        <div class="col border border-secondary rounded-3 m-1 p-1">
+            @if (ViewBag.NameOfDisease != null)
+            {
+                <h5>Диагноз: @ViewBag.NameOfDisease</h5>
+            }
+            else
+            {
+                <h5>Диагноз не назначен</h5>
+                <a asp-controller="TransferredDisease" asp-action="Create">Добавить диагноз</a>
+            }
+            @if (Model.DescriptionOfDestination != null)
+            {
+                <p class=" mb-1">Рекомендации: @Model.DescriptionOfDestination</p>
+            }
+            else
+            {
+                <p class=" mb-1">Рекомендации: не назначены</p>
+                @Html.ActionLink("Добавить рекомендации", "AddDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col border border-secondary rounded-3 m-1 p-1">
+            <h5>Назначенные анализы:</h5>
+            @if (Model.AnalysisDto.Count() != 0)
+            {
+                <ul>
+                    @foreach (var item in Model.AnalysisDto)
+                    {
+                        <li>@item.NameOfAnalysis</li>
+                    }
+                    @Html.ActionLink("Добавить анализ", "Create", "Analysis", new {id = Model.Id})
+                </ul>
+            }
+            else
+            {
+                <p>Нет назначенных анализов</p>
+                @Html.ActionLink("Добавить анализ", "Create", "Analysis", new {id = Model.Id})
+            }
+        </div>
+        <div class="col border border-secondary rounded-3 m-1 p-1">
+            <h5>Назначенные лекарства</h5>
+            @if (Model.PrescribedMedicationsDto.Count() != 0)
+            {
+                <ul>
+                    @foreach (var item in Model.PrescribedMedicationsDto)
+                    {
+                    <li>@item.MedicinesDto.NameOfMedicine</li>
+                    }
+                </ul> 
+            }
+            else
+            {
+                <p>Нет назначенных лекарств</p>
+            }
+        </div>
+        <div class="col border border-secondary rounded-3 m-1 p-1">
+            <h5>Назначенные медицинские исследования</h5>
+            @if (Model.MedicalExaminationsDto.Count() != 0)
+            {
+                <ul>
+                    @foreach (var item in Model.MedicalExaminationsDto)
+                    {
+                        <li>@item.NameOfMedicalExamination</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Нет назначенных исследований</p>
+            }
+        </div>
+        <div class="col border border-secondary rounded-3 m-1 p-1">
+            <h4>Назначенные физиотерапии</h4>
+            @if (Model.PhysicalTherapysDto.Count() != 0)
+            {
+                <ul>
+                    @foreach (var item in Model.PhysicalTherapysDto)
+                    {
+                        <li>@item.NameOfPhysicalTherapy</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Нет назначенных физиотерапии</p>
+            }
+        </div>
+    </div>
+</div>
+

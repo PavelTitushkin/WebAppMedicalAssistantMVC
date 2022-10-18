@@ -10,12 +10,10 @@ namespace WebAppMedicalAssistant_DataBase.Entities
         public bool TypeOfTreatment { get; set; }   
         public FormOfTransferredDisease FormOfTransferredDisease { get; set; }
 
-        public List<Disease> Diseases { get; set; }
-        public List<PrescribedMedication> PrescribedMedications { get; set; }
-        public List<PhysicalTherapy> PhysicalTherapies { get; set; }
-        public List<DoctorVisit> DoctorVisits { get; set; }
-        public User? User { get; set; }
-        public int? UserId { get; set; }
-
+        public Disease Disease { get; set; }
+        public int DiseaseId { get; set; }
+        public List<Appointment>? Appointments { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
     }
 }

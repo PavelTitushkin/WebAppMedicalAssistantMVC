@@ -9,12 +9,10 @@
         public decimal MedicinePrice { get; set; }
 
         public Medicine Medicine { get; set; }
-        public int? MedicineId { get; set; }
-        public User? User { get; set; }
-        public int? UserId { get; set; }
-        public TransferredDisease TransferredDisease { get; set; }
-        public int? TransferredDiseaseId { get; set; }
-        public Appointment Appointment { get; set; }
+        public int MedicineId { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
+        public Appointment? Appointment { get; set; }
         public int? AppointmentId { get; set; }
     }
 }

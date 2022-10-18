@@ -44,30 +44,25 @@
                     @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DoctorDto.LastNameDoctor)
+                    @Html.DisplayFor(modelItem => item.DoctorDto.FullNameDoctor)
                 </td>
                 <td>
-                    <ul>
-                        @foreach (var itemDisease in item.TransferredDiseaseDto.DiseasesDto)
-                        {
-                            <li class="">
-                                @itemDisease.NameOfDisease
-                            </li>
-                        }
-                    </ul>
+                    @Html.DisplayFor(modelItem => item.NameOfDisease)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem=> item.PriceVisit)
                 </td>
                 <td>
-                    <ul>
-                        @foreach (var appointments in item.AppointmentsDto)
-                        {
-                            <li class="">
-                                @appointments.DescriptionOfDestination
-                            </li>
-                        }
-                    </ul>
+                    @if(item.AppointmentDto!=null)
+                    {
+                        @Html.ActionLink("Смотреть назначение", "Appointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.NameOfDisease})
+@*                        <a class="link-primary" href="~/DoctorVisit/Appointment/@item.Id?nameOfDisease=@item.NameOfDisease">Смотреть назначение</a>
+*@                    }
+                    else
+                    {
+                        @Html.ActionLink("Добавить назначение", "CreateAppointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.NameOfDisease})
+@*                        <a class="link-primary" href="~/DoctorVisit/CreateAppointment/@item.Id">Добавить назначение</a>
+*@                    }
                 </td>
             </tr>
         }

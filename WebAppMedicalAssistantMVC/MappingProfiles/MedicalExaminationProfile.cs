@@ -8,8 +8,7 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
     {
         public MedicalExaminationProfile()
         {
-            CreateMap<MedicalExamination, MedicalExaminationDto>()
-                .ForMember(dto => dto.AppointmentDto, opt => opt.MapFrom(opt => opt.Appointment));
+            CreateMap<MedicalExamination, MedicalExaminationDto>();
         }
     }
 }

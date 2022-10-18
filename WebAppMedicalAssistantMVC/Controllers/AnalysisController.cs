@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebAppMedicalAssistant_Core.Abstractions;
@@ -12,11 +13,14 @@ namespace WebAppMedicalAssistantMVC.Controllers
         private readonly IMapper _mapper;
         private readonly IAnalysisService _analysisService;
         private readonly IUserService _userService;
-        public AnalysisController(IMapper mapper, IAnalysisService analysisService, IUserService userService)
+        private readonly IMedicalInstitutionService _medicalInstitutionService;
+
+        public AnalysisController(IMapper mapper, IAnalysisService analysisService, IUserService userService, IMedicalInstitutionService medicalInstitutionService)
         {
             _mapper = mapper;
             _analysisService = analysisService;
             _userService = userService;
+            _medicalInstitutionService = medicalInstitutionService;
         }
 
         [HttpGet]
@@ -38,13 +42,14 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int? id)
         {
             try
             {
-                var medicalInstitutionsDto = await _analysisService.GetMedicalInstitutionsAsync();
+                var medicalInstitutionsDto = await _medicalInstitutionService.GetMedicalInstitutionsAsync();
 
                 var analysisModel = new AnalysisModel();
+                analysisModel.AppointmentId = id;
                 analysisModel.MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution");
 
                 return View(analysisModel);
@@ -54,7 +59,6 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 throw;
             }
-           
         }
 
         [HttpPost]
@@ -71,7 +75,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     var analysisDto = _mapper.Map<AnalysisDto>(analysisModel);
                     await _analysisService.CreateAnalysisAsync(analysisDto);
                     
-                    return RedirectToAction("Index");
+                    return Redirect(Request.GetTypedHeaders().Referer.ToString());
                 }
                 else
                 {

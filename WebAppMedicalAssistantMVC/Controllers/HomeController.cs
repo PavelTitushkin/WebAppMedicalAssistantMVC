@@ -5,7 +5,7 @@ using WebAppMedicalAssistantMVC.Models;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
-    [Authorize(Roles ="User")]
+    [Authorize(Roles ="user")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

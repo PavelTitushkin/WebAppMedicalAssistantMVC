@@ -8,8 +8,9 @@
 <h2>Мои анализы</h2>
 
 <p>
-    <a asp-action="Create">Добавить новый анализ</a>
-</p>
+    @Html.ActionLink("Добавить анализ", "Create", "Analysis")
+@*    <a asp-action="Create">Добавить новый анализ</a>
+*@</p>
 <table class="table">
     <thead>
         <tr>

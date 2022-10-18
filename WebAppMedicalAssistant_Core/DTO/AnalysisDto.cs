@@ -11,5 +11,6 @@
         public UserDto? UserDto { get; set; }
         public MedicalInstitutionDto? MedicalInstitutionDto { get; set; }
         public int MedicalInstitutionDtoId { get; set; }
+        public int? AppointmentId { get; set; }
     }
 }

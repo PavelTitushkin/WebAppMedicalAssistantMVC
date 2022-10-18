@@ -7,11 +7,6 @@
         public DateTime? DateOfRecovery { get; set; }
         public bool TypeOfTreatment { get; set; }
         public FormOfTransferredDisease FormOfTransferredDiseaseDto { get; set; }
-
-        public List<DiseaseDto>? DiseasesDto { get; set; }
-        public List<PrescribedMedicationDto>? PrescribedMedicationsDto { get; set; }
-        public List<PhysicalTherapyDto>? PhysicalTherapiesDto { get; set; }
-        public List<DoctorVisitDto>? DoctorVisitsDto { get; set; }
-        public UserDto? UserDto { get; set; }
+        public string? NameOfDisease { get; set; }
     }
 }

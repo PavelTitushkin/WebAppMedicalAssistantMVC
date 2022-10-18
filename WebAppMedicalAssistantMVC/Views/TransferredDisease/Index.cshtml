@@ -35,14 +35,7 @@
         {
             <tr>
                 <td>
-                    <ul>
-                        @foreach (var itemDisease in item.DiseasesDto)
-                        {
-                            <li class="">
-                                @itemDisease.NameOfDisease
-                            </li>
-                        }
-                    </ul>
+                    @Html.DisplayFor(modelItem => item.NameOfDisease)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateOfDisease)

@@ -9,7 +9,6 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
         public PrescribedMedicationProfile()
         {
             CreateMap<PrescribedMedication, PrescribedMedicationDto>()
-                .ForMember(dto => dto.DiseasesDto, opt => opt.MapFrom(entity => entity.TransferredDisease.Diseases))
                 .ForMember(dto => dto.MedicinesDto, opt => opt.MapFrom(entity => entity.Medicine));
         }
     }

@@ -9,7 +9,7 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
         public TransferredDiseaseProfile()
         {
             CreateMap<TransferredDisease, TransferredDiseaseDto>()
-                .ForMember(dto => dto.DiseasesDto, opt => opt.MapFrom(transferredDisease => transferredDisease.Diseases));
+                .ForMember(dto => dto.NameOfDisease, opt => opt.MapFrom(entity => entity.Disease.NameOfDisease));
         }
     }
 }

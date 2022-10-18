@@ -1,4 +1,6 @@
-﻿namespace WebAppMedicalAssistant_Core.DTO
+﻿using System.Numerics;
+
+namespace WebAppMedicalAssistant_Core.DTO
 {
     public class DoctorVisitDto
     {
@@ -6,11 +8,13 @@
         public DateTime DateVisit { get; set; }
         public decimal PriceVisit { get; set; }
 
-        //навигационные свойства
+        public int AppointmentDtoId { get; set; }
+        public AppointmentDto AppointmentDto { get; set; }
         public MedicalInstitutionDto MedicalInstitutionDto { get; set; }
+        public int MedicalInstitutionDtoId { get; set; }
         public DoctorDto DoctorDto { get; set; }
-        public List<AppointmentDto> AppointmentsDto { get; set; }
-        public TransferredDiseaseDto TransferredDiseaseDto { get; set; }
-        public UserDto UserDto { get; set; }
+        public int DoctorDtoId { get; set; }
+        public string? NameOfDisease { get; set; }
+        public int UserDtoId { get; set; } 
     }
 }

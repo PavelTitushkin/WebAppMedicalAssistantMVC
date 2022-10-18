@@ -29,7 +29,6 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             {
                 var prescribedMedication = await _unitOfWork.PrescribedMedication
                     .Get().Where(entity => entity.UserId.Equals(id))
-                    .Include(include => include.TransferredDisease.Diseases)
                     .Include(include => include.Medicine)
                     .Select(entity => _mapper.Map<PrescribedMedicationDto>(entity))
                     .ToListAsync();

@@ -1,4 +1,7 @@
-﻿namespace WebAppMedicalAssistant_DataBase.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace WebAppMedicalAssistant_DataBase.Entities
 {
     public class Medicine : IBaseEntity
     {

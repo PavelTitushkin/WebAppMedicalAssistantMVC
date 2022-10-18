@@ -8,8 +8,8 @@
         public string NumberFluorography { get; set; }
         public bool Result { get; set; }
 
-        public User? User { get; set; }
-        public int? UserId { get; set; }
+        public User User { get; set; }
+        public int UserId { get; set; }
         public MedicalInstitution? MedicalInstitution { get; set; }
         public int? MedicalInstitutionId { get; set; }
     }

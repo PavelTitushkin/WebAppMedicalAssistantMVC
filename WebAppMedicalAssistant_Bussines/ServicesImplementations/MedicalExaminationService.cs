@@ -27,7 +27,6 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             {
                 var listMedicalExaminations = await _unitOfWork.MedicalExamination
                     .FindBy(entity=>entity.UserId.Equals(id))
-                    .Include(dto=>dto.Appointment)
                     .Select(medicalExamination=>_mapper.Map<MedicalExaminationDto>(medicalExamination))
                     .ToListAsync();
                 return listMedicalExaminations;

@@ -22,9 +22,11 @@
         <div class="mb-3">
             <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
             <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
+            <a asp-controller="" asp-action="">Добавить медицинское учреждение</a>
         </div>
-        <a asp-controller="" asp-action="">Добавить медицинское учреждение</a>
-
+        <div>
+            <input asp-for="AppointmentId" class="form-control" type="hidden" />
+        </div>
         <input type="submit" class="btn btn-primary m-1" value="Добавить анализ" />
     </form>
 </div>
