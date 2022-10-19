@@ -17,5 +17,6 @@ namespace WebAppMedicalAssistantMVC.Models
         public int MedicalInstitutionId { get; set; }
         public SelectList MedicalInstitutionList { get; set; }
         public int? AppointmentId { get; set; }
+        public string? ReturnUrl { get; set; }
     }
 }

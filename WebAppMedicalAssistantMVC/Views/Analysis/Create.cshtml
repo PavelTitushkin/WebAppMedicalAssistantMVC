@@ -25,7 +25,8 @@
             <a asp-controller="" asp-action="">Добавить медицинское учреждение</a>
         </div>
         <div>
-            <input asp-for="AppointmentId" class="form-control" type="hidden" />
+            <input asp-for="AppointmentId" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
         </div>
         <input type="submit" class="btn btn-primary m-1" value="Добавить анализ" />
     </form>

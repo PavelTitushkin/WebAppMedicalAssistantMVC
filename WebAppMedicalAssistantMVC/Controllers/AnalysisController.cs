@@ -51,6 +51,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 var analysisModel = new AnalysisModel();
                 analysisModel.AppointmentId = id;
                 analysisModel.MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution");
+                analysisModel.ReturnUrl = Request.Headers["Referer"].ToString();
 
                 return View(analysisModel);
             }
@@ -71,11 +72,12 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     var emailUser = HttpContext.User.Identity.Name;
                     var userDto = await _userService.GetUserByEmailAsync(emailUser);
                     analysisModel.UserId = userDto.Id;
-
+                     
                     var analysisDto = _mapper.Map<AnalysisDto>(analysisModel);
                     await _analysisService.CreateAnalysisAsync(analysisDto);
-                    
-                    return Redirect(Request.GetTypedHeaders().Referer.ToString());
+                    var returnUrl = analysisModel.ReturnUrl;
+
+                    return Redirect(returnUrl);
                 }
                 else
                 {
