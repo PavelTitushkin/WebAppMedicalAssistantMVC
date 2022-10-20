@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using WebAppMedicalAssistant_Core.Abstractions;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
+    [Authorize(Roles = "user")]
     public class VaccinacionController : Controller
     {
         private readonly IMapper _mapper;

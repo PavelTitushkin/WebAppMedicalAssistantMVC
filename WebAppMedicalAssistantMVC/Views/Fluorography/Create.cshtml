@@ -11,7 +11,7 @@
     <form asp-controller="Fluorography" asp-action="Create" method="post">
         <div class="mb-3">
             <label for="DataOfExamination" class="form-label">Дата снимка:</label>
-            <input asp-for="DataOfExamination" type="date" class="form-control" asp-format="{0:yyyy-MM-dd}" id="DataOfExamination" required />
+            <input asp-for="DataOfExamination" type="date" class="form-control" id="DataOfExamination" required />
             <span asp-validation-for="DataOfExamination" class="text-danger"></span>
         </div>
         <div class="mb-3">

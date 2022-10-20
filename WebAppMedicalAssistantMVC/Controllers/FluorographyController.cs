@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
@@ -8,6 +9,7 @@ using WebAppMedicalAssistantMVC.Models;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
+    [Authorize(Roles = "user")]
     public class FluorographyController : Controller
     {
         private readonly IMapper _mapper;

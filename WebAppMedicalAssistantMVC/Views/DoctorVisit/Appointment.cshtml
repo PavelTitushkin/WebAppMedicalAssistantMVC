@@ -23,11 +23,12 @@
             @if (Model.DescriptionOfDestination != null)
             {
                 <p class=" mb-1">Рекомендации: @Model.DescriptionOfDestination</p>
+                @Html.ActionLink("Рекактировать", "EditDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
             }
             else
             {
                 <p class=" mb-1">Рекомендации: не назначены</p>
-                @Html.ActionLink("Добавить рекомендации", "AddDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
+                @Html.ActionLink("Добавить", "AddDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
             }
         </div>
     </div>
@@ -41,13 +42,13 @@
                     {
                         <li>@item.NameOfAnalysis</li>
                     }
-                    @Html.ActionLink("Добавить анализ", "Create", "Analysis", new {id = Model.Id})
+                    @Html.ActionLink("Добавить", "Create", "Analysis", new {id = Model.Id})
                 </ul>
             }
             else
             {
                 <p>Нет назначенных анализов</p>
-                @Html.ActionLink("Добавить анализ", "Create", "Analysis", new {id = Model.Id})
+                @Html.ActionLink("Добавить", "Create", "Analysis", new {id = Model.Id})
             }
         </div>
         <div class="col border border-secondary rounded-3 m-1 p-1">
@@ -57,13 +58,15 @@
                 <ul>
                     @foreach (var item in Model.PrescribedMedicationsDto)
                     {
-                    <li>@item.MedicinesDto.NameOfMedicine</li>
+                        <li>@item.MedicinesDto.NameOfMedicine</li>
                     }
+                    @Html.ActionLink("Добавить", "Create", "PrescribedMedication", new {id = Model.Id})
                 </ul> 
             }
             else
             {
                 <p>Нет назначенных лекарств</p>
+                @Html.ActionLink("Добавить", "Create", "PrescribedMedication", new {id = Model.Id})
             }
         </div>
         <div class="col border border-secondary rounded-3 m-1 p-1">
@@ -75,11 +78,13 @@
                     {
                         <li>@item.NameOfMedicalExamination</li>
                     }
+                    @Html.ActionLink("Добавить", "Create", "MedicalExamination", new {id = Model.Id})
                 </ul>
             }
             else
             {
                 <p>Нет назначенных исследований</p>
+                @Html.ActionLink("Добавить", "Create", "MedicalExamination", new {id = Model.Id})
             }
         </div>
         <div class="col border border-secondary rounded-3 m-1 p-1">
@@ -91,11 +96,13 @@
                     {
                         <li>@item.NameOfPhysicalTherapy</li>
                     }
+                    @Html.ActionLink("Добавить", "CreatePhysicalTherapy", "MedicalExamination", new {id = Model.Id})
                 </ul>
             }
             else
             {
                 <p>Нет назначенных физиотерапии</p>
+                @Html.ActionLink("Добавить", "CreatePhysicalTherapy", "MedicalExamination", new {id = Model.Id})
             }
         </div>
     </div>

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,7 @@ using WebAppMedicalAssistantMVC.Models;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
+    [Authorize(Roles = "user")]
     public class AnalysisController : Controller
     {
         private readonly IMapper _mapper;
@@ -75,6 +77,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
                      
                     var analysisDto = _mapper.Map<AnalysisDto>(analysisModel);
                     await _analysisService.CreateAnalysisAsync(analysisDto);
+                    
                     var returnUrl = analysisModel.ReturnUrl;
 
                     return Redirect(returnUrl);

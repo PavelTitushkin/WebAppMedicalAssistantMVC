@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMedicalAssistant_Core.Abstractions;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
+    [Authorize(Roles = "user")]
     public class TransferredDiseaseController : Controller
     {
         private readonly IMapper _mapper;

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
+using WebAppMedicalAssistant_DataBase.Entities;
 
 namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 {
@@ -19,6 +20,23 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+        }
+
+        public async Task<int> CreatePhysicalTherapyAsync(PhysicalTherapyDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<PhysicalTherapy>(dto);
+                await _unitOfWork.PhysicalTherapy.AddEntityAsync(entity);
+                var result = await _unitOfWork.Commit();
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<List<MedicalExaminationDto>> GetAllMedicalExaminationAsync(int id)
@@ -37,5 +55,6 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 throw;
             }
         }
+
     }
 }
