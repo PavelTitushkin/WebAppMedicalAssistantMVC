@@ -5,5 +5,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
     public interface IMedicalInstitutionService
     {
         Task<List<MedicalInstitutionDto>> GetMedicalInstitutionsAsync();
+        Task<int> CreateMedicalInstitutionAsync(MedicalInstitutionDto dto);
     }
 }

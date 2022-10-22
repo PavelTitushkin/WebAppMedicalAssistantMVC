@@ -14,7 +14,8 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
 
             CreateMap<PhysicalTherapyDto, PhysicalTherapy>();
 
-            CreateMap<PhysicalTherapy, PhysicalTherapyDto>();
+            CreateMap<PhysicalTherapy, PhysicalTherapyDto>()
+                .ForMember(dto => dto.MedicalInstitutionDto, opt => opt.MapFrom(entity => entity.MedicalInstitution));
         }
 
     }

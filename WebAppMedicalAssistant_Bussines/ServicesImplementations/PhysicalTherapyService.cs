@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,5 +40,23 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             }
         }
 
+        public async Task<List<PhysicalTherapyDto>> GetAllPhysicalTherapyAsync(int id)
+        {
+            try
+            {
+                var listPhysicalTherapy = await _unitOfWork.PhysicalTherapy
+                    .FindBy(entity => entity.UserId.Equals(id))
+                    .Include(include => include.MedicalInstitution)
+                    .Select(entity => _mapper.Map<PhysicalTherapyDto>(entity))
+                    .ToListAsync();
+
+                return listPhysicalTherapy;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

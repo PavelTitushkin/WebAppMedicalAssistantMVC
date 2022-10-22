@@ -12,17 +12,32 @@ namespace WebAppMedicalAssistantMVC.Controllers
         private readonly IMapper _mapper;
         private readonly IPhysicalTherapyService _physicalTherapyService;
         private readonly IMedicalInstitutionService _medicalInstitutionService;
+        private readonly IUserService _userService;
 
-        public PhysicalTherapyController(IMapper mapper, IPhysicalTherapyService physicalTherapyService)
+        public PhysicalTherapyController(IMapper mapper, IPhysicalTherapyService physicalTherapyService, IUserService userService, IMedicalInstitutionService medicalInstitutionService)
         {
             _mapper = mapper;
             _physicalTherapyService = physicalTherapyService;
+            _userService = userService;
+            _medicalInstitutionService = medicalInstitutionService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            try
+            {
+                var userEmail = HttpContext.User.Identity.Name;
+                var userDto = await _userService.GetUserByEmailAsync(userEmail);
+                var dto = await _physicalTherapyService.GetAllPhysicalTherapyAsync(userDto.Id);
+
+                return View(dto);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         [HttpGet]

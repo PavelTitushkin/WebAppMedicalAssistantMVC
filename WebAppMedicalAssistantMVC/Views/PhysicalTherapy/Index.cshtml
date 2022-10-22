@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.PhysicalTherapyDto>
+
+@{
+    ViewData["Title"] = "Мои физиотерапии";
+    Layout = "_layout";
+}
+
+<h2>Мои физиотерапии</h2>
+
+<p>
+    <a asp-action="Create">Добавить новую физиотерапию</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название физиотерапии
+            </th>
+            <th>
+                Дата начала
+            </th>
+            <th>
+                Дата окончания
+            </th>
+            <th>
+                Медицинское учреждение
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameOfPhysicalTherapy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartPhysicalTherapy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndPhysicalTherapy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem=> item.MedicalInstitutionDto.NameMedicalInstitution)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

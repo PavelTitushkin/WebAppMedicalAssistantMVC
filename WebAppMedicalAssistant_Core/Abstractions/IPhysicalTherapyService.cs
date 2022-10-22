@@ -10,5 +10,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
     public interface IPhysicalTherapyService
     {
         Task<int> CreatePhysicalTherapyAsync(PhysicalTherapyDto dto);
+        Task<List<PhysicalTherapyDto>> GetAllPhysicalTherapyAsync(int id);
     }
 }

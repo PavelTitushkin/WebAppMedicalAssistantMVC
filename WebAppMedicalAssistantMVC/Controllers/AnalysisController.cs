@@ -54,6 +54,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 analysisModel.AppointmentId = id;
                 analysisModel.MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution");
                 analysisModel.ReturnUrl = Request.Headers["Referer"].ToString();
+                if (analysisModel.ReturnUrl == "https://localhost:7068/MedicalInstitution/Create")
+                {
+                    analysisModel.ReturnUrl = "https://localhost:7068/Analysis/Index";
+                }
 
                 return View(analysisModel);
             }
