@@ -96,13 +96,13 @@
                     {
                         <li>@item.NameOfPhysicalTherapy</li>
                     }
-                    @Html.ActionLink("Добавить", "CreatePhysicalTherapy", "MedicalExamination", new {id = Model.Id})
+                    @Html.ActionLink("Добавить", "Create", "PhysicalTherapy", new {id = Model.Id})
                 </ul>
             }
             else
             {
                 <p>Нет назначенных физиотерапии</p>
-                @Html.ActionLink("Добавить", "CreatePhysicalTherapy", "MedicalExamination", new {id = Model.Id})
+                @Html.ActionLink("Добавить", "Create", "PhysicalTherapy", new {id = Model.Id})
             }
         </div>
     </div>

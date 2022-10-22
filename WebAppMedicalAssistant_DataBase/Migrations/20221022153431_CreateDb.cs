@@ -240,7 +240,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false),
-                    DescriptionOfDestination = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescriptionOfDestination = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TransferredDiseaseId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -338,9 +338,10 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameOfPhysicalTherapy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartPhysicalTherapy = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndPhysicalTherapy = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndPhysicalTherapy = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     AppointmentId = table.Column<int>(type: "int", nullable: true),
-                    MedicalInstitutionId = table.Column<int>(type: "int", nullable: false)
+                    MedicalInstitutionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -354,6 +355,11 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         name: "FK_PhysicalTherapy_MedicalInstitutions_MedicalInstitutionId",
                         column: x => x.MedicalInstitutionId,
                         principalTable: "MedicalInstitutions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_PhysicalTherapy_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -468,6 +474,11 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                 name: "IX_PhysicalTherapy_MedicalInstitutionId",
                 table: "PhysicalTherapy",
                 column: "MedicalInstitutionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhysicalTherapy_UserId",
+                table: "PhysicalTherapy",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PrescribedMedications_AppointmentId",
