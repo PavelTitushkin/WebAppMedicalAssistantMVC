@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebAppMedicalAssistant_Core;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
@@ -94,6 +95,76 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 var result = await _unitOfWork.Commit();
 
                 return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<DoctorVisitDto> GetDoctorVisitByIdAsync(int? appontmentId)
+        {
+            try
+            {
+                var doctorVisit = await _unitOfWork.DoctorVisit
+                    .FindBy(entity => entity.Id.Equals(appontmentId))
+                    .Select(entity =>_mapper.Map<DoctorVisitDto>(entity))
+                    .FirstOrDefaultAsync();
+
+                return doctorVisit;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<int> UpdateDoctorVisitAsync(DoctorVisitDto dto, int dtoId)
+        {
+            try
+            {
+                var sourceDto = await GetDoctorVisitByIdAsync(dtoId);
+                var patchList = new List<PatchModel>();
+                if(dto != null)
+                {
+                    patchList.Add(new PatchModel()
+                    {
+                        PropertyName = nameof(dto.TransferredDiseaseId),
+                        PropertyValue = dto.TransferredDiseaseId
+                    });
+                }
+
+                await _unitOfWork.DoctorVisit.PatchAsync(dtoId, patchList);
+
+                return await _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }      
+        }
+
+        public async Task<int> UpdateAppointmentAsync(AppointmentDto dto, int dtoId)
+        {
+            try
+            {
+                var sourceDto = await GetAppointmentAsync(dtoId);
+                var patchList = new List<PatchModel>();
+                if (dto != null)
+                {
+                    patchList.Add(new PatchModel()
+                    {
+                        PropertyName = nameof(dto.DescriptionOfDestination),
+                        PropertyValue = dto.DescriptionOfDestination
+                    });
+                }
+
+                await _unitOfWork.Appointment.PatchAsync(dtoId, patchList);
+
+                return await _unitOfWork.Commit();
             }
             catch (Exception)
             {

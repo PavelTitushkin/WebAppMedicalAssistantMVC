@@ -1,8 +1,10 @@
-﻿namespace WebAppMedicalAssistant_Core.DTO
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using WebAppMedicalAssistant_Core.DTO;
+
+namespace WebAppMedicalAssistantMVC.Models
 {
-    public class VaccinationDto
+    public class VaccinacionModel
     {
-        public int Id { get; set; }
         public string? ApplicationOfVaccine { get; set; }
         public string? NameOfVaccine { get; set; }
         public string? VacineDose { get; set; }
@@ -12,6 +14,8 @@
 
         public int UserId { get; set; }
         public int MedicalInstitutionId { get; set; }
-        public MedicalInstitutionDto? MedicalInstitutions { get; set; }
+        public SelectList MedicalInstitutionList { get; set; }
+        public string? ReturnUrl { get; set; }
+
     }
 }

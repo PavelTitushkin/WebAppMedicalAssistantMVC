@@ -1,0 +1,41 @@
+﻿@model PrescribedMedicationModel
+
+@{
+    ViewData["Title"] = "Добавить лекарство";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>Добавление нового лекарства</h2>
+
+    <form asp-controller="PrescribedMedication" asp-action="Create" method="post">
+        <div class="mb-3">
+            <label for="NameOfPhysicalTherapy" class="form-label">Начало приёма лекарства:</label>
+            <input asp-for="StartDateOfMedication" type="datetime-local" class="form-control" id="StartDateOfMedication" required />
+            <span asp-validation-for="StartDateOfMedication" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="EndDateOfMedication" class="form-label">Окончание приёма лекарства:</label>
+            <input asp-for="EndDateOfMedication" type="date" class="form-control" id="EndDateOfMedication" not required />
+        </div>
+        <div class="mb-3">
+            <label for="MedicineDose" class="form-label">Прописанная доза:</label>
+            <input asp-for="MedicineDose" type="number" id="MedicineDose" />
+        </div>
+        <div class="mb-3">
+            <label for="MedicinePrice" class="form-label">Стоимость лекарства:</label>
+            <input asp-for="MedicinePrice" type="number" id="MedicinePrice" />
+        </div>
+        <div>
+            <input asp-for="AppointmentId" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
+        </div>
+        <input type="submit" class="btn btn-primary m-1" value="Добавить лекарство" />
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

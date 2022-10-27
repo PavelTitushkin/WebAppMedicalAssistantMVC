@@ -14,9 +14,10 @@ namespace WebAppMedicalAssistantMVC.Models
         public byte[]? ScanOfAnalysisDocument { get; set; }
 
         public int UserId { get; set; }
+        public int? AppointmentId { get; set; }
         public int MedicalInstitutionId { get; set; }
         public SelectList MedicalInstitutionList { get; set; }
-        public int? AppointmentId { get; set; }
+
         public string? ReturnUrl { get; set; }
     }
 }

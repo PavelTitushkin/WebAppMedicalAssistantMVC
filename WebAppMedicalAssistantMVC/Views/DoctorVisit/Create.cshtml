@@ -22,7 +22,7 @@
         <div class="mb-3">
             <label for="DoctorId" class="form-label">Врач:</label>
             <select asp-for="DoctorId" asp-items="@Model.DoctorList"></select>
-            <a asp-controller="" asp-action="">Добавить врача</a>
+            <a asp-controller="DoctorVisit" asp-action="CreateDoctor">Добавить врача</a>
         </div>
         <div class="mb-3">
             <label for="PriceVisit" class="form-label">Стоимость посещения:</label>

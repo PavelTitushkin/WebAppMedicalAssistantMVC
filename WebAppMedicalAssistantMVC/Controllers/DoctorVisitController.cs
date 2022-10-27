@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
+using WebAppMedicalAssistant_Core;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistantMVC.Models;
@@ -53,11 +54,16 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 var doctorsDto = await _doctorService.GetAllDoctorAsync();
                 var medicalInstitutionsDto = await _medicalInstitutionService.GetMedicalInstitutionsAsync();
 
-                var doctorVisitModel = new DoctorVisitModel();
-                doctorVisitModel.MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution");
-                doctorVisitModel.DoctorList = new SelectList(doctorsDto, "Id", "FullNameDoctor");
+                var model = new DoctorVisitModel();
+                model.MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution");
+                model.DoctorList = new SelectList(doctorsDto, "Id", "FullNameDoctor");
+                if (model.ReturnUrl == "https://localhost:7068/DoctorVisit/CreateDoctor")
+                {
+                    model.ReturnUrl = "https://localhost:7068/DoctorVisit/Index";
+                }
 
-                return View(doctorVisitModel);
+
+                return View(model);
             }
             catch (Exception)
             {
@@ -89,6 +95,52 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult AddOrEditDescriptionAppointment(int id)
+        {
+            try
+            {
+                var model = new AppointmentModel();
+                model.Id = id;
+                model.ReturnUrl = Request.Headers["Referer"].ToString();
+                //if (model.ReturnUrl == "https://localhost:7068/DoctorVisit/AddOrEditDescriptionAppointment")
+                //{
+                //    model.ReturnUrl = "https://localhost:7068/DoctorVisit/Appointment";
+                //}
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<IActionResult> AddOrEditDescriptionAppointment(AppointmentModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var dto = await _doctorVisitService.GetAppointmentAsync(model.Id);
+                    dto.DescriptionOfDestination = model.DescriptionOfDestination;
+                    await _doctorVisitService.UpdateAppointmentAsync(dto, dto.Id);
+
+                    return Redirect(model.ReturnUrl);
+                }
+                else
+                {
+                    return View(model);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet] 
         public async Task<IActionResult> Appointment(int id, string? nameOfDisease)
         {
             try
@@ -118,5 +170,40 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        public IActionResult CreateDoctor()
+        {
+            try
+            {
+                var model = new DoctorModel();
+                model.ReturnUrl = Request.Headers["Referer"].ToString();
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDoctor(DoctorModel model)
+        {
+            try
+            {
+                var dto = _mapper.Map<DoctorDto>(model);
+                await _doctorService.CreateDoctorAsync(dto);
+
+                return Redirect(model.ReturnUrl);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

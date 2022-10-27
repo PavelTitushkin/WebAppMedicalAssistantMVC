@@ -22,6 +22,23 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<int> CreateMedicalExaminationAsync(MedicalExaminationDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<MedicalExamination>(dto);
+                await _unitOfWork.MedicalExamination.AddEntityAsync(entity);
+                var result = await _unitOfWork.Commit();
+
+                return result;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<List<MedicalExaminationDto>> GetAllMedicalExaminationAsync(int id)
         {
             try

@@ -8,7 +8,7 @@
 <div>
     <h2>Добавление новой физиотерапии</h2>
 
-    <form asp-controller="MedicalExamination" asp-action="CreatePhysicalTherapy" method="post">
+    <form asp-controller="PhysicalTherapy" asp-action="Create" method="post">
         <div class="mb-3">
             <label for="NameOfPhysicalTherapy" class="form-label">Название физиотерапии:</label>
             <input asp-for="NameOfPhysicalTherapy" type="text" class="form-control" id="NameOfPhysicalTherapy" required />
@@ -21,7 +21,7 @@
         </div>
         <div class="mb-3">
             <label for="EndPhysicalTherapy" class="form-label">Окончание физиотерапии:</label>
-            <input asp-for="EndPhysicalTherapy" type="date" class="form-control" id="EndPhysicalTherapy" required />
+            <input asp-for="EndPhysicalTherapy" type="date" class="form-control" id="EndPhysicalTherapy" notrequired />
             <span asp-validation-for="EndPhysicalTherapy" class="text-danger"></span>
         </div>
         <div class="mb-3">

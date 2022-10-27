@@ -8,5 +8,9 @@
         public bool TypeOfTreatment { get; set; }
         public FormOfTransferredDisease FormOfTransferredDiseaseDto { get; set; }
         public string? NameOfDisease { get; set; }
+        public DiseaseDto Disease { get; set; }
+        public int DiseaseId { get; set; }
+        public int UserId { get; set; }
+        public int? AppointmentId { get; set; }
     }
 }

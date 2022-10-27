@@ -8,6 +8,8 @@ namespace WebAppMedicalAssistant_Core.Abstractions
         Task<int> CreateDoctorVisitAsync(DoctorVisitDto doctorVisitDto);
         Task<AppointmentDto> GetAppointmentAsync(int doctorVisitId);
         Task<int> CreateAppointment(int id);
-
+        Task<DoctorVisitDto> GetDoctorVisitByIdAsync(int? appontmentId);
+        Task<int> UpdateDoctorVisitAsync(DoctorVisitDto dto, int dtoId);
+        Task<int> UpdateAppointmentAsync(AppointmentDto dto,int dtoId);
     }
 }

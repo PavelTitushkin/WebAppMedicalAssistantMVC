@@ -6,7 +6,7 @@
         public DateTime StartDateOfMedication { get; set; }
         public DateTime EndDateOfMedication { get; set; }
         public string MedicineDose { get; set; }
-        public decimal MedicinePrice { get; set; }
+        public decimal? MedicinePrice { get; set; }
 
         public Medicine Medicine { get; set; }
         public int MedicineId { get; set; }

@@ -1,0 +1,32 @@
+﻿@model DiseaseModel
+
+@{
+    ViewData["Title"] = "Добавить болезнь";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>Добавление болезни</h2>
+
+    <form asp-controller="TransferredDisease" asp-action="CreateDisease" method="post">
+        <div class="mb-3">
+            <label for="NameOfDisease" class="form-label">Название болезни:</label>
+            <input asp-for="NameOfDisease" type="text" class="form-control" id="NameOfDisease" required />
+            <span asp-validation-for="NameOfDisease" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="ShotDescriptionDisease" class="form-label">Короткое описание:</label>
+            <textarea asp-for="ShotDescriptionDisease" class="form-control" id="ShotDescriptionDisease" rows="4"></textarea>
+        </div>
+        <div>
+            <input asp-for="ReturnUrl" type="hidden" />
+        </div>
+        <input type="submit" class="btn btn-primary m-1" value="Добавить болезнь" />
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

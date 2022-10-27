@@ -1,0 +1,28 @@
+﻿@model AppointmentModel
+
+@{
+    ViewData["Title"] = "Добавить/редактировать рекомендации лечения";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>Добавление/редактирование новой рекомендации</h2>
+
+    <form asp-controller="DoctorVisit" asp-action="AddOrEditDescriptionAppointment" method="post">
+        <div class="mb-3">
+            <label for="DateVisit" class="form-label">Описание рекомендации:</label>
+            <textarea asp-for="DescriptionOfDestination" class="form-control" id="DescriptionOfDestination" rows="3" required></textarea>
+            <span asp-validation-for="DescriptionOfDestination" class="text-danger"></span>
+        </div>
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="ReturnUrl" type="hidden" />
+        <input type="submit" class="btn btn-primary m-1" value="Добавить запись" />
+        <a class="btn btn-primary m-1" role="button" asp-controller="DoctorVisit" asp-action="Index">Отмена</a>
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

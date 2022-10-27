@@ -47,7 +47,14 @@
                     @Html.DisplayFor(modelItem => item.DoctorDto.FullNameDoctor)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NameOfDisease)
+                    @if(item.NameOfDisease != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.NameOfDisease)
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Добавить историю", "Create", "TransferredDisease", new {id = item.Id})
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem=> item.PriceVisit)

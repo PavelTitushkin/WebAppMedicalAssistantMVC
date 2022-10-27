@@ -6,6 +6,7 @@
         public DateTime StartPhysicalTherapy { get; set; }
         public DateTime? EndPhysicalTherapy { get; set; }
 
+        public int UserId { get; set; }
         public int? AppointmentId { get; set; }
         public int? MedicalInstitutionId { get; set; }
         public MedicalInstitutionDto? MedicalInstitutionDto { get; set; }

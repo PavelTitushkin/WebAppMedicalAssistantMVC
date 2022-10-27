@@ -1,0 +1,45 @@
+﻿@model DoctorModel
+
+@{
+    ViewData["Title"] = "Добавить врача";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>Добавление врача</h2>
+
+    <form asp-controller="DoctorVisit" asp-action="CreateDoctor" method="post">
+        <div class="mb-3">
+            <label for="FullNameDoctor" class="form-label">ФИО врача:</label>
+            <input asp-for="FullNameDoctor" type="text" class="form-control" id="FullNameDoctor" required />
+            <span asp-validation-for="FullNameDoctor" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="Specializacion" class="form-label">Специализация:</label>
+            <input asp-for="Specializacion" type="text" class="form-control" id="Specializacion" />
+        </div>
+        <div class="mb-3">
+            <label for="Rating" class="form-check-label">Рейтинг врача:</label>
+            <input asp-for="Rating" type="radio" class="form-check-input" id="Result" value="1" required />
+            <span asp-validation-for="Rating">1</span>
+            <input asp-for="Rating" type="radio" class="form-check-input" id="Result" value="2" required />
+            <span asp-validation-for="Rating">2</span>
+            <input asp-for="Rating" type="radio" class="form-check-input" id="Result" value="3" required />
+            <span asp-validation-for="Rating">3</span>
+            <input asp-for="Rating" type="radio" class="form-check-input" id="Result" value="4" required />
+            <span asp-validation-for="Rating">4</span>
+            <input asp-for="Rating" type="radio" class="form-check-input" id="Result" value="5" required />
+            <span asp-validation-for="Rating">5</span>
+        </div>
+        <div>
+            <input asp-for="ReturnUrl" type="hidden" />
+        </div>
+        <input type="submit" class="btn btn-primary m-1" value="Добавить врача" />
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

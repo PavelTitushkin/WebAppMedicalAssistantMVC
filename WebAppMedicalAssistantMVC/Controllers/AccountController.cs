@@ -74,7 +74,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 {
                     userDto.RoleId = userRoleId.Value;
                     var result = await _userService.RegisterUser(userDto);
-                    if(result>0)
+                    if (result > 0)
                     {
                         await Authenticate(registerModel.Email);
                         return RedirectToAction("Index", "Home");

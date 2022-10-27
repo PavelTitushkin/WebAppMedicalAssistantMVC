@@ -23,6 +23,57 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<int> CreateDiseaseAsync(DiseaseDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<Disease>(dto);
+                await _unitOfWork.Disease.AddEntityAsync(entity);
+                var result = await _unitOfWork.Commit();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> CreateTransferredDiseaseAsync(TransferredDiseaseDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<TransferredDisease>(dto);
+                await _unitOfWork.TransferredDisease.AddEntityAsync(entity);
+                var result = await _unitOfWork.Commit();
+                var lastId = entity.Id;
+
+                return lastId;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<List<DiseaseDto>> GetAllDiseaseAsync()
+        {
+            try
+            {
+                var dto = await _unitOfWork.Disease.Get()
+                    .Select(entity => _mapper.Map<DiseaseDto>(entity))
+                    .ToListAsync();
+
+                return dto;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<List<TransferredDiseaseDto>> GetAllTransferredDiseaseAsync(int id)
         {
             try

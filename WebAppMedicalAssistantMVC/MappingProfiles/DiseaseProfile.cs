@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_DataBase.Entities;
+using WebAppMedicalAssistantMVC.Models;
 
 namespace WebAppMedicalAssistantMVC.MappingProfiles
 {
@@ -9,6 +10,10 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
         public DiseaseProfile()
         {
             CreateMap<Disease, DiseaseDto>();
+
+            CreateMap<DiseaseModel, DiseaseDto>();
+
+            CreateMap<DiseaseDto, Disease>();
         }
     }
 }

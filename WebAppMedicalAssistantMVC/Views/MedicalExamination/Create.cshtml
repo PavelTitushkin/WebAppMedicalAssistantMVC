@@ -1,0 +1,44 @@
+﻿@model MedicalExaminationModel
+
+@{
+    ViewData["Title"] = "Добавить медицинское исследование";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>Добавление нового исследования</h2>
+
+    <form asp-controller="MedicalExamination" asp-action="Create" method="post">
+        <div class="mb-3">
+            <label for="NameOfMedicalExamination" class="form-label">Название исследования:</label>
+            <input asp-for="NameOfMedicalExamination" type="text" class="form-control" id="NameOfMedicalExamination" required />
+            <span asp-validation-for="NameOfMedicalExamination" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="DateOfMedicalExamination" class="form-label">Дата исследования:</label>
+            <input asp-for="DateOfMedicalExamination" type="date" class="form-control" id="DateOfMedicalExamination" required />
+            <span asp-validation-for="DateOfMedicalExamination" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="PriceOfMedicalExamination" class="form-label">Цена исследовании:</label>
+            <input asp-for="PriceOfMedicalExamination" type="number" class="form-control" id="PriceOfMedicalExamination"/>
+        </div>
+        <div class="mb-3">
+            <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
+            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
+            <a asp-controller="MedicalInstitution" asp-action="Create">Добавить медицинское учреждение</a>
+        </div>
+        <div>
+            <input asp-for="AppointmentId" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
+        </div>
+        <input type="submit" class="btn btn-primary m-1" value="Добавить исследование" />
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

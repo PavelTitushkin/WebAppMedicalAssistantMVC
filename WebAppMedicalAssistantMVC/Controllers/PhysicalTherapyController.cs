@@ -41,7 +41,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create(int id)
+        public async Task<IActionResult> Create(int? id)
         {
             try
             {
@@ -69,6 +69,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    var emailUser = HttpContext.User.Identity.Name;
+                    var userDto = await _userService.GetUserByEmailAsync(emailUser);
+                    model.UserId = userDto.Id;
+
                     var dto = _mapper.Map<PhysicalTherapyDto>(model);
                     await _physicalTherapyService.CreatePhysicalTherapyAsync(dto);
 

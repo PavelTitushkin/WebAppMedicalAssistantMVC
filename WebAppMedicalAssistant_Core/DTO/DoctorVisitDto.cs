@@ -8,6 +8,7 @@ namespace WebAppMedicalAssistant_Core.DTO
         public DateTime DateVisit { get; set; }
         public decimal PriceVisit { get; set; }
 
+        public int? TransferredDiseaseId { get; set; }
         public int AppointmentDtoId { get; set; }
         public AppointmentDto AppointmentDto { get; set; }
         public MedicalInstitutionDto MedicalInstitutionDto { get; set; }

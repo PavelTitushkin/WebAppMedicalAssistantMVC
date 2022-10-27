@@ -18,17 +18,16 @@
             else
             {
                 <h5>Диагноз не назначен</h5>
-                <a asp-controller="TransferredDisease" asp-action="Create">Добавить диагноз</a>
             }
             @if (Model.DescriptionOfDestination != null)
             {
                 <p class=" mb-1">Рекомендации: @Model.DescriptionOfDestination</p>
-                @Html.ActionLink("Рекактировать", "EditDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
+                @Html.ActionLink("Рекактировать", "AddOrEditDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
             }
             else
             {
                 <p class=" mb-1">Рекомендации: не назначены</p>
-                @Html.ActionLink("Добавить", "AddDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
+                @Html.ActionLink("Добавить", "AddOrEditDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
             }
         </div>
     </div>
