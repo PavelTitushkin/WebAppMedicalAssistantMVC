@@ -5,6 +5,7 @@ namespace WebAppMedicalAssistantMVC.Models
 {
     public class DoctorVisitModel
     {
+        public int Id { get; set; }
         [DataType(DataType.Date)]
         public DateTime DateVisit { get; set; }
 

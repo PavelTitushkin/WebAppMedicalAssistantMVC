@@ -31,6 +31,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 var listAnalysis = await _unitOfWork.Analysis
                     .FindBy(entity => entity.UserId.Equals(userId))
                .Include(include => include.MedicalInstitution)
+               .OrderBy(entity => entity.DateOfAnalysis)
                .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
                .ToListAsync();
 
@@ -41,6 +42,27 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 
                 throw;
             }
+        }
+
+        public async Task<List<AnalysisDto>> GetPeriodAnalysisAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int userId)
+        {
+            try
+            {
+                var listAnalysis = await _unitOfWork.Analysis
+                    .FindBy(entity => entity.UserId.Equals(userId))
+                    .Where(entityData => entityData.DateOfAnalysis >= SearchDateStart && entityData.DateOfAnalysis <=SearchDateEnd)
+                    .Include(include => include.MedicalInstitution)
+                    .OrderBy(entity => entity.DateOfAnalysis)
+                    .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
+                    .ToListAsync();
+
+                return listAnalysis;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         public async Task<int> CreateAnalysisAsync(AnalysisDto analysisDto)

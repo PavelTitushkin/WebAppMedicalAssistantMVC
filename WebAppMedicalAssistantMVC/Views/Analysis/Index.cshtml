@@ -5,40 +5,57 @@
     Layout = "_layout";
 }
 
-<h2>Мои анализы</h2>
-
-<p>
-    @Html.ActionLink("Добавить анализ", "Create", "Analysis")
-@*    <a asp-action="Create">Добавить новый анализ</a>
-*@</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Название анализа
-            </th>
-            <th>
-                Дата сдачи анализа
-            </th>
-            <th>
-                Медицинское учреждение
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<h2 class="text-center">Мои анализы</h2>
+<div>
+    <form asp-controller="Analysis" asp-action="Index" method="get">
+        <div>
+            Дата начала поиска: <input type="date" name="SearchDateStart" />
+            Дата окончания поиска: <input type="date" name="SearchDateEnd" />
+        </div>
+        <div class="mb-3">
+            <label for="Result" class="form-check-label">Показать анализы за весь период:</label>
+            Да<input type="radio" class="form-check-input" name="AllDates" value="false" checked="checked" />
+            Нет<input type="radio" class="form-check-input" name="AllDates" value="true" />
+        </div>
+        <input type="submit" value="Поиск" />
+    </form>
+</div>
+<div>
+    <p>
+        @Html.ActionLink("Добавить анализ", "Create", "Analysis")
+        @*    <a asp-action="Create">Добавить новый анализ</a>
+        *@
+    </p>
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NameOfAnalysis)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfAnalysis)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
-                </td>
+                <th>
+                    Дата сдачи анализа
+                </th>
+                <th>
+                    Название анализа
+                </th>
+                <th>
+                    Медицинское учреждение
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfAnalysis)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameOfAnalysis)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

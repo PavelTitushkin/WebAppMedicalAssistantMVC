@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Cryptography.Xml;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core;
 using WebAppMedicalAssistant_Core.Abstractions;
@@ -61,6 +62,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 {
                     model.ReturnUrl = "https://localhost:7068/DoctorVisit/Index";
                 }
+                if (model.ReturnUrl == "https://localhost:7068/MedicalInstitution/Create")
+                {
+                    model.ReturnUrl = "https://localhost:7068/DoctorVisit/Index";
+                }
 
 
                 return View(model);
@@ -95,6 +100,64 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            try
+            {
+                var doctorsDto = await _doctorService.GetAllDoctorAsync();
+                var medicalInstitutionsDto = await _medicalInstitutionService.GetMedicalInstitutionsAsync();
+
+                var model = new DoctorVisitModel();
+                model.Id = id;
+                model.MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution");
+                model.DoctorList = new SelectList(doctorsDto, "Id", "FullNameDoctor");
+                model.ReturnUrl = Request.Headers["Referer"].ToString();
+                if (model.ReturnUrl == "https://localhost:7068/DoctorVisit/CreateDoctor")
+                {
+                    model.ReturnUrl = "https://localhost:7068/DoctorVisit/Index";
+                }
+                if (model.ReturnUrl == "https://localhost:7068/MedicalInstitution/Create")
+                {
+                    model.ReturnUrl = "https://localhost:7068/DoctorVisit/Index";
+                }
+
+                return View(model);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(DoctorVisitModel model)
+        {
+            try
+            {
+                if(!ModelState.IsValid)
+                {
+                    var dto = await _doctorVisitService.GetDoctorVisitByIdAsync(model.Id);
+                    dto.DateVisit = model.DateVisit;
+                    dto.MedicalInstitutionDtoId = model.MedicalInstitutionId;
+                    dto.DoctorDtoId = model.DoctorId;
+                    dto.PriceVisit = model.PriceVisit;
+                    await _doctorVisitService.UpdateDoctorVisitAsync(dto, dto.Id);
+
+                    return Redirect(model.ReturnUrl);
+                }
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet]
         public IActionResult AddOrEditDescriptionAppointment(int id)
         {
             try
@@ -111,11 +174,11 @@ namespace WebAppMedicalAssistantMVC.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
 
+        [HttpPost]
         public async Task<IActionResult> AddOrEditDescriptionAppointment(AppointmentModel model)
         {
             try

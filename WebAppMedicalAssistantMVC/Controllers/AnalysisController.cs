@@ -26,15 +26,25 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime SearchDateStart, DateTime SearchDateEnd, bool AllDates)
         {
             try
             {
                 var emailUser = HttpContext.User.Identity?.Name;
                 var userDto = await _userService.GetUserByEmailAsync(emailUser);
-                var listAnalisis = await _analysisService.GetAllAnalysisAsync(userDto.Id);
 
-                return View(listAnalisis);
+                if (!AllDates)
+                {
+                    var listAnalisis = await _analysisService.GetAllAnalysisAsync(userDto.Id);
+
+                    return View(listAnalisis);
+                }
+                else
+                {
+                    var listAnalisis = await _analysisService.GetPeriodAnalysisAsync(SearchDateStart, SearchDateEnd, userDto.Id);
+
+                    return View(listAnalisis);
+                }
             }
             catch (Exception)
             {

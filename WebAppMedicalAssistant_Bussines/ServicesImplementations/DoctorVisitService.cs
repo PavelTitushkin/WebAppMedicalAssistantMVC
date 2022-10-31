@@ -129,11 +129,46 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 var patchList = new List<PatchModel>();
                 if(dto != null)
                 {
-                    patchList.Add(new PatchModel()
+                    if (!dto.TransferredDiseaseId.Equals(sourceDto.TransferredDiseaseId))
                     {
-                        PropertyName = nameof(dto.TransferredDiseaseId),
-                        PropertyValue = dto.TransferredDiseaseId
-                    });
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.TransferredDiseaseId),
+                            PropertyValue = dto.TransferredDiseaseId
+                        });
+                    }
+                    if (!dto.DateVisit.Equals(sourceDto.DateVisit))
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.DateVisit),
+                            PropertyValue = dto.DateVisit
+                        });
+                    }
+                    if (!dto.MedicalInstitutionDtoId.Equals(sourceDto.MedicalInstitutionDtoId))
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.MedicalInstitutionDtoId),
+                            PropertyValue = dto.MedicalInstitutionDtoId
+                        });
+                    }
+                    if (!dto.DoctorDtoId.Equals(sourceDto.DoctorDtoId))
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.DoctorDtoId),
+                            PropertyValue = dto.DoctorDtoId
+                        });
+                    }
+                    if (!dto.PriceVisit.Equals(sourceDto.PriceVisit))
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.PriceVisit),
+                            PropertyValue = dto.PriceVisit
+                        });
+                    }
                 }
 
                 await _unitOfWork.DoctorVisit.PatchAsync(dtoId, patchList);

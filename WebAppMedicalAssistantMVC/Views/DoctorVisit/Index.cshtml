@@ -71,6 +71,9 @@
 @*                        <a class="link-primary" href="~/DoctorVisit/CreateAppointment/@item.Id">Добавить назначение</a>
 *@                    }
                 </td>
+                <td>
+                    <a asp-controller="DoctorVisit" asp-action="Edit" asp-route-id="@item.Id" >Редактировать</a>
+                </td>
             </tr>
         }
     </tbody>

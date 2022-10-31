@@ -5,6 +5,7 @@ namespace WebAppMedicalAssistant_Core.Abstractions
     public interface IAnalysisService
     {
         Task<List<AnalysisDto>> GetAllAnalysisAsync(int userId);
+        Task<List<AnalysisDto>> GetPeriodAnalysisAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int userId);
         Task<int> CreateAnalysisAsync(AnalysisDto analysisDto);
 
     }

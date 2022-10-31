@@ -1,19 +1,19 @@
 ﻿@model DoctorVisitModel
 
 @{
-    ViewData["Title"] = "Добавить запись к врачу";
+    ViewData["Title"] = "Редактировать запись";
     Layout = "_Layout";
 }
 
 <div>
-    <h2>Добавление новой записи</h2>
+    <h2>Редактирование записи</h2>
 
-    <form asp-controller="DoctorVisit" asp-action="Create" method="post">
+    <form asp-controller="DoctorVisit" asp-action="Edit" method="post">
         <div class="mb-3">
             <label for="DateVisit" class="form-label">Дата поещения врача:</label>
             <input asp-for="DateVisit" type="date" class="form-control" asp-format="{0:yyyy-MM-dd}" id="DateVisit" required />
-            <span asp-validation-for="DateVisit" class="text-danger"></span>
-        </div>
+@*            <span asp-validation-for="DateVisit" class="text-danger"></span>
+*@        </div>
         <div class="mb-3">
             <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
             <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
@@ -27,10 +27,13 @@
         <div class="mb-3">
             <label for="PriceVisit" class="form-label">Стоимость посещения:</label>
             <input asp-for="PriceVisit" type="number" class="form-control" id="PriceVisit" required />
-            <span asp-validation-for="PriceVisit" class="text-danger"></span>
+@*            <span asp-validation-for="PriceVisit" class="text-danger"></span>
+*@        </div>
+        <div>
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
         </div>
-
-        <input type="submit" class="btn btn-primary m-1" value="Добавить запись" />
+        <input type="submit" class="btn btn-primary m-1" value="Редактировать запись" />
         <a class="btn btn-primary m-1" role="button" asp-controller="DoctorVisit" asp-action="Index">Отмена</a>
     </form>
 </div>
