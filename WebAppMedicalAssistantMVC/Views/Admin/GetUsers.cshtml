@@ -1,0 +1,61 @@
+﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.UserDto>
+
+@{
+    ViewData["Title"] = "Пользователи";
+    Layout = "_Adminlayout";
+}
+
+<h2 class="text-center">Пользователи</h2>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Фамилия
+                </th>
+                <th>
+                    Имя
+                </th>
+                <th>
+                    Дата рождения
+                </th>
+                <th>
+                    Email
+                </th>
+                <th>
+                    Роль
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Birthday)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoleName)
+                    </td>
+                    <td>
+                        @if(item.RoleName != "admin")
+                        {
+                            <a asp-controller="Admin" asp-action="ShowDeleteUser" asp-route-id="@item.Id" asp-route-userEmail="@item.Email" class="m-1">Удалить</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

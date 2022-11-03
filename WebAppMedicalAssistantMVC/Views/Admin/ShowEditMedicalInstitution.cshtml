@@ -1,0 +1,42 @@
+﻿@model MedicalInstitutionModel
+
+@{
+    ViewData["Title"] = "Админ";
+    Layout = "_Adminlayout";
+}
+<div>
+    <h4>Редактирование медицинского учреждения</h4>
+    <p>@Model.NameMedicalInstitution</p>
+</div>
+<form asp-controller="Admin" asp-action="EditMedicalInstitution" method="post">
+    <div class="mb-3">
+        <label for="NameOfAnalysis" class="form-label">Название медицинского учреждения:</label>
+        <input asp-for="NameMedicalInstitution" type="text" class="form-control" id="NameMedicalInstitution" value="@Model.NameMedicalInstitution" required />
+        <span asp-validation-for="NameMedicalInstitution" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Adress" class="form-label">Адрес:</label>
+        <textarea asp-for="Adress" class="form-control" id="Adress" rows="2" required>@Model.Adress</textarea>
+        <span asp-validation-for="Adress" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="OperatingMode" class="form-label">Режим работы:</label>
+        <textarea asp-for="OperatingMode" class="form-control" id="OperatingMode" rows="2">@Model.OperatingMode</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="Contact" class="form-label">Контакты:</label>
+        <textarea asp-for="Contact" class="form-control" id="Contact" rows="3">@Model.Contact</textarea>
+    </div>
+    <div>
+        <input asp-for="ReturnUrl" type="hidden" />
+        <input asp-for="Id" type="hidden" />
+    </div>
+    <input type="submit" class="btn btn-danger m-1" value="Редактировать медицинское учреждение" />
+    <a class="btn btn-primary m-1" role="button" asp-controller="Admin" asp-action="GetMedicalInstitutions">Отмена</a>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

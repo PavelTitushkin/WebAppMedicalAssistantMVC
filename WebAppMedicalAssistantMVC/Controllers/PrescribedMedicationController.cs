@@ -9,7 +9,8 @@ using WebAppMedicalAssistantMVC.Models;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
-    [Authorize(Roles = "user")]
+    //[Authorize(Roles = "user")]
+    [Authorize]
     public class PrescribedMedicationController : Controller
     {
         private readonly IMapper _mapper;

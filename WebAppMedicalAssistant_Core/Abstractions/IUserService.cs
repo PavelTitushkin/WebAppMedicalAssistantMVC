@@ -8,5 +8,7 @@ namespace WebAppMedicalAssistant_Core.Abstractions
         Task<bool> IsUserExistAsync(string email);
         Task<UserDto> GetUserByEmailAsync(string email);
         Task<int> RegisterUser(UserDto user);
+        Task<List<UserDto>> GetAllUserAsync();
+        Task DeleteUserAsync(int id);
     }
 }

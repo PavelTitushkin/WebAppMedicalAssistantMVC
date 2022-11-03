@@ -10,6 +10,7 @@ using WebAppMedicalAssistantMVC.Models;
 namespace WebAppMedicalAssistantMVC.Controllers
 {
     [Authorize(Roles = "user")]
+    //[Authorize]
     public class AnalysisController : Controller
     {
         private readonly IMapper _mapper;

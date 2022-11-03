@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebAppMedicalAssistant_Core.Abstractions;
@@ -7,6 +8,7 @@ using WebAppMedicalAssistantMVC.Models;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
+    [Authorize(Roles = "user")]
     public class PhysicalTherapyController : Controller
     {
         private readonly IMapper _mapper;

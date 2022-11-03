@@ -50,6 +50,7 @@ namespace WebAppMedicalAssistantMVC
             builder.Services.AddScoped<IMedicalInstitutionService, MedicalInstitutionService>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<IPhysicalTherapyService, PhysicalTherapyService>();
+            builder.Services.AddScoped<IMedicineService, MedicineService>();
 
             builder.Services.AddScoped<IRepository<Analysis>, Repository<Analysis>>();
             builder.Services.AddScoped<IRepository<Appointment>, Repository<Appointment>>();
@@ -90,6 +91,10 @@ namespace WebAppMedicalAssistantMVC
             app.MapControllerRoute(
                 name: "Login",
                 pattern: "{controller=Account}/{action=Login}/{id?}");
+
+            app.MapControllerRoute(
+                name: "admin",
+                pattern: "{controller=Admin}/{action=Index}/{id?}");
 
             app.MapControllerRoute(
                 name: "default",

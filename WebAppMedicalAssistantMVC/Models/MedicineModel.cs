@@ -1,10 +1,9 @@
-﻿namespace WebAppMedicalAssistant_Core.DTO
+﻿namespace WebAppMedicalAssistantMVC.Models
 {
-    public class MedicineDto
+    public class MedicineModel
     {
-        public int Id { get; set; }
         public string NameOfMedicine { get; set; }
         public string ShortDescriptionOfMedicine { get; set; }
-
+        public string ReturnUrl { get; set; }
     }
 }

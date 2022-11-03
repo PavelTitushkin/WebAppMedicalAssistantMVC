@@ -35,8 +35,12 @@ namespace WebAppMedicalAssistantMVC.Controllers
             var isPasswordCorrect = await _userService.CheckUserPasswordAsync(loginModel.Email, loginModel.Password);
             if(isPasswordCorrect)
             {
-                await Authenticate(loginModel.Email);
-                
+                var roleName = await Authenticate(loginModel.Email);
+                if (roleName == "admin")
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -76,7 +80,12 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     var result = await _userService.RegisterUser(userDto);
                     if (result > 0)
                     {
-                        await Authenticate(registerModel.Email);
+                        var roleName = await Authenticate(registerModel.Email);
+                        if (roleName == "admin")
+                        {
+                            return RedirectToAction("Index", "Admin");
+                        }
+
                         return RedirectToAction("Index", "Home");
                     }
                 }
@@ -85,7 +94,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
             return View(registerModel);
         }
 
-        private async Task Authenticate(string email)
+        private async Task<string> Authenticate(string email)
         {
             var userDto = await _userService.GetUserByEmailAsync(email);
 
@@ -103,6 +112,8 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 );
             
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+            return userDto.RoleName;
         }
 
         [HttpGet]

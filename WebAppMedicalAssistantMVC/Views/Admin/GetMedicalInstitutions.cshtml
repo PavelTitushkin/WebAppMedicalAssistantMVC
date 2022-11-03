@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.MedicalInstitutionDto>
+
+@{
+    ViewData["Title"] = "Админ";
+    Layout = "_Adminlayout";
+}
+
+<h2 class="text-center">Медицинские учреждения</h2>
+<p>
+    <a asp-controller="MedicalInstitution" asp-action="Create" class="m-1">Добавить</a>
+</p>
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Название
+                </th>
+                <th>
+                    Адрес
+                </th>
+                <th>
+                    Режим работы
+                </th>
+                <th>
+                    Контакты
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NameMedicalInstitution)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Adress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OperatingMode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Contact)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Редактировать", "ShowEditMedicalInstitution", "Admin", new {id = item.Id, nameMedicalInstitution = item.NameMedicalInstitution, adress = item.Adress, operatingMode = item.OperatingMode, contact = item.Contact})
+                        <a asp-controller="Admin" asp-action="ShowDeleteMedicalInstitution" asp-route-id="@item.Id" asp-route-nameMedicalInstitution="@item.NameMedicalInstitution" class="m-1">Удалить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

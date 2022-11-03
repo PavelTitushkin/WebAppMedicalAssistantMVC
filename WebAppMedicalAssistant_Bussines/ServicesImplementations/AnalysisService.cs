@@ -80,6 +80,5 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 throw new ArgumentException();
             }
         }
-
     }
 }

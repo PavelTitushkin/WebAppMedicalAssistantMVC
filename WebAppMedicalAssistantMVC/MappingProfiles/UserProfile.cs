@@ -11,7 +11,7 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
         {
             CreateMap<User, UserDto>()
                 .ForMember(dto => dto.RoleName, opt => opt.MapFrom(entity => entity.Roles.Name))
-                .ForMember(dto=>dto.Id, opt =>opt.MapFrom(entity=>entity.Id));
+                .ForMember(dto => dto.Id, opt => opt.MapFrom(entity => entity.Id));
 
             CreateMap<RegisterModel, UserDto>()
                 .ForMember(dto => dto.Email, opt => opt.MapFrom(model => model.Email))

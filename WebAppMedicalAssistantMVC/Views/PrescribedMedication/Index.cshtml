@@ -8,7 +8,10 @@
 <h2>Мои лекарства</h2>
 
 <p>
-    <a asp-action="Create">Добавить новый лекарство</a>
+    @if(ViewBag.Role)
+    {
+        <a asp-action="Create">Добавить новый лекарство</a>
+    }
 </p>
 <table class="table">
     <thead>

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
@@ -6,21 +7,20 @@ using WebAppMedicalAssistantMVC.Models;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
+    [Authorize]
     public class MedicalInstitutionController : Controller
     {
         private readonly IMapper _mapper;
         private readonly IMedicalInstitutionService _medicalInstitutionService;
-        private readonly IUserService _userService;
 
-        public MedicalInstitutionController(IMapper mapper, IMedicalInstitutionService medicalInstitutionService, IUserService userService)
+        public MedicalInstitutionController(IMapper mapper, IMedicalInstitutionService medicalInstitutionService)
         {
             _mapper = mapper;
             _medicalInstitutionService = medicalInstitutionService;
-            _userService = userService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             try
             {

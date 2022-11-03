@@ -31,7 +31,49 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             var dbPasswordHash = (await _unitOfWork.User.Get().FirstOrDefaultAsync(user => user.Email.Equals(email)))?.PasswordHash;
 
             return dbPasswordHash != null && CreateMd5(password).Equals(dbPasswordHash.ToUpper());
-        }   
+        }
+
+        public async Task DeleteUserAsync(int id)
+        {
+            try
+            {
+                var entity = await _unitOfWork.User.FindBy(entity => entity.Id.Equals(id))
+                    .Include(include => include.DoctorVisits)
+                    .Include(include => include.TransferredDiseases)
+                    .Include(include => include.Analyzes)
+                    .Include(include => include.Vaccinations)
+                    .Include(include => include.MedicalExaminations)
+                    .Include(include => include.PrescribedMedication)
+                    .Include(include => include.Fluorographies)
+                    .Include(include => include.PhysicalTherapies)
+                    .FirstOrDefaultAsync();
+
+                _unitOfWork.User.Remove(entity);
+                await _unitOfWork.Commit();
+            }
+
+            catch (Exception)
+            {
+                throw new ArgumentException("User for removing doesn't exist", nameof(id));
+            }
+        }
+
+        public async Task<List<UserDto>> GetAllUserAsync()
+        {
+            try
+            {
+                var usersDto = await _unitOfWork.User.Get()
+                    .Include(entity=>entity.Roles)
+                    .Select(entities => _mapper.Map<UserDto>(entities)).ToListAsync();
+
+                return usersDto;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         public async Task<UserDto> GetUserByEmailAsync(string email)
         {

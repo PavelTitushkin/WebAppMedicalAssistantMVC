@@ -10,7 +10,7 @@
         public DateTime DateOfVaccination { get; set; }
         public DateTime? VaccinationExpirationDate { get; set; }
 
-        public MedicalInstitution MedicalInstitutions { get; set; }
+        public MedicalInstitution? MedicalInstitutions { get; set; }
         public int? MedicalInstitutionId { get; set; } 
         public  User? User { get; set; }
         public int? UserId { get; set; }

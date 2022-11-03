@@ -1,0 +1,37 @@
+﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.MedicineDto>
+
+@{
+    ViewData["Title"] = "Админ";
+    Layout = "_AdminLayout";
+}
+
+<h2>Лекарства</h2>
+
+<p>
+    <a asp-action="AddMedicine">Добавить новое лекарство</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Название лекарства
+            </th>
+            <th>
+                Короткое описание
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameOfMedicine)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortDescriptionOfMedicine)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

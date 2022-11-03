@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - My Medical Assistant</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebAppMedicalAssistantMVC.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <div class="nav justify-content-center border border-dark border-3 rounded-3 p-3 text-center text-primary m-1 fs-2">
+            <a class="nav-link" asp-controller="Admin" asp-action="Index">My Medical Assistant</a>
+        </div>
+    </header>
+
+    <div class="d-flex m-1 p-1 border border-dark border-2 rounded-3">
+        <menu class="justify-content-start p-0 m-1">
+            <ul class="nav nav-pills flex-column nav-justified border border-dark border-2 rounded-3 p-2">
+                <li class="nav-item m-1">
+                    <a class="nav-link active" asp-controller="Admin" asp-action="GetUsers">Пользователи</a>
+                </li>
+                <li class="nav-item m-1">
+                    <a class="nav-link active" asp-controller="Admin" asp-action="GetMedicalInstitutions">Медицинские учреждения</a>
+                </li>
+                <li class="nav-item m-1">
+                    <a class="nav-link active" asp-controller="Admin" asp-action="GetMedicines">Лекарства</a>
+                </li>
+                <li class="nav-item m-1">
+                    <a class="nav-link active" asp-controller="Account" asp-action="Exit">Выход</a>
+                </li>
+            </ul>
+        </menu>
+        <div class="ms-2 p-1 border border-dark border-2 rounded-3">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="">
+            &copy; 2022 - My Medical Assistant - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+

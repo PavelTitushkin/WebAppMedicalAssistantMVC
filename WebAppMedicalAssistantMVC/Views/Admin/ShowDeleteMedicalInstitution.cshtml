@@ -1,0 +1,21 @@
+﻿@model MedicalInstitutionModel
+
+@{
+    ViewData["Title"] = "Админ";
+    Layout = "_Adminlayout";
+}
+<div>
+    <h4>Вы уверены, что хотите удалить медицинское учреждение?</h4>
+    <p>@Model.NameMedicalInstitution</p>
+</div>
+<form asp-controller="Admin" asp-action="DeleteMedicalInstitution" method="post" asp-route-id="@Model.Id">
+    <div></div>
+    <input type="submit" class="btn btn-danger m-1" value="Удалить учреждение" />
+    <a class="btn btn-primary m-1" role="button" asp-controller="Admin" asp-action="GetMedicalInstitutions">Отмена</a>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
