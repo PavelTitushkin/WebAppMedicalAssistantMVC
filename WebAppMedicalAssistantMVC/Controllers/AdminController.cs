@@ -203,10 +203,11 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddMedicine(MedicineModel model)
+        public async Task<IActionResult> AddMedicine(MedicineModel model)
         {
             try
             {
+                _medicineService.AddMedicineAsync(model.NameOfMedicine);
 
                 return View();
             }
