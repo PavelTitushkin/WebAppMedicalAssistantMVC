@@ -102,6 +102,23 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult ShowDeleteMedicine(int id, string NameOfMedicine)
+        {
+            try
+            {
+                var model = new MedicineModel();
+                model.NameOfMedicine = NameOfMedicine;
+                model.Id = id;
+
+                return View(model);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
         public IActionResult ShowEditMedicalInstitution(int id, string nameMedicalInstitution, string adress, string? operatingMode, string? contact)
         {
             try
@@ -111,6 +128,24 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 model.Adress = adress;
                 model.OperatingMode = operatingMode;
                 model.Contact = contact;
+                model.Id = id;
+
+                return View(model);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult ShowEditMedicine(int id, string nameMedicine, string? linkToInstructions)
+        {
+            try
+            {
+                var model = new MedicineModel();
+                model.NameOfMedicine = nameMedicine;
+                model.LinkToInstructions = linkToInstructions;
                 model.Id = id;
 
                 return View(model);
@@ -152,6 +187,21 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> DeleteMedicine(int id)
+        {
+            try
+            {
+                await _medicineService.DeleteMedicineAsync(id);
+
+                return RedirectToAction("GetMedicines");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
         public async Task<IActionResult> EditMedicalInstitution(MedicalInstitutionModel model)
         {
             try
@@ -165,6 +215,25 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 await _medicalInstitutionService.UpdateMedicalInstitutionAsync(dto, dto.Id);
 
                 return RedirectToAction("GetMedicalInstitutions");
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditMedicine(MedicineModel model)
+        {
+            try
+            {
+                var dto = await _medicineService.GetByIdMedicineAsync(model.Id);
+                dto.NameOfMedicine = model.NameOfMedicine;
+                dto.LinkToInstructions = model.LinkToInstructions;
+
+                await _medicineService.UpdateMedicineAsync(dto, dto.Id);
+
+                return RedirectToAction("GetMedicines");
             }
             catch (ArgumentException ex)
             {
@@ -207,7 +276,13 @@ namespace WebAppMedicalAssistantMVC.Controllers
         {
             try
             {
-                _medicineService.AddMedicineAsync(model.NameOfMedicine);
+                var listLinkMedicine = _medicineService.SearchMedicineInTabletkaByAsync(model.NameOfMedicine);
+                if(listLinkMedicine != null)
+                {
+                    var result = await _medicineService.AddMedicine(listLinkMedicine);
+
+                    return RedirectToAction("GetMedicines");
+                }
 
                 return View();
             }

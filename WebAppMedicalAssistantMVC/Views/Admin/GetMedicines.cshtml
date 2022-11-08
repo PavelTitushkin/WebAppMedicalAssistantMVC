@@ -14,10 +14,12 @@
     <thead>
         <tr>
             <th>
-                Название лекарства
+                Название
             </th>
             <th>
-                Короткое описание
+                Инструкция
+            </th>
+            <th>
             </th>
         </tr>
     </thead>
@@ -27,6 +29,20 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.NameOfMedicine)
+                </td>
+                <td>
+                    @if(!string.IsNullOrEmpty(item.LinkToInstructions))
+                    {
+                        <a class="m-1" href="@item.LinkToInstructions">Инструкция</a>
+                    }
+                    else
+                    {
+                        <p class="m-1">Инструкция отсутсвует</p>
+                    }
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "ShowEditMedicine", "Admin", new {id = item.Id, nameMedicine = item.NameOfMedicine, linkToInstructions = item.LinkToInstructions})
+                    <a asp-controller="Admin" asp-action="ShowDeleteMedicine" asp-route-id="@item.Id" asp-route-nameOfMedicine="@item.NameOfMedicine" class="m-1">Удалить</a>
                 </td>
             </tr>
         }

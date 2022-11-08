@@ -1,0 +1,33 @@
+﻿@model MedicineModel
+
+@{
+    ViewData["Title"] = "Админ";
+    Layout = "_Adminlayout";
+}
+<div>
+    <h4>Редактирование лекарства</h4>
+    <p>@Model.NameOfMedicine</p>
+</div>
+<form asp-controller="Admin" asp-action="EditMedicine" method="post">
+    <div class="mb-3">
+        <label for="NameOfMedicine" class="form-label">Название лекарства:</label>
+        <input asp-for="NameOfMedicine" type="text" class="form-control" id="NameOfMedicine" value="@Model.NameOfMedicine" required />
+        <span asp-validation-for="NameOfMedicine" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="LinkToInstructions" class="form-label">Ссылка на инструкцию:</label>
+        <input asp-for="LinkToInstructions" type="text" class="form-control" id="LinkToInstructions" value="@Model.LinkToInstructions" />
+    </div>
+    <div>
+        <input asp-for="ReturnUrl" type="hidden" />
+        <input asp-for="Id" type="hidden" />
+    </div>
+    <input type="submit" class="btn btn-danger m-1" value="Редактировать лекарство" />
+    <a class="btn btn-primary m-1" role="button" asp-controller="Admin" asp-action="GetMedicines">Отмена</a>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
