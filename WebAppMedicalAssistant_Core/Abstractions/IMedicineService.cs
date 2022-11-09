@@ -6,8 +6,8 @@ namespace WebAppMedicalAssistant_Core.Abstractions
     public interface IMedicineService
     {
         Task<List<MedicineDto>> GetAllMedicineAsync();
-        List<string>? SearchMedicineInTabletkaByAsync(string nameOfMedicine);
-        Task<int> AddMedicine(List<string>? listLinkMedicine);
+        List<string>? SearchMedicineInTabletkaBy(string nameOfMedicine);
+        Task<int> AddMedicineAsync(List<string>? listLinkMedicine);
         Task<MedicineDto> GetByIdMedicineAsync(int id);
         Task<int> UpdateMedicineAsync(MedicineDto dto, int id);
         Task DeleteMedicineAsync(int id);

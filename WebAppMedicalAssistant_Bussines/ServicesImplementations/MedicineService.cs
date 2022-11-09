@@ -21,7 +21,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
-        public List<string>? SearchMedicineInTabletkaByAsync(string nameOfMedicine)
+        public List<string>? SearchMedicineInTabletkaBy(string nameOfMedicine)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             }
         }
 
-        public async Task<int> AddMedicine(List<string>? listLinkMedicine)
+        public async Task<int> AddMedicineAsync(List<string>? listLinkMedicine)
         {
             try
             {
@@ -138,24 +138,22 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             {
                 var sourceDto = await GetByIdMedicineAsync(id);
                 var patchList = new List<PatchModel>();
-                if (dto != null)
+               
+                if (dto.NameOfMedicine != sourceDto.NameOfMedicine)
                 {
-                    if (!dto.NameOfMedicine.Equals(sourceDto.NameOfMedicine))
+                    patchList.Add(new PatchModel()
                     {
-                        patchList.Add(new PatchModel()
-                        {
-                            PropertyName = nameof(dto.NameOfMedicine),
-                            PropertyValue = dto.NameOfMedicine
-                        });
-                    }
-                    if (!dto.LinkToInstructions.Equals(sourceDto.LinkToInstructions))
+                        PropertyName = nameof(dto.NameOfMedicine),
+                        PropertyValue = dto.NameOfMedicine
+                    });
+                }
+                if (dto.LinkToInstructions != sourceDto.LinkToInstructions)
+                {
+                    patchList.Add(new PatchModel()
                     {
-                        patchList.Add(new PatchModel()
-                        {
-                            PropertyName = nameof(dto.LinkToInstructions),
-                            PropertyValue = dto.LinkToInstructions
-                        });
-                    }
+                        PropertyName = nameof(dto.LinkToInstructions),
+                        PropertyValue = dto.LinkToInstructions
+                    });
                 }
 
                 await _unitOfWork.Medicine.PatchAsync(id, patchList);
@@ -183,7 +181,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 
             catch (Exception)
             {
-                throw new ArgumentException("", nameof(id));
+                throw;
             }
         }
     }

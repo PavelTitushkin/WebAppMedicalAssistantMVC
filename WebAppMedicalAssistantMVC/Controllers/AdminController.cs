@@ -102,12 +102,12 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult ShowDeleteMedicine(int id, string NameOfMedicine)
+        public IActionResult ShowDeleteMedicine(int id, string nameOfMedicine)
         {
             try
             {
                 var model = new MedicineModel();
-                model.NameOfMedicine = NameOfMedicine;
+                model.NameOfMedicine = nameOfMedicine;
                 model.Id = id;
 
                 return View(model);
@@ -276,10 +276,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
         {
             try
             {
-                var listLinkMedicine = _medicineService.SearchMedicineInTabletkaByAsync(model.NameOfMedicine);
+                var listLinkMedicine = _medicineService.SearchMedicineInTabletkaBy(model.NameOfMedicine);
                 if(listLinkMedicine != null)
                 {
-                    var result = await _medicineService.AddMedicine(listLinkMedicine);
+                    var result = await _medicineService.AddMedicineAsync(listLinkMedicine);
 
                     return RedirectToAction("GetMedicines");
                 }
