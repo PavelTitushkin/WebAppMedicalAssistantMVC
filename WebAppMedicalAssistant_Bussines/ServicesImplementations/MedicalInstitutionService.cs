@@ -61,7 +61,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 
             catch (Exception)
             {
-                throw new ArgumentException("User for removing doesn't exist", nameof(id));
+                throw new ArgumentException("", nameof(id));
             }
         }
 

@@ -9,6 +9,8 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
         public MedicineProfile()
         {
             CreateMap<Medicine, MedicineDto>();
+
+            CreateMap<MedicineDto, Medicine>();
         }
     }
 }
