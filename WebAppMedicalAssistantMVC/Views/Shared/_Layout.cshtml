@@ -17,6 +17,7 @@
     
     <div class="d-flex m-1 p-1 border border-dark border-2 rounded-3">
         <menu class="justify-content-start p-0 m-1">
+            <img style='width:100px; height:150px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.AvatarByte))" />
             <ul class="nav nav-pills flex-column nav-justified border border-dark border-2 rounded-3 p-2">
                 <li class="nav-item m-1">
                     <a class="nav-link active" asp-controller="DoctorVisit" asp-action="Index">Мои посещения врачей</a>
@@ -43,7 +44,7 @@
                     <a class="nav-link active" asp-controller="PrescribedMedication" asp-action="Index">Мои лекарства</a>
                 </li>
                 <li class="nav-item m-1">
-                    <a class="nav-link active" asp-controller="Account" asp-action="Exit">Настройки</a>
+                    <a class="nav-link active" asp-controller="Home" asp-action="GetOrEditUserInfo">Настройки</a>
                 </li>
             </ul>
         </menu>

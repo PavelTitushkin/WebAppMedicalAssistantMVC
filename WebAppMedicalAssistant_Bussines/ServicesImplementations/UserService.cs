@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebAppMedicalAssistant_Core;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
@@ -77,7 +78,9 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
 
         public async Task<UserDto> GetUserByEmailAsync(string email)
         {
-            var user = await _unitOfWork.User.FindBy(user => user.Email.Equals(email), user => user.Roles).FirstOrDefaultAsync();
+            var user = await _unitOfWork.User
+                .FindBy(user => user.Email.Equals(email), user => user.Roles)
+                .FirstOrDefaultAsync();
             var userDto = _mapper.Map<UserDto>(user);
 
             return userDto; 
@@ -102,6 +105,64 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             return await _unitOfWork.Commit();
         }
 
+        public async Task<int> UpdateUserAsync(UserDto dto, int id)
+        {
+            try
+            {
+                var sourceDto = await GetUserByEmailAsync(dto.Email);
+                var patchList = new List<PatchModel>();
+
+                if (dto.LastName != sourceDto.LastName)
+                {
+                    patchList.Add(new PatchModel()
+                    {
+                        PropertyName = nameof(dto.LastName),
+                        PropertyValue = dto.LastName
+                    });
+                }
+                if (dto.FirstName != sourceDto.FirstName)
+                {
+                    patchList.Add(new PatchModel()
+                    {
+                        PropertyName = nameof(dto.FirstName),
+                        PropertyValue = dto.FirstName
+                    });
+                }
+                if (dto.Birthday != sourceDto.Birthday)
+                {
+                    patchList.Add(new PatchModel()
+                    {
+                        PropertyName = nameof(dto.Birthday),
+                        PropertyValue = dto.Birthday
+                    });
+                }
+                if (dto.Email != sourceDto.Email)
+                {
+                    patchList.Add(new PatchModel()
+                    {
+                        PropertyName = nameof(dto.Email),
+                        PropertyValue = dto.Email
+                    });
+                }
+                if (dto.Avatar != sourceDto.Avatar)
+                {
+                    patchList.Add(new PatchModel()
+                    {
+                        PropertyName = nameof(dto.Avatar),
+                        PropertyValue = dto.Avatar
+                    });
+                }
+
+                await _unitOfWork.User.PatchAsync(id, patchList);
+
+                return await _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
         //преобразование пароля в Hash
         private string CreateMd5(string password)
         {

@@ -1,0 +1,54 @@
+﻿@model UserModel
+
+@{
+    ViewData["Title"] = "Пользователь";
+    Layout = "_Layout";
+}
+<div>
+    <h4>Информация о пользователе</h4>
+    @if (Model.AvatarByte?.Length != 0)
+    {
+        <div class="border border-dark border-1 rounded-3 m-1" >
+            <img style='width:100px; height:150px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.AvatarByte))" />
+        </div>
+        <div class="m-1">
+            <a class="btn btn-primary m-1" role="button" asp-controller="Home" asp-action="AddOrEditAvatar">Изменить</a>
+        </div>
+    }
+    else
+    {
+        <p>Аватар отсутствует</p>
+        <a class="btn btn-primary m-1" role="button" asp-controller="Home" asp-action="AddOrEditAvatar">Добавить</a>
+    }
+</div>
+
+<form asp-controller="Home" asp-action="EditUserInfo" method="post">
+    <div class="mb-3">
+        <label for="LastName" class="form-label">Фамилия:</label>
+        <input asp-for="LastName" type="text" class="form-control" id="LastName" value="@Model.LastName" />
+    </div>
+    <div class="mb-3">
+        <label for="FirstName" class="form-label">Имя:</label>
+        <input asp-for="FirstName" type="text" class="form-control" id="FirstName" value="@Model.FirstName" />
+    </div>
+    <div class="mb-3">
+        <label for="Birthday" class="form-label">День рождения:</label>
+        <input asp-for="Birthday" type="date" class="form-control" id="Birthday" value="@Model.Birthday" />
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email:</label>
+        <input asp-for="Email" type="text" class="form-control" id="Email" value="@Model.Email" />
+    </div>
+    <div>
+        <input asp-for="Id" type="hidden" />
+    </div>
+    <input type="submit" class="btn btn-danger m-1" value="Изменить" />
+    <a class="btn btn-primary m-1" role="button" asp-controller="Home" asp-action="Index">Главное меню</a>
+    <a class="btn btn-primary m-1" role="button" asp-controller="Account" asp-action="Exit">Выход</a>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

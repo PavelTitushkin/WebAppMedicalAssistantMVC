@@ -1,0 +1,26 @@
+﻿@model UserModel
+
+@{
+    ViewData["Title"] = "Пользователь";
+    Layout = "_Layout";
+}
+
+<form asp-controller="Home" asp-action="AddOrEditAvatar" method="post" enctype="multipart/form-data">
+    <div>
+        <h4>Добавление/редактирование аватара</h4>
+        <label for="Avatar">Аватар</label>
+        <input asp-for="Avatar" type="file" class="form-control" />
+    </div>
+    <div>
+        <input asp-for="Id" type="hidden" />
+        <input asp-for="Email" type="hidden" />
+    </div>
+    <input type="submit" class="btn btn-danger m-1" value="Сохранить" />
+    <a class="btn btn-primary m-1" role="button" asp-controller="Home" asp-action="GetOrEditUserInfo">Отмена</a>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -8,6 +8,7 @@
         public DateTime? Birthday { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
+        public byte[]? Avatar { get; set; }
 
         //навигационные свойства
         public Role Roles { get; set; }
