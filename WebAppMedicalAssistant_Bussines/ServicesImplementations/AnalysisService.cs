@@ -24,18 +24,20 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<AnalysisDto>> GetAllAnalysisAsync(int userId)
+        public async Task<IOrderedQueryable<AnalysisDto>> GetAllAnalysisAsync(int userId)
         {
             try
             {
                 var listAnalysis = await _unitOfWork.Analysis
                     .FindBy(entity => entity.UserId.Equals(userId))
-               .Include(include => include.MedicalInstitution)
-               .OrderBy(entity => entity.DateOfAnalysis)
-               .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
-               .ToListAsync();
+                    .AsNoTracking()
+                    .Include(include => include.MedicalInstitution)
+                    //.OrderBy(entity => entity.DateOfAnalysis)
+                    .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
+                    .ToListAsync();
+                var queryList = listAnalysis.AsQueryable().OrderBy(x => x.DateOfAnalysis);
 
-                return listAnalysis;
+                return queryList;
             }
             catch (Exception)
             {

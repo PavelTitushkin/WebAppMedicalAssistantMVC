@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ReflectionIT.Mvc.Paging;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistantMVC.Models;
@@ -27,7 +28,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(DateTime SearchDateStart, DateTime SearchDateEnd, bool AllDates)
+        public async Task<IActionResult> Index(int pageIndex, DateTime SearchDateStart, DateTime SearchDateEnd, bool AllDates)
         {
             try
             {
@@ -37,21 +38,25 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 if (!AllDates)
                 {
                     var listAnalisis = await _analysisService.GetAllAnalysisAsync(userDto.Id);
-
-                    return View(listAnalisis);
+                    if (pageIndex == 0)
+                    {
+                        pageIndex = 1;
+                    }
+                    var model =  PagingList.Create(listAnalisis, 5, pageIndex);
+                    return View(model);
                 }
                 else
                 {
                     var listAnalisis = await _analysisService.GetPeriodAnalysisAsync(SearchDateStart, SearchDateEnd, userDto.Id);
+                    var model = PagingList.Create(listAnalisis, 5, pageIndex);
 
-                    return View(listAnalisis);
+                    return View(model);
                 }
             }
             catch (Exception)
             {
                 throw;
             }
-            
         }
 
         [HttpGet]

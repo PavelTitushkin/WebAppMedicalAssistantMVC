@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging.Core;
+using ReflectionIT.Mvc.Paging;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Data.Abstractions;
@@ -19,6 +20,8 @@ namespace WebAppMedicalAssistantMVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services?.AddPaging();
 
             //Add Authentication
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -69,6 +72,7 @@ namespace WebAppMedicalAssistantMVC
             builder.Services.AddScoped<IRepository<Role>, Repository<Role>>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
             var app = builder.Build();
 

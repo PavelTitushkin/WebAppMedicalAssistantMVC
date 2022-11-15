@@ -103,6 +103,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             try
             {
                 var listDto = (await _unitOfWork.Medicine.GetAllAsync())
+                    .OrderBy(entity => entity.NameOfMedicine)
                     .Select(entity => _mapper.Map<MedicineDto>(entity))
                     .ToList();
 

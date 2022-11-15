@@ -1,4 +1,7 @@
-﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.AnalysisDto>
+﻿@using ReflectionIT.Mvc.Paging
+@addTagHelper *,ReflectionIT.Mvc.Paging
+
+@model PagingList<WebAppMedicalAssistant_Core.DTO.AnalysisDto>
 
 @{
     ViewData["Title"] = "Мои анализы";
@@ -9,7 +12,7 @@
 <div>
     <form asp-controller="Analysis" asp-action="Index" method="get">
         <div>
-            Дата начала поиска: <input type="date" name="SearchDateStart" />
+            Дата начала поиска: <input type="date" name="SearchDateStart" value="@DateTime.UtcNow"/>
             Дата окончания поиска: <input type="date" name="SearchDateEnd" />
         </div>
         <div class="mb-3">
@@ -56,6 +59,11 @@
                 </tr>
             }
         </tbody>
+        <nav>
+            <vc:pager paging-list="@Model" />
+        </nav>
     </table>
-
+    <nav>
+        @await this.Component.InvokeAsync("Pager", new{pagingList = this.Model})
+    </nav>
 </div>
