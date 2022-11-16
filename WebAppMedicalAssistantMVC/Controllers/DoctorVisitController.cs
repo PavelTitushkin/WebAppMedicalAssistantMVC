@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
+using ReflectionIT.Mvc.Paging;
 using System.Security.Cryptography.Xml;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core;
@@ -30,19 +32,33 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageIndex, DateTime SearchDateStart, DateTime SearchDateEnd, bool AllDates)
         {
             try
             {
                 var emailUser = HttpContext.User.Identity.Name;
                 var userDto = await _userService.GetUserByEmailAsync(emailUser);
-                var listDoctorVisits = await _doctorVisitService.GetAllDoctorVisitAsync(userDto.Id);
-                
-                return View(listDoctorVisits);
+                if(!AllDates)
+                {
+                    var listDoctorVisits = await _doctorVisitService.GetAllDoctorVisitAsync(userDto.Id);
+                    if (pageIndex == 0)
+                    {
+                        pageIndex = 1;
+                    }
+                    var model = PagingList.Create(listDoctorVisits, 5, pageIndex);
+
+                    return View(model);
+                }
+                else
+                {
+                    var listDoctorVisits = await _doctorVisitService.GetPeriodDoctorVisitAsync(SearchDateStart, SearchDateEnd, userDto.Id);
+                    var model = PagingList.Create(listDoctorVisits, 5, pageIndex);
+
+                    return View(model);
+                }
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -100,7 +116,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int id, DateTime dateVisit, string nameMedicalInstitution, string fullNameDoctor, decimal priceVisit)
         {
             try
             {
@@ -109,8 +125,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 var model = new DoctorVisitModel();
                 model.Id = id;
-                model.MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution");
-                model.DoctorList = new SelectList(doctorsDto, "Id", "FullNameDoctor");
+                model.DateVisit = dateVisit;
+                model.MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution", nameMedicalInstitution);
+                model.DoctorList = new SelectList(doctorsDto, "Id", "FullNameDoctor", fullNameDoctor);
+                model.PriceVisit = priceVisit;
                 model.ReturnUrl = Request.Headers["Referer"].ToString();
                 if (model.ReturnUrl == "https://localhost:7068/DoctorVisit/CreateDoctor")
                 {
@@ -126,7 +144,6 @@ namespace WebAppMedicalAssistantMVC.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -165,10 +182,6 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 var model = new AppointmentModel();
                 model.Id = id;
                 model.ReturnUrl = Request.Headers["Referer"].ToString();
-                //if (model.ReturnUrl == "https://localhost:7068/DoctorVisit/AddOrEditDescriptionAppointment")
-                //{
-                //    model.ReturnUrl = "https://localhost:7068/DoctorVisit/Appointment";
-                //}
 
                 return View(model);
             }

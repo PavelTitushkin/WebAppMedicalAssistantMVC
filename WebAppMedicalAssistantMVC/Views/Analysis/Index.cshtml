@@ -1,6 +1,6 @@
-﻿@using ReflectionIT.Mvc.Paging
+﻿@*@using ReflectionIT.Mvc.Paging
 @addTagHelper *,ReflectionIT.Mvc.Paging
-
+*@
 @model PagingList<WebAppMedicalAssistant_Core.DTO.AnalysisDto>
 
 @{
@@ -67,3 +67,9 @@
         @await this.Component.InvokeAsync("Pager", new{pagingList = this.Model})
     </nav>
 </div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
