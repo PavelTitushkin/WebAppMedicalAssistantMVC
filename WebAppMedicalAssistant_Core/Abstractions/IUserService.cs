@@ -10,5 +10,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
         Task<int> RegisterUser(UserDto user);
         Task<List<UserDto>> GetAllUserAsync();
         Task DeleteUserAsync(int id);
+        Task<int> UpdateUserAsync(UserDto user, int id);
     }
 }
