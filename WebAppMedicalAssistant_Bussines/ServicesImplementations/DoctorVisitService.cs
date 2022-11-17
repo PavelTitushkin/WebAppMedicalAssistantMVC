@@ -46,23 +46,69 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             try
             {
                 var listDoctorVisit = await _unitOfWork.DoctorVisit.Get()
+                    .AsNoTracking()
                     .Where(user => user.UserId.Equals(userId))
                     .Include(entity => entity.MedicalInstitution)
                     .Include(entity => entity.Doctor)
                     .Include(entity => entity.TransferredDisease.Disease)
                     .Include(entity => entity.Appointment)
+                    .OrderBy(entity => entity.DateVisit)
                     .Select(doctorVisit => _mapper.Map<DoctorVisitDto>(doctorVisit))
-                    .AsNoTracking()
                     .ToListAsync();
 
                 return listDoctorVisit;
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
+
+        public async Task<List<DoctorVisitDto>> GetPeriodDoctorVisitAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int userId)
+        {
+            try
+            {
+                var listDoctorVisit = await _unitOfWork.DoctorVisit
+                    .FindBy(entity => entity.UserId == userId)
+                    .AsNoTracking()
+                    .Where(entityData => entityData.DateVisit >= SearchDateStart && entityData.DateVisit <= SearchDateEnd)
+                    .Include(entity => entity.MedicalInstitution)
+                    .Include(entity => entity.Doctor)
+                    .Include(entity => entity.TransferredDisease.Disease)
+                    .Include(entity => entity.Appointment)
+                    .OrderBy(entity => entity.DateVisit)
+                    .Select(doctorVisit => _mapper.Map<DoctorVisitDto>(doctorVisit))
+                    .ToListAsync();
+
+                return listDoctorVisit;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        //public async Task<List<DoctorVisitDto>> GetAllDoctorVisitAsync(int userId)
+        //{
+        //    try
+        //    {
+        //        var listDoctorVisit = await _unitOfWork.DoctorVisit.Get()
+        //            .Where(user => user.UserId.Equals(userId))
+        //            .Include(entity => entity.MedicalInstitution)
+        //            .Include(entity => entity.Doctor)
+        //            .Include(entity => entity.TransferredDisease.Disease)
+        //            .Include(entity => entity.Appointment)
+        //            .Select(doctorVisit => _mapper.Map<DoctorVisitDto>(doctorVisit))
+        //            .AsNoTracking()
+        //            .ToListAsync();
+
+        //        return listDoctorVisit;
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
 
         public async Task<AppointmentDto> GetAppointmentAsync(int doctorVisitId)
         {

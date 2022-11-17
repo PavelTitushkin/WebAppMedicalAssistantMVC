@@ -6,6 +6,7 @@ namespace WebAppMedicalAssistantMVC.Models
 {
     public class TransferredDiseaseModel
     {
+        public int Id { get; set; }
         public DateTime DateOfDisease { get; set; }
         public DateTime? DateOfRecovery { get; set; }
         public bool TypeOfTreatment { get; set; }

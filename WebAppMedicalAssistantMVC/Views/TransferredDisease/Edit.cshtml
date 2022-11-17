@@ -1,0 +1,52 @@
+﻿@using WebAppMedicalAssistant_Core
+@model TransferredDiseaseModel
+
+@{
+    ViewData["Title"] = "Редактировать историю болезни";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>Добавление новой истории</h2>
+
+    <form asp-controller="TransferredDisease" asp-action="Edit" method="post">
+        <div class="mb-3">
+            <label for="DiseaseId" class="form-label">Название болезни:</label>
+            <select asp-for="DiseaseId" asp-items="@Model.DiseaseList">@Model.DiseaseId</select>
+            <a asp-controller="TransferredDisease" asp-action="CreateDisease">Добавить болезнь</a>
+        </div>
+        <div class="mb-3">
+            <label for="NameOfPhysicalTherapy" class="form-label">Дата заболевания:</label>
+            <input asp-for="DateOfDisease" type="date" class="form-control" id="DateOfDisease" required />
+            <span asp-validation-for="DateOfDisease" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="DateOfRecovery" class="form-label">Дата выздоровления:</label>
+            <input asp-for="DateOfRecovery" type="date" class="form-control" id="DateOfRecovery" />
+        </div>
+        <div class="mb-3">
+            <label for="FormOfTransferredDiseaseList" class="form-label">Форма прохождения заболевания:</label>
+            <select asp-for="FormOfTransferredDiseaseList" asp-items="Html.GetEnumSelectList<FormOfTransferredDisease>()"></select>
+        </div>
+        <div class="mb-3">
+            <label for="TypeOfTreatment" class="form-check-label">Форма лечения:</label>
+            <input asp-for="TypeOfTreatment" type="radio" class="form-check-input" id="Result" value="true" required />
+            <span asp-validation-for="TypeOfTreatment">Стационарно</span>
+            <input asp-for="TypeOfTreatment" type="radio" checked="checked" class="form-check-input" id="Result" value="false" required />
+            <span asp-validation-for="TypeOfTreatment">Амбулаторно</span>
+        </div>
+        <div>
+            <input asp-for="Id" type="hidden" />
+            <input asp-for="AppointmentId" type="hidden" />
+            <input asp-for="ReturnUrl" type="hidden" />
+        </div>
+        <input type="submit" class="btn btn-primary m-1" value="Редактировать историю" />
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

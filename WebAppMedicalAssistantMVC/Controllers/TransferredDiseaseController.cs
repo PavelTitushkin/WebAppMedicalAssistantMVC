@@ -108,6 +108,63 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> Edit(int idDoctorvisit, int idTransferredDisease)
+        {
+            try
+            {
+
+                var diseaseDto = await _transferredDiseaseService.GetAllDiseaseAsync();
+                var transferredDiseaseDto = await _transferredDiseaseService
+                    .GetTransferredDiseaseByIdAsync(idTransferredDisease);
+
+                var model = new TransferredDiseaseModel();
+                model.AppointmentId = idDoctorvisit;
+                model.Id = idTransferredDisease;
+                var formTransferredDisease = new FormOfTransferredDisease();
+                model.FormOfTransferredDiseaseList = formTransferredDisease;
+                model.DiseaseList = new SelectList(diseaseDto, "Id", "NameOfDisease", transferredDiseaseDto.DiseaseId);
+                model.DiseaseId = transferredDiseaseDto.DiseaseId;
+                model.ReturnUrl = Request.Headers["Referer"].ToString();
+                //if (model.ReturnUrl == "https://localhost:7068/TransferredDisease/CreateDisease")
+                //{
+                //    model.ReturnUrl = "https://localhost:7068/TransferredDisease/Index";
+                //}
+
+                return View(model);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(TransferredDiseaseModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var dto = await _transferredDiseaseService.GetTransferredDiseaseByIdAsync(model.Id);
+                    dto.DiseaseId = model.DiseaseId;
+                    dto.TypeOfTreatment = model.TypeOfTreatment;
+                    dto.FormOfTransferredDiseaseDto = model.FormOfTransferredDiseaseList;
+
+                    await _transferredDiseaseService.UpdateTransferredDiseaseAsync(dto, dto.Id);
+
+                    return Redirect(model.ReturnUrl);
+                }
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
         public IActionResult CreateDisease()
         {
             try

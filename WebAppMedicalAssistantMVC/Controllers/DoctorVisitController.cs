@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using ReflectionIT.Mvc.Paging;
 using System.Security.Cryptography.Xml;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core;
@@ -29,23 +30,55 @@ namespace WebAppMedicalAssistantMVC.Controllers
             _medicalInstitutionService = medicalInstitutionService;
         }
 
+
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageIndex, DateTime SearchDateStart, DateTime SearchDateEnd, bool AllDates)
         {
             try
             {
                 var emailUser = HttpContext.User.Identity.Name;
                 var userDto = await _userService.GetUserByEmailAsync(emailUser);
-                var listDoctorVisits = await _doctorVisitService.GetAllDoctorVisitAsync(userDto.Id);
-                
-                return View(listDoctorVisits);
+                if (!AllDates)
+                {
+                    var listDoctorVisits = await _doctorVisitService.GetAllDoctorVisitAsync(userDto.Id);
+                    if (pageIndex == 0)
+                    {
+                        pageIndex = 1;
+                    }
+                    var model = PagingList.Create(listDoctorVisits, 5, pageIndex);
+
+                    return View(model);
+                }
+                else
+                {
+                    var listDoctorVisits = await _doctorVisitService.GetPeriodDoctorVisitAsync(SearchDateStart, SearchDateEnd, userDto.Id);
+                    var model = PagingList.Create(listDoctorVisits, 5, pageIndex);
+
+                    return View(model);
+                }
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
+        //[HttpGet]
+        //public async Task<IActionResult> Index()
+        //{
+        //    try
+        //    {
+        //        var emailUser = HttpContext.User.Identity.Name;
+        //        var userDto = await _userService.GetUserByEmailAsync(emailUser);
+        //        var listDoctorVisits = await _doctorVisitService.GetAllDoctorVisitAsync(userDto.Id);
+
+        //        return View(listDoctorVisits);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
 
         [HttpGet]
         public async Task<IActionResult> Create()
