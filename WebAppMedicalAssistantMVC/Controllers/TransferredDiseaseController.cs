@@ -103,7 +103,6 @@ namespace WebAppMedicalAssistantMVC.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
