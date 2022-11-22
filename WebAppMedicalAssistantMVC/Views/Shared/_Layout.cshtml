@@ -18,14 +18,9 @@
     <div class="d-flex m-1 p-1 border border-dark border-2 rounded-3">
         <menu class="justify-content-start p-0 m-1">
             <div class="border-1 rounded-3 p-2 text-center">
-                <img style='width:80px; height:80px;' class="rounded-circle" />
-@*                            <img style='width:100px; height:150px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.AvatarByte))" />
-*@
+                <partial name="_LayoutAccountEmailPartial" />
             </div>
             <ul class="nav nav-pills flex-column nav-justified border border-dark border-2 rounded-3 p-2">
-                <li class="nav-item m-1">
-                    <partial name="_LayoutAccountEmailPartial"/>
-                </li>
                 <li class="nav-item m-1">
                     <a class="nav-link active" asp-controller="DoctorVisit" asp-action="Index">Мои посещения врачей</a>
                 </li>

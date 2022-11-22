@@ -20,6 +20,8 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
             CreateMap<UserDto, User>();
 
             CreateMap<UserDto, UserModel>();
+
+            CreateMap<UserDto, UserData>();
         }
     }
 }

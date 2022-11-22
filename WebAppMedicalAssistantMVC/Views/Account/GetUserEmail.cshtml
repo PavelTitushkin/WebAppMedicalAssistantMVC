@@ -1,20 +1,20 @@
-﻿@model UserModel
+﻿@model UserData
 
 @{
     Layout = null;
 }
-@if (Model == null)
+
+@if (Model.Avatar?.Length != 0)
 {
-    <li>
-        Что- пошло не так!
-    </li>
+    <div>
+        <img style='width:100px; height:120px;' class="rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Avatar))" />
+    </div>
+    <div>
+        <a class="nav-link" asp-action="GetOrEditUserInfo" asp-controller="Home">Пользователь: @Model.Email</a>
+    </div>
 }
 else
 {
-    <div>
-        <a class="nav-link text-dark" asp-action="GetUserData" asp-controller="Account">Пользователь: @Model.Email</a>
-    </div>
-    <div>
-        <a class="nav-link text-dark" asp-controller="Account" asp-action="Logout">Logout</a>
-    </div>
+    <p>Аватар отсутствует</p>
 }
+

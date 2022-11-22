@@ -34,9 +34,9 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     return BadRequest();
                 }
                 var userDto = await _userService.GetUserByEmailAsync(userEmail);
-                var user = _mapper.Map<UserModel>(userDto);
+                var userModel = _mapper.Map<UserData>(userDto);
 
-                return View(user);
+                return View(userModel);
             }
             catch (Exception)
             {
