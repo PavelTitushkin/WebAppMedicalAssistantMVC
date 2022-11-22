@@ -5,6 +5,7 @@ namespace WebAppMedicalAssistant_Core.Abstractions
     public interface IDoctorVisitService
     {
         Task<List<DoctorVisitDto>> GetAllDoctorVisitAsync(int userId);
+        Task<List<DoctorVisitDto>> GetPeriodDoctorVisitAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int userDtoId);
         Task<int> CreateDoctorVisitAsync(DoctorVisitDto doctorVisitDto);
         Task<AppointmentDto> GetAppointmentAsync(int doctorVisitId);
         Task<int> CreateAppointment(int id);

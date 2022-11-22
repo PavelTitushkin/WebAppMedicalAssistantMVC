@@ -40,7 +40,6 @@ namespace WebAppMedicalAssistantMVC.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -69,7 +68,64 @@ namespace WebAppMedicalAssistantMVC.Controllers
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id, int diseaseDtoId, DateTime dateOfDisease, DateTime dateOfRecovery)
+        {
+            try
+            {
+
+                var diseaseDto = await _transferredDiseaseService.GetAllDiseaseAsync();
+
+                var model = new TransferredDiseaseModel();
+                model.AppointmentId = id;
+                var formTransferredDisease = new FormOfTransferredDisease();
+                model.FormOfTransferredDiseaseList = formTransferredDisease;
+                model.DiseaseList = new SelectList(diseaseDto, "Id", "NameOfDisease", diseaseDtoId);
+                model.DiseaseId = diseaseDtoId;
+                model.DateOfDisease = dateOfDisease;
+                model.DateOfRecovery = dateOfRecovery;
+                model.ReturnUrl = Request.Headers["Referer"].ToString();
+                //if (model.ReturnUrl == "https://localhost:7068/TransferredDisease/CreateDisease")
+                //{
+                //    model.ReturnUrl = "https://localhost:7068/TransferredDisease/Index";
+                //}
+
+                return View(model);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(TransferredDiseaseModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var dto = await _transferredDiseaseService.GetTransferredDiseaseByIdAsync(model.Id);
+                    dto.DateOfDisease = model.DateOfDisease;
+                    dto.DateOfRecovery = model.DateOfRecovery;
+                    dto.DiseaseId = model.DiseaseId;
+                    dto.TypeOfTreatment = model.TypeOfTreatment;
+                    dto.FormOfTransferredDiseaseDto = model.FormOfTransferredDiseaseList;
+                    
+                    await _transferredDiseaseService.UpdateTransferredDiseaseAsync(dto, dto.Id);
+
+                    return Redirect(model.ReturnUrl);
+                }
+
+                return View(model);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
@@ -86,6 +142,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     model.UserId = userDto.Id;
 
                     var dto = _mapper.Map<TransferredDiseaseDto>(model);
+                    //dto.AppointmentId = null;
                     var transferredDiseaseLastId = await _transferredDiseaseService.CreateTransferredDiseaseAsync(dto);
 
                     if (model.AppointmentId != null)

@@ -18,6 +18,8 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
                 .ForMember(dto => dto.PasswordHash, opt => opt.MapFrom(model => model.Password));
 
             CreateMap<UserDto, User>();
+
+            CreateMap<UserDto, UserModel>();
         }
     }
 }

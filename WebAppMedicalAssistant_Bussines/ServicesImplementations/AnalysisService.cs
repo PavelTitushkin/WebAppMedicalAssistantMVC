@@ -32,7 +32,6 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                     .FindBy(entity => entity.UserId.Equals(userId))
                     .AsNoTracking()
                     .Include(include => include.MedicalInstitution)
-                    //.OrderBy(entity => entity.DateOfAnalysis)
                     .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
                     .ToListAsync();
                 var queryList = listAnalysis.AsQueryable().OrderBy(x => x.DateOfAnalysis);
@@ -52,7 +51,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             {
                 var listAnalysis = await _unitOfWork.Analysis
                     .FindBy(entity => entity.UserId.Equals(userId))
-                    .Where(entityData => entityData.DateOfAnalysis >= SearchDateStart && entityData.DateOfAnalysis <=SearchDateEnd)
+                    .Where(entityData => entityData.DateOfAnalysis >= SearchDateStart && entityData.DateOfAnalysis <= SearchDateEnd)
                     .Include(include => include.MedicalInstitution)
                     .OrderBy(entity => entity.DateOfAnalysis)
                     .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
@@ -64,7 +63,6 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             {
                 throw;
             }
-
         }
 
         public async Task<int> CreateAnalysisAsync(AnalysisDto analysisDto)

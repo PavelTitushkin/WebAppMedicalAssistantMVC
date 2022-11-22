@@ -43,6 +43,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
                         pageIndex = 1;
                     }
                     var model =  PagingList.Create(listAnalisis, 5, pageIndex);
+
                     return View(model);
                 }
                 else

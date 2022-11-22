@@ -1,11 +1,25 @@
-﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.DoctorVisitDto>
+﻿@model PagingList<WebAppMedicalAssistant_Core.DTO.DoctorVisitDto>
 
 @{
     ViewData["Title"] = "Мои посещения врачей";
     Layout = "_layout";
 }
 
-<h2>Мои посещения врачей</h2>
+<h2 class="text-center">Мои посещения врачей</h2>
+<div class="text-center">
+    <form asp-controller="DoctorVisit" asp-action="Index" method="get">
+        <div>
+            Дата начала поиска: <input type="date" name="SearchDateStart" value="@DateTime.UtcNow" />
+            Дата окончания поиска: <input type="date" name="SearchDateEnd" />
+        </div>
+        <div class="mb-3">
+            <label for="Result" class="form-check-label">Показать посещения за весь период:</label>
+            Да<input type="radio" class="form-check-input" name="AllDates" value="false" checked="checked" />
+            Нет<input type="radio" class="form-check-input" name="AllDates" value="true" />
+        </div>
+        <input type="submit" value="Поиск" />
+    </form>
+</div>
 
 <p>
     <a asp-action="Create">Добавить новое посещение</a>
@@ -31,6 +45,8 @@
             <th>
                 Назначения
             </th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -47,9 +63,14 @@
                     @Html.DisplayFor(modelItem => item.DoctorDto.FullNameDoctor)
                 </td>
                 <td>
-                    @if(item.NameOfDisease != null)
+                    @if(item.DiseaseDto != null)
                     {
-                        @Html.DisplayFor(modelItem => item.NameOfDisease)
+                        <p>
+                            @Html.DisplayFor(modelItem => item.DiseaseDto.NameOfDisease)
+                        </p>
+                        <p>
+                            @Html.ActionLink("Изменить", "Edit", "TransferredDisease", new {id = item.TransferredDiseaseId, diseaseDtoId = item.DiseaseDto.Id, dateOfDisease = item.TransferredDiseaseDto?.DateOfDisease, dateOfRecovery = item.TransferredDiseaseDto?.DateOfRecovery })
+                        </p>
                     }
                     else
                     {
@@ -62,19 +83,29 @@
                 <td>
                     @if(item.AppointmentDto!=null)
                     {
-                        @Html.ActionLink("Смотреть назначение", "Appointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.NameOfDisease})
+                        @Html.ActionLink("Смотреть назначение", "Appointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.DiseaseDto?.NameOfDisease})
 @*                        <a class="link-primary" href="~/DoctorVisit/Appointment/@item.Id?nameOfDisease=@item.NameOfDisease">Смотреть назначение</a>
 *@                    }
                     else
                     {
-                        @Html.ActionLink("Добавить назначение", "CreateAppointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.NameOfDisease})
+                        @Html.ActionLink("Добавить назначение", "CreateAppointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.DiseaseDto?.NameOfDisease})
 @*                        <a class="link-primary" href="~/DoctorVisit/CreateAppointment/@item.Id">Добавить назначение</a>
 *@                    }
                 </td>
                 <td>
-                    <a asp-controller="DoctorVisit" asp-action="Edit" asp-route-id="@item.Id" >Редактировать</a>
+                    <a asp-controller="DoctorVisit" asp-action="Edit" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitutionDto.NameMedicalInstitution" asp-route-fullNameDoctor="@item.DoctorDto.FullNameDoctor" asp-route-priceVisit="@item.PriceVisit">Редактировать</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<nav class="pagination">
+    <vc:pager paging-list="@Model" />
+</nav>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

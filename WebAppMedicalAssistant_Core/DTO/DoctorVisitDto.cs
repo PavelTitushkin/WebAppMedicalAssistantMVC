@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace WebAppMedicalAssistant_Core.DTO
+﻿namespace WebAppMedicalAssistant_Core.DTO
 {
     public class DoctorVisitDto
     {
@@ -9,13 +7,14 @@ namespace WebAppMedicalAssistant_Core.DTO
         public decimal PriceVisit { get; set; }
 
         public int? TransferredDiseaseId { get; set; }
+        public TransferredDiseaseDto? TransferredDiseaseDto { get; set; }
         public int AppointmentDtoId { get; set; }
         public AppointmentDto AppointmentDto { get; set; }
         public MedicalInstitutionDto MedicalInstitutionDto { get; set; }
         public int MedicalInstitutionDtoId { get; set; }
         public DoctorDto DoctorDto { get; set; }
         public int DoctorDtoId { get; set; }
-        public string? NameOfDisease { get; set; }
-        public int UserDtoId { get; set; } 
+        public DiseaseDto? DiseaseDto { get; set; }
+        public int UserDtoId { get; set; }
     }
 }

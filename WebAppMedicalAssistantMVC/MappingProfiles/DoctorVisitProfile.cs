@@ -10,7 +10,7 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
         public DoctorVisitProfile()
         {
             CreateMap<DoctorVisit, DoctorVisitDto>()
-                .ForMember(dto => dto.NameOfDisease, opt => opt.MapFrom(entity => entity.TransferredDisease.Disease.NameOfDisease))
+                .ForMember(dto => dto.DiseaseDto, opt => opt.MapFrom(entity => entity.TransferredDisease.Disease))
                 .ForMember(dto => dto.MedicalInstitutionDto, opt => opt.MapFrom(entity => entity.MedicalInstitution))
                 .ForMember(dto => dto.DoctorDto, opt => opt.MapFrom(entity => entity.Doctor))
                 .ForMember(dto => dto.DoctorDtoId, opt => opt.MapFrom(entity => entity.Id))
