@@ -24,6 +24,27 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetUserEmail()
+        {
+            try
+            {
+                var userEmail = HttpContext.User.Identity?.Name;
+                if(string.IsNullOrEmpty(userEmail)) 
+                {
+                    return BadRequest();
+                }
+                var userDto = await _userService.GetUserByEmailAsync(userEmail);
+                var user = _mapper.Map<UserModel>(userDto);
+
+                return View(user);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
         public IActionResult Login()
         {
             return View();

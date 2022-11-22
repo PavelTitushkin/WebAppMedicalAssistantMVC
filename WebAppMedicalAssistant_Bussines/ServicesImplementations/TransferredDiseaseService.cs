@@ -45,6 +45,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             try
             {
                 var entity = _mapper.Map<TransferredDisease>(dto);
+                entity.Id = 0;
                 await _unitOfWork.TransferredDisease.AddEntityAsync(entity);
                 var result = await _unitOfWork.Commit();
                 var lastId = entity.Id;
