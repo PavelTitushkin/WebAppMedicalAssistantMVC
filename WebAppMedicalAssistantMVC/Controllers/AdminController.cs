@@ -150,7 +150,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -180,7 +180,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return RedirectToAction("GetMedicalInstitutions");
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

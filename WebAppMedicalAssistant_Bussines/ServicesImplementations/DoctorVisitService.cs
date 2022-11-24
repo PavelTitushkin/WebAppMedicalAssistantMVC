@@ -228,5 +228,29 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 throw;
             }
         }
+
+        public async Task DeleteDoctorVisitAsync(int id)
+        {
+            try
+            {
+                var entityDoctorVisit = await _unitOfWork.DoctorVisit
+                    .FindBy(entity => entity.Id.Equals(id))
+                    .Include(include => include.Appointment)
+                    .ThenInclude(i=>i.Analysis)
+                    .Include(include=>include.MedicalInstitution)
+                    .Include(include => include.TransferredDisease)
+                    .Include(include => include.Doctor)
+                    .Include(include => include.User)
+                    .FirstOrDefaultAsync();
+                _unitOfWork.DoctorVisit.Remove(entityDoctorVisit);
+
+                await _unitOfWork.Commit();
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

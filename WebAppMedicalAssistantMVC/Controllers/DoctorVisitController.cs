@@ -116,6 +116,41 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
+        public IActionResult Delete(int id, DateTime dateVisit, string nameMedicalInstitution, string nameOfDisease)
+        {
+            try
+            {
+                var model = new DoctorVisitModel();
+                model.DateVisit = dateVisit;
+                model.NameMedicalInstitution = nameMedicalInstitution;
+                model.NameOfDisease = nameOfDisease;
+                model.Id = id;
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _doctorVisitService.DeleteDoctorVisitAsync(id);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> Edit(int id, DateTime dateVisit, string nameMedicalInstitution, string fullNameDoctor, decimal priceVisit)
         {
             try
@@ -277,6 +312,21 @@ namespace WebAppMedicalAssistantMVC.Controllers
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsMedicalInstitution(int id)
+        {
+            try
+            {
+                var dto = await _medicalInstitutionService.GetByIdMedicalInstitutionAsync(id);
+
+                return PartialView(dto);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

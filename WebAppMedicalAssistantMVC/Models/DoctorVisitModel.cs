@@ -8,6 +8,8 @@ namespace WebAppMedicalAssistantMVC.Models
         public int Id { get; set; }
         [DataType(DataType.Date)]
         public DateTime DateVisit { get; set; }
+        public string? NameMedicalInstitution { get; set; }
+        public string? NameOfDisease { get; set; }
 
         //[DisplayFormat(DataFormatString = "{0:n0}")]
         public decimal PriceVisit { get; set; }

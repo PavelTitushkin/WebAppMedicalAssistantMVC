@@ -8,14 +8,14 @@
 <h2 class="text-center">Мои посещения врачей</h2>
 <div class="text-center">
     <form asp-controller="DoctorVisit" asp-action="Index" method="get">
-        <div>
+        <div class="m-1">
             Дата начала поиска: <input type="date" name="SearchDateStart" value="@DateTime.UtcNow" />
             Дата окончания поиска: <input type="date" name="SearchDateEnd" />
         </div>
         <div class="mb-3">
-            <label for="Result" class="form-check-label">Показать посещения за весь период:</label>
-            Да<input type="radio" class="form-check-input" name="AllDates" value="false" checked="checked" />
-            Нет<input type="radio" class="form-check-input" name="AllDates" value="true" />
+            <label for="Result" class="form-check-label m-1">Показать посещения за весь период:</label>
+            Да <input type="radio" class="form-check-input" name="AllDates" value="false" checked="checked" />
+            Нет <input type="radio" class="form-check-input" name="AllDates" value="true" />
         </div>
         <input type="submit" value="Поиск" />
     </form>
@@ -47,6 +47,8 @@
             </th>
             <th>
             </th>
+            <th>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -57,7 +59,8 @@
                     @Html.DisplayFor(modelItem => item.DateVisit)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
+@*                    @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
+*@                    @Html.ActionLink(item.MedicalInstitutionDto.NameMedicalInstitution, "DetailsMedicalInstitution",  new { id = item.MedicalInstitutionDtoId }, new { @class = "MedicalInstitution" })
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DoctorDto.FullNameDoctor)
@@ -95,17 +98,50 @@
                 <td>
                     <a asp-controller="DoctorVisit" asp-action="Edit" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitutionDto.NameMedicalInstitution" asp-route-fullNameDoctor="@item.DoctorDto.FullNameDoctor" asp-route-priceVisit="@item.PriceVisit">Редактировать</a>
                 </td>
+                <td>
+                    <a asp-controller="DoctorVisit" asp-action="Delete" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitutionDto.NameMedicalInstitution" asp-route-nameOfDisease="@item.DiseaseDto?.NameOfDisease" class="m-1">Удалить</a>
+                </td>
+
             </tr>
         }
     </tbody>
 </table>
 <nav class="pagination">
-    <vc:pager paging-list="@Model" />
+    <vc:pager paging-list="@Model"/>
 </nav>
 
 @section Scripts
     {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#loginModal").modal('show');
+        });
+
+        $("#btnHideModal").click(function () {
+            $("#loginModal").modal('hide');
+        });
+    </script>
+@*    <script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".MedicalInstitution").click(function (e) {
+
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+        })
+    </script>
+    <script src="~/js/modalWindow.js" asp-append-version="true"></script>
+*@
 }
 

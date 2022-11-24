@@ -12,5 +12,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
         Task<DoctorVisitDto> GetDoctorVisitByIdAsync(int? appontmentId);
         Task<int> UpdateDoctorVisitAsync(DoctorVisitDto dto, int dtoId);
         Task<int> UpdateAppointmentAsync(AppointmentDto dto,int dtoId);
+        Task DeleteDoctorVisitAsync(int id);
     }
 }
