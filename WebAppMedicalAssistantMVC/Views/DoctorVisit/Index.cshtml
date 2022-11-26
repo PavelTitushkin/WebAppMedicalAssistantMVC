@@ -24,6 +24,9 @@
 <p>
     <a asp-action="Create">Добавить новое посещение</a>
 </p>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -60,10 +63,10 @@
                 </td>
                 <td>
 @*                    @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
-*@                    @Html.ActionLink(item.MedicalInstitutionDto.NameMedicalInstitution, "DetailsMedicalInstitution",  new { id = item.MedicalInstitutionDtoId }, new { @class = "MedicalInstitution" })
+*@                    @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitution",  new { id = item.MedicalInstitutionId }, new { @class = "MedicalInstitution" })
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DoctorDto.FullNameDoctor)
+                    @Html.DisplayFor(modelItem => item.Doctor.FullNameDoctor)
                 </td>
                 <td>
                     @if(item.DiseaseDto != null)
@@ -72,7 +75,7 @@
                             @Html.DisplayFor(modelItem => item.DiseaseDto.NameOfDisease)
                         </p>
                         <p>
-                            @Html.ActionLink("Изменить", "Edit", "TransferredDisease", new {id = item.TransferredDiseaseId, diseaseDtoId = item.DiseaseDto.Id, dateOfDisease = item.TransferredDiseaseDto?.DateOfDisease, dateOfRecovery = item.TransferredDiseaseDto?.DateOfRecovery })
+                            @Html.ActionLink("Изменить", "Edit", "TransferredDisease", new {id = item.TransferredDiseaseId, diseaseDtoId = item.DiseaseDto.Id, dateOfDisease = item.TransferredDisease?.DateOfDisease, dateOfRecovery = item.TransferredDisease?.DateOfRecovery })
                         </p>
                     }
                     else
@@ -84,7 +87,7 @@
                     @Html.DisplayFor(modelItem=> item.PriceVisit)
                 </td>
                 <td>
-                    @if(item.AppointmentDto!=null)
+                    @if(item.Appointment!=null)
                     {
                         @Html.ActionLink("Смотреть назначение", "Appointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.DiseaseDto?.NameOfDisease})
 @*                        <a class="link-primary" href="~/DoctorVisit/Appointment/@item.Id?nameOfDisease=@item.NameOfDisease">Смотреть назначение</a>
@@ -96,10 +99,10 @@
 *@                    }
                 </td>
                 <td>
-                    <a asp-controller="DoctorVisit" asp-action="Edit" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitutionDto.NameMedicalInstitution" asp-route-fullNameDoctor="@item.DoctorDto.FullNameDoctor" asp-route-priceVisit="@item.PriceVisit">Редактировать</a>
+                    <a asp-controller="DoctorVisit" asp-action="Edit" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitution.NameMedicalInstitution" asp-route-fullNameDoctor="@item.Doctor.FullNameDoctor" asp-route-priceVisit="@item.PriceVisit">Редактировать</a>
                 </td>
                 <td>
-                    <a asp-controller="DoctorVisit" asp-action="Delete" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitutionDto.NameMedicalInstitution" asp-route-nameOfDisease="@item.DiseaseDto?.NameOfDisease" class="m-1">Удалить</a>
+                    <a asp-controller="DoctorVisit" asp-action="Delete" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitution.NameMedicalInstitution" asp-route-nameOfDisease="@item.DiseaseDto?.NameOfDisease" class="m-1">Удалить</a>
                 </td>
 
             </tr>
@@ -115,7 +118,11 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="~/js/modalWindow.js" asp-append-version="true"></script>
+
+
+@*    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript">
 
@@ -127,11 +134,11 @@
             $("#loginModal").modal('hide');
         });
     </script>
-@*    <script type="text/javascript">
-
+    
+    <script type="text/javascript">
         $(function () {
             $.ajaxSetup({ cache: false });
-            $(".MedicalInstitution").click(function (e) {
+                  $(".MedicalInstitution").click(function (e) {
 
                 e.preventDefault();
                 $.get(this.href, function (data) {
@@ -141,7 +148,6 @@
             });
         })
     </script>
-    <script src="~/js/modalWindow.js" asp-append-version="true"></script>
 *@
 }
 

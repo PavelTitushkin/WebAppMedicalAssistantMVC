@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Routing;
 using ReflectionIT.Mvc.Paging;
@@ -188,17 +189,36 @@ namespace WebAppMedicalAssistantMVC.Controllers
         {
             try
             {
-                if(!ModelState.IsValid)
+                if(ModelState.IsValid)
                 {
                     var dto = await _doctorVisitService.GetDoctorVisitByIdAsync(model.Id);
                     dto.DateVisit = model.DateVisit;
-                    dto.MedicalInstitutionDtoId = model.MedicalInstitutionId;
-                    dto.DoctorDtoId = model.DoctorId;
+                    dto.MedicalInstitutionId = model.MedicalInstitutionId;
+                    dto.DoctorId = model.DoctorId;
                     dto.PriceVisit = model.PriceVisit;
                     await _doctorVisitService.UpdateDoctorVisitAsync(dto, dto.Id);
 
                     return Redirect(model.ReturnUrl);
                 }
+
+                //string errorMessages = "";
+                //// проходим по всем элементам в ModelState
+                //foreach (var item in ModelState)
+                //{
+                //    // если для определенного элемента имеются ошибки
+                //    if (item.Value.ValidationState == ModelValidationState.Invalid)
+                //    {
+                //        errorMessages = $"{errorMessages}\nОшибки для свойства {item.Key}:\n";
+                //        // пробегаемся по всем ошибкам
+                //        foreach (var error in item.Value.Errors)
+                //        {
+                //            errorMessages = $"{errorMessages}{error.ErrorMessage}\n";
+                //        }
+                //    }
+                //}
+
+                ////return errorMessages;
+                //return View(errorMessages);
 
                 return View(model);
             }

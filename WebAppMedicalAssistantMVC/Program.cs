@@ -9,6 +9,7 @@ using WebAppMedicalAssistant_Data.Abstractions.Repositories;
 using WebAppMedicalAssistant_Data.Repositories;
 using WebAppMedicalAssistant_DataBase;
 using WebAppMedicalAssistant_DataBase.Entities;
+using WebAppMedicalAssistantMVC.Infrastructure;
 
 namespace WebAppMedicalAssistantMVC
 {
@@ -19,7 +20,10 @@ namespace WebAppMedicalAssistantMVC
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews( opts=>
+            {
+                opts.ModelBinderProviders.Insert(0, new CustomDateTimeModelBinderProvider());
+            });
 
             builder.Services?.AddPaging();
 

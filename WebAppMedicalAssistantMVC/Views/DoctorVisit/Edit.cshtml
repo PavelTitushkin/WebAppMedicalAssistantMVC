@@ -11,7 +11,12 @@
     <form asp-controller="DoctorVisit" asp-action="Edit" method="post">
         <div class="mb-3">
             <label for="DateVisit" class="form-label">Дата поещения врача:</label>
-            <input asp-for="DateVisit" type="date" class="form-control" asp-format="{0:yyyy-MM-dd}" id="DateVisit" value="@Model.DateVisit" required />
+            <input asp-for="DateVisit" type="date" class="form-control" name="Date" value="@Model.DateVisit" required />
+            <span asp-validation-for="DateVisit" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="DateVisit" class="form-label">Время поещения врача:</label>
+            <input asp-for="DateVisit" type="time" class="form-control" name="Time" value="@Model.DateVisit" required />
             <span asp-validation-for="DateVisit" class="text-danger"></span>
         </div>
         <div class="mb-3">

@@ -143,20 +143,20 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                             PropertyValue = dto.DateVisit
                         });
                     }
-                    if (!dto.MedicalInstitutionDtoId.Equals(sourceDto.MedicalInstitutionDtoId))
+                    if (!dto.MedicalInstitutionId.Equals(sourceDto.MedicalInstitutionId))
                     {
                         patchList.Add(new PatchModel()
                         {
-                            PropertyName = nameof(dto.MedicalInstitutionDtoId),
-                            PropertyValue = dto.MedicalInstitutionDtoId
+                            PropertyName = nameof(dto.MedicalInstitutionId),
+                            PropertyValue = dto.MedicalInstitutionId
                         });
                     }
-                    if (!dto.DoctorDtoId.Equals(sourceDto.DoctorDtoId))
+                    if (!dto.DoctorId.Equals(sourceDto.DoctorId))
                     {
                         patchList.Add(new PatchModel()
                         {
-                            PropertyName = nameof(dto.DoctorDtoId),
-                            PropertyValue = dto.DoctorDtoId
+                            PropertyName = nameof(dto.DoctorId),
+                            PropertyValue = dto.DoctorId
                         });
                     }
                     if (!dto.PriceVisit.Equals(sourceDto.PriceVisit))
