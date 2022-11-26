@@ -1,0 +1,21 @@
+﻿@model WebAppMedicalAssistant_Core.DTO.AnalysisDto
+
+<div class="modal-content">
+    <div class="modal-header text-center">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Анализ</h4>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>Название:</dt>
+            <dd>@Html.DisplayFor(model => model.NameOfAnalysis)</dd>
+            <dt>Дата:</dt>
+            <dd>@Html.DisplayFor(model => model.DateOfAnalysis)</dd>
+            <dt>Дата:</dt>
+            <dd>@Html.DisplayFor(model => model.MedicalInstitutionDto.NameMedicalInstitution)</dd>
+        </dl>
+@*        <div>
+            @Html.ActionLink("Изменить", "Edit", new {id = Model.Id, diseaseDtoId = Model.DiseaseId, dateOfDisease = Model.DateOfDisease, dateOfRecovery = Model.DateOfRecovery })
+        </div>
+*@    </div>
+</div>

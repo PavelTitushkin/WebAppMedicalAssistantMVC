@@ -8,7 +8,7 @@ using WebAppMedicalAssistant_DataBase;
 
 #nullable disable
 
-namespace WebAppMedicalAssistant_DataBase.Migrations
+namespace WebAppMedicalAssistantDataBase.Migrations
 {
     [DbContext(typeof(MedicalAssistantContext))]
     partial class MedicalAssistantContextModelSnapshot : ModelSnapshot
@@ -17,10 +17,10 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "7.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Analysis", b =>
                 {
@@ -28,7 +28,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AppointmentId")
                         .HasColumnType("int");
@@ -42,9 +42,6 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Property<string>("NameOfAnalysis")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("ScanOfAnalysisDocument")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -84,7 +81,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("NameOfDisease")
                         .IsRequired()
@@ -105,7 +102,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("FullNameDoctor")
                         .IsRequired()
@@ -129,7 +126,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateVisit")
                         .HasColumnType("datetime2");
@@ -168,7 +165,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DataOfExamination")
                         .HasColumnType("datetime2");
@@ -204,7 +201,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AppointmentId")
                         .HasColumnType("int");
@@ -245,7 +242,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Adress")
                         .IsRequired()
@@ -272,7 +269,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("LinkToInstructions")
                         .HasColumnType("nvarchar(max)");
@@ -292,7 +289,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AppointmentId")
                         .HasColumnType("int");
@@ -330,7 +327,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("AppointmentId")
                         .HasColumnType("int");
@@ -371,7 +368,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -382,13 +379,34 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.ScanOfAnalysisDocument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AnalysisId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("ScanOfAnalysis")
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnalysisId");
+
+                    b.ToTable("ScanOfAnalysisDocuments");
+                });
+
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.TransferredDisease", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateOfDisease")
                         .HasColumnType("datetime2");
@@ -423,7 +441,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<byte[]>("Avatar")
                         .HasColumnType("varbinary(max)");
@@ -461,7 +479,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ApplicationOfVaccine")
                         .IsRequired()
@@ -658,6 +676,17 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.ScanOfAnalysisDocument", b =>
+                {
+                    b.HasOne("WebAppMedicalAssistant_DataBase.Entities.Analysis", "Analysis")
+                        .WithMany("ScanOfAnalysisDocument")
+                        .HasForeignKey("AnalysisId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Analysis");
+                });
+
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.TransferredDisease", b =>
                 {
                     b.HasOne("WebAppMedicalAssistant_DataBase.Entities.Disease", "Disease")
@@ -701,6 +730,11 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     b.Navigation("MedicalInstitutions");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Analysis", b =>
+                {
+                    b.Navigation("ScanOfAnalysisDocument");
                 });
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.Appointment", b =>

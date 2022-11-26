@@ -55,5 +55,24 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 throw;
             }
         }
+
+        public async Task<DoctorDto?> GetDoctorByIdAsync(int id)
+        {
+            try
+            {
+                var dto = await _unitOfWork.Doctor
+                    .FindBy(entity => entity.Id == id)
+                    .AsNoTracking()
+                    .Select(entity => _mapper.Map<DoctorDto>(entity))
+                    .FirstOrDefaultAsync();
+
+                return dto;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

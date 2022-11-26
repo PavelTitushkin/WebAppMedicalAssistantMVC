@@ -198,6 +198,19 @@ namespace WebAppMedicalAssistantMVC.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DetailsTransferredDiseasePartialView(int id)
+        {
+            try
+            {
+                var dto = await _transferredDiseaseService.GetTransferredDiseaseByIdAsync(id);
 
+                return PartialView(dto);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

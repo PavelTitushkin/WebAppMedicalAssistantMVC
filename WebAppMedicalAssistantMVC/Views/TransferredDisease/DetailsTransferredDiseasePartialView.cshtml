@@ -1,0 +1,30 @@
+﻿@model WebAppMedicalAssistant_Core.DTO.TransferredDiseaseDto
+
+<div class="modal-content">
+    <div class="modal-header">
+@*        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+*@        <h4 class="text-center">История болезни</h4>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>Название:</dt>
+            <dd>@Html.DisplayFor(model => model.NameOfDisease)</dd>
+            <dt>Короткое описание:</dt>
+            <dd>@Html.DisplayFor(model => model.Disease.ShotDescriptionDisease)</dd>
+            <dt>Период c:</dt>
+            <dd>@Html.DisplayFor(model => model.DateOfDisease)</dd>
+            @if(Model.DateOfRecovery != null)
+            {
+            <dt>Период по:</dt>
+                <dd>@Html.DisplayFor(model => model.DateOfRecovery)</dd>
+            }
+            else
+            {
+                <dt>настоящее время</dt>
+            }
+        </dl>
+        <div>
+            @Html.ActionLink("Изменить", "Edit", new {id = Model.Id, diseaseDtoId = Model.DiseaseId, dateOfDisease = Model.DateOfDisease, dateOfRecovery = Model.DateOfRecovery })
+        </div>
+    </div>
+</div>

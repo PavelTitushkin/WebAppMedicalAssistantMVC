@@ -337,11 +337,26 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DetailsMedicalInstitution(int id)
+        public async Task<IActionResult> DetailsMedicalInstitutionPartialView(int id)
         {
             try
             {
                 var dto = await _medicalInstitutionService.GetByIdMedicalInstitutionAsync(id);
+
+                return PartialView(dto);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsDoctorPartialView(int id)
+        {
+            try
+            {
+                var dto = await _doctorService.GetDoctorByIdAsync(id);
 
                 return PartialView(dto);
             }

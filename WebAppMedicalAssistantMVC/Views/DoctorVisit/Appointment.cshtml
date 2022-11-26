@@ -9,6 +9,10 @@
 <div class="container">
     <h2 class="m-1">Моё назначение</h2>
 
+    <div id="modDialog" class="modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
+    </div>
+
     <div class="row">
         <div class="col border border-secondary rounded-3 m-1 p-1">
             @if (ViewBag.NameOfDisease != null)
@@ -39,10 +43,14 @@
                 <ul>
                     @foreach (var item in Model.AnalysisDto)
                     {
-                        <li>@item.NameOfAnalysis</li>
+                        <li>
+                            @Html.ActionLink(item.NameOfAnalysis, "DetailsAnalysisPartialView", "Analysis", new { id = item.Id }, new { @class = "tempClass" })
+                        </li>
                     }
-                    @Html.ActionLink("Добавить", "Create", "Analysis", new {id = Model.Id})
                 </ul>
+                <div>
+                    @Html.ActionLink("Добавить", "Create", "Analysis", new {id = Model.Id})
+                </div>
             }
             else
             {
@@ -105,5 +113,13 @@
             }
         </div>
     </div>
+    <a class="btn btn-primary m-1" role="button" asp-controller="DoctorVisit" asp-action="Index">Назад</a>
 </div>
+
+@section Scripts
+    {
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/js/modalWindow.js" asp-append-version="true"></script>
+}
 

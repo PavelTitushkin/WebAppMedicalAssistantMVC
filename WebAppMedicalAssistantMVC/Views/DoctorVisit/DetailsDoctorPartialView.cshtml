@@ -1,0 +1,18 @@
+﻿@model WebAppMedicalAssistant_Core.DTO.DoctorDto
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+        <h4>Врач</h4>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>Ф.И.О.:</dt>
+            <dd>@Html.DisplayFor(model => model.FullNameDoctor)</dd>
+            <dt>Специализация:</dt>
+            <dd>@Html.DisplayFor(model => model.Specializacion)</dd>
+            <dt>Рейтинг:</dt>
+            <dd>@Html.DisplayFor(model => model.Rating)</dd>
+        </dl>
+    </div>
+</div>

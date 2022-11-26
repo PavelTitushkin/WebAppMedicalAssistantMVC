@@ -7,11 +7,17 @@ namespace WebAppMedicalAssistantMVC.Models
 {
     public class AnalysisModel
     {
+        public int Id { get; set; }
         public string NameOfAnalysis { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime DateOfAnalysis { get; set; }
-        public byte[]? ScanOfAnalysisDocument { get; set; }
+        public List<ScanOfAnalysisDocumentDto?> ScanOfAnalysisDocument { get; set; }
+        public IFormFile? ScanOfAnalysisOne { get; set; }
+        public IFormFile? ScanOfAnalysisTwo { get; set; }
+        public IFormFile? ScanOfAnalysisThree { get; set; }
+        public IFormFile? ScanOfAnalysisFour { get; set; }
+        public IFormFile? ScanOfAnalysisFive { get; set; }
 
         public int UserId { get; set; }
         public int? AppointmentId { get; set; }

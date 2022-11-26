@@ -9,12 +9,13 @@
     <div>
         <img style='width:100px; height:120px;' class="rounded-circle" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.Avatar))" />
     </div>
-    <div>
-        <a class="nav-link" asp-action="GetOrEditUserInfo" asp-controller="Home">Пользователь: @Model.Email</a>
-    </div>
 }
 else
 {
-    <p>Аватар отсутствует</p>
+    <div class="rounded-circle">Аватар отсутствует</div>
 }
+<div>
+    <a class="nav-link" asp-action="GetOrEditUserInfo" asp-controller="Home">Пользователь: @Model.Email</a>
+</div>
+
 

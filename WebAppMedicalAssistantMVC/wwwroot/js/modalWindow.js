@@ -1,6 +1,6 @@
 ﻿$(function () {
     $.ajaxSetup({ cache: false });
-    $(".MedicalInstitution").click(function (e) {
+    $(".tempClass").click(function (e) {
 
         e.preventDefault();
         $.get(this.href, function (data) {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ReflectionIT.Mvc.Paging;
+using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistantMVC.Models;
@@ -86,7 +87,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(AnalysisModel analysisModel)
+        public async Task<IActionResult> Create(AnalysisModel model)
         {
             try
             {
@@ -94,23 +95,62 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 {
                     var emailUser = HttpContext.User.Identity.Name;
                     var userDto = await _userService.GetUserByEmailAsync(emailUser);
-                    analysisModel.UserId = userDto.Id;
-                     
-                    var analysisDto = _mapper.Map<AnalysisDto>(analysisModel);
-                    await _analysisService.CreateAnalysisAsync(analysisDto);
-                    
-                    var returnUrl = analysisModel.ReturnUrl;
+                    model.UserId = userDto.Id;
 
-                    return Redirect(returnUrl);
+                    if (model.ScanOfAnalysisOne != null || model.ScanOfAnalysisTwo != null || model.ScanOfAnalysisThree != null || model.ScanOfAnalysisFour != null || model.ScanOfAnalysisFive != null)
+                    {
+                        var scans = new List<IFormFile>();
+                        scans.Add(model.ScanOfAnalysisOne);
+
+                        var dto = _mapper.Map<AnalysisDto>(model);
+                        foreach (var item in scans)
+                        {
+                            byte[] imageData = null;
+                            using (BinaryReader binaryReader = new BinaryReader(item.OpenReadStream()))
+                            {
+                                imageData = binaryReader.ReadBytes((int)item.Length);
+                            }
+                            dto.ScanOfAnalysisDocument.Add(imageData);
+                        }
+                        await _analysisService.CreateAnalysisAsync(dto);
+                        var returnUrl = model.ReturnUrl;
+
+                        return Redirect(returnUrl);
+
+                    }
+
+                    return View(model);
+
+                    //var analysisDto = _mapper.Map<AnalysisDto>(model);
+                    //await _analysisService.CreateAnalysisAsync(analysisDto);
+
+                    //var returnUrl = model.ReturnUrl;
+
+                    //return Redirect(returnUrl);
                 }
                 else
                 {
-                    return View(analysisModel);
+                    return View(model);
                 }
             }
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsAnalysisPartialView(int id)
+        {
+            try
+            {
+                var dto = await _analysisService.GetAnalysisByIdAsync(id);
+
+                return PartialView(dto);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

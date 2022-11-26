@@ -24,6 +24,25 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<AnalysisDto> GetAnalysisByIdAsync(int id)
+        {
+            try
+            {
+                var dto = await _unitOfWork.Analysis
+                    .FindBy(entity => entity.Id==id)
+                    .AsNoTracking()
+                    .Include(include => include.MedicalInstitution)
+                    .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
+                    .FirstOrDefaultAsync();
+
+                return dto;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<IOrderedQueryable<AnalysisDto>> GetAllAnalysisAsync(int userId)
         {
             try
@@ -80,5 +99,6 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 throw new ArgumentException();
             }
         }
+
     }
 }

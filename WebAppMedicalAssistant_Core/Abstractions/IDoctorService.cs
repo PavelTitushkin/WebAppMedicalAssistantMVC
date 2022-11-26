@@ -6,5 +6,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
     {
         Task<List<DoctorDto>> GetAllDoctorAsync();
         Task<int> CreateDoctorAsync(DoctorDto dto);
+        Task<DoctorDto?> GetDoctorByIdAsync(int id);
     }
 }

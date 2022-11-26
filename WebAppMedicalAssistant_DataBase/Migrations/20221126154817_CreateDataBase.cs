@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WebAppMedicalAssistant_DataBase.Migrations
+namespace WebAppMedicalAssistantDataBase.Migrations
 {
-    public partial class CreateDb : Migration
+    /// <inheritdoc />
+    public partial class CreateDataBase : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -61,7 +63,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameOfMedicine = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ShortDescriptionOfMedicine = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LinkToInstructions = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -92,6 +94,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     Birthday = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Avatar = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -202,7 +205,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateVisit = table.Column<DateTime>(type: "datetime2", nullable: false),
                     PriceVisit = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    MedicalInstitutionId = table.Column<int>(type: "int", nullable: false),
+                    MedicalInstitutionId = table.Column<int>(type: "int", nullable: true),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
                     TransferredDiseaseId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false)
@@ -220,8 +223,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         name: "FK_DoctorVisits_MedicalInstitutions_MedicalInstitutionId",
                         column: x => x.MedicalInstitutionId,
                         principalTable: "MedicalInstitutions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_DoctorVisits_TransferredDiseases_TransferredDiseaseId",
                         column: x => x.TransferredDiseaseId,
@@ -267,9 +269,8 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NameOfAnalysis = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfAnalysis = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ScanOfAnalysisDocument = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    MedicalInstitutionId = table.Column<int>(type: "int", nullable: false),
+                    MedicalInstitutionId = table.Column<int>(type: "int", nullable: true),
                     AppointmentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -284,8 +285,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         name: "FK_Analyses_MedicalInstitutions_MedicalInstitutionId",
                         column: x => x.MedicalInstitutionId,
                         principalTable: "MedicalInstitutions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Analyses_Users_UserId",
                         column: x => x.UserId,
@@ -305,7 +305,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     PriceOfMedicalExamination = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     ScanOfMedicalExamination = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     AppointmentId = table.Column<int>(type: "int", nullable: true),
-                    MedicalInstitutionId = table.Column<int>(type: "int", nullable: false),
+                    MedicalInstitutionId = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -320,8 +320,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         name: "FK_MedicalExaminations_MedicalInstitutions_MedicalInstitutionId",
                         column: x => x.MedicalInstitutionId,
                         principalTable: "MedicalInstitutions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_MedicalExaminations_Users_UserId",
                         column: x => x.UserId,
@@ -373,7 +372,7 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                     StartDateOfMedication = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDateOfMedication = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MedicineDose = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MedicinePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MedicinePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     MedicineId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     AppointmentId = table.Column<int>(type: "int", nullable: true)
@@ -396,6 +395,26 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                         name: "FK_PrescribedMedications_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ScanOfAnalysisDocuments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ScanOfAnalysis = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    AnalysisId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ScanOfAnalysisDocuments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ScanOfAnalysisDocuments_Analyses_AnalysisId",
+                        column: x => x.AnalysisId,
+                        principalTable: "Analyses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -496,6 +515,11 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ScanOfAnalysisDocuments_AnalysisId",
+                table: "ScanOfAnalysisDocuments",
+                column: "AnalysisId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TransferredDiseases_DiseaseId",
                 table: "TransferredDiseases",
                 column: "DiseaseId");
@@ -521,11 +545,9 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                 column: "UserId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Analyses");
-
             migrationBuilder.DropTable(
                 name: "Fluorographies");
 
@@ -539,13 +561,19 @@ namespace WebAppMedicalAssistant_DataBase.Migrations
                 name: "PrescribedMedications");
 
             migrationBuilder.DropTable(
+                name: "ScanOfAnalysisDocuments");
+
+            migrationBuilder.DropTable(
                 name: "Vaccinations");
 
             migrationBuilder.DropTable(
-                name: "Appointments");
+                name: "Medicines");
 
             migrationBuilder.DropTable(
-                name: "Medicines");
+                name: "Analyses");
+
+            migrationBuilder.DropTable(
+                name: "Appointments");
 
             migrationBuilder.DropTable(
                 name: "DoctorVisits");

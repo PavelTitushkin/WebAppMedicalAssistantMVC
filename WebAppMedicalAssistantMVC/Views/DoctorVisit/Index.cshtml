@@ -62,21 +62,17 @@
                     @Html.DisplayFor(modelItem => item.DateVisit)
                 </td>
                 <td>
-@*                    @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
-*@                    @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitution",  new { id = item.MedicalInstitutionId }, new { @class = "MedicalInstitution" })
+                    @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView",  new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Doctor.FullNameDoctor)
+                    @Html.ActionLink(item.Doctor.FullNameDoctor, "DetailsDoctorPartialView",  new { id = item.DoctorId }, new { @class = "tempClass" })
                 </td>
                 <td>
                     @if(item.DiseaseDto != null)
                     {
-                        <p>
-                            @Html.DisplayFor(modelItem => item.DiseaseDto.NameOfDisease)
-                        </p>
-                        <p>
-                            @Html.ActionLink("Изменить", "Edit", "TransferredDisease", new {id = item.TransferredDiseaseId, diseaseDtoId = item.DiseaseDto.Id, dateOfDisease = item.TransferredDisease?.DateOfDisease, dateOfRecovery = item.TransferredDisease?.DateOfRecovery })
-                        </p>
+                        <div>
+                            @Html.ActionLink(item.DiseaseDto.NameOfDisease, "DetailsTransferredDiseasePartialView", "TransferredDisease", new { id = item.TransferredDiseaseId }, new { @class = "tempClass" })
+                        </div>
                     }
                     else
                     {
@@ -102,9 +98,8 @@
                     <a asp-controller="DoctorVisit" asp-action="Edit" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitution.NameMedicalInstitution" asp-route-fullNameDoctor="@item.Doctor.FullNameDoctor" asp-route-priceVisit="@item.PriceVisit">Редактировать</a>
                 </td>
                 <td>
-                    <a asp-controller="DoctorVisit" asp-action="Delete" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitution.NameMedicalInstitution" asp-route-nameOfDisease="@item.DiseaseDto?.NameOfDisease" class="m-1">Удалить</a>
+                    @Html.ActionLink("Удалить", "Delete", "DoctorVisit", new {id = item.Id, dateVisit = item.DateVisit, nameMedicalInstitution = item.MedicalInstitution.NameMedicalInstitution, nameOfDisease = item.DiseaseDto?.NameOfDisease})
                 </td>
-
             </tr>
         }
     </tbody>
@@ -120,34 +115,5 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="~/js/modalWindow.js" asp-append-version="true"></script>
-
-
-@*    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $("#loginModal").modal('show');
-        });
-
-        $("#btnHideModal").click(function () {
-            $("#loginModal").modal('hide');
-        });
-    </script>
-    
-    <script type="text/javascript">
-        $(function () {
-            $.ajaxSetup({ cache: false });
-                  $(".MedicalInstitution").click(function (e) {
-
-                e.preventDefault();
-                $.get(this.href, function (data) {
-                    $('#dialogContent').html(data);
-                    $('#modDialog').modal('show');
-                });
-            });
-        })
-    </script>
-*@
 }
 
