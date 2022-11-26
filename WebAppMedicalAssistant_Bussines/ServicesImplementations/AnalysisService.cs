@@ -91,8 +91,8 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 var analysis = _mapper.Map<Analysis>(analysisDto);
                 await _unitOfWork.Analysis.AddEntityAsync(analysis);
                 var resultAdd = await _unitOfWork.Commit();
-
-                return resultAdd;
+                var id = analysis.Id;
+                return id;
             }
             catch (Exception)
             {
@@ -100,5 +100,20 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             }
         }
 
+        public async Task<int> CreateScanOfDocumentsAnalysisAsync(ScanOfAnalysisDocumentDto dto)
+        {
+            try
+            {
+                var entity = _mapper.Map<ScanOfAnalysisDocument>(dto);
+                await _unitOfWork.ScanOfAnalysisDocument.AddEntityAsync(entity);
+                var result = await _unitOfWork.Commit();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException();
+            }
+        }
     }
 }

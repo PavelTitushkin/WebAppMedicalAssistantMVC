@@ -96,37 +96,42 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     var emailUser = HttpContext.User.Identity.Name;
                     var userDto = await _userService.GetUserByEmailAsync(emailUser);
                     model.UserId = userDto.Id;
+                    var dto = _mapper.Map<AnalysisDto>(model);
+                    var idAnalysis = await _analysisService.CreateAnalysisAsync(dto);
+                    var returnUrl = model.ReturnUrl;
 
                     if (model.ScanOfAnalysisOne != null || model.ScanOfAnalysisTwo != null || model.ScanOfAnalysisThree != null || model.ScanOfAnalysisFour != null || model.ScanOfAnalysisFive != null)
                     {
-                        var scans = new List<IFormFile>();
-                        scans.Add(model.ScanOfAnalysisOne);
+                        var scansFormFile = new List<IFormFile?>();
+                        if(model.ScanOfAnalysisOne != null)
+                            scansFormFile.Add(model?.ScanOfAnalysisOne);
+                        if (model.ScanOfAnalysisTwo != null)
+                            scansFormFile.Add(model?.ScanOfAnalysisTwo);
+                        if (model.ScanOfAnalysisThree != null)
+                            scansFormFile.Add(model?.ScanOfAnalysisThree);
+                        if (model.ScanOfAnalysisFour != null)
+                            scansFormFile.Add(model?.ScanOfAnalysisFour);
+                        if (model.ScanOfAnalysisFive != null)
+                            scansFormFile.Add(model?.ScanOfAnalysisFive);
 
-                        var dto = _mapper.Map<AnalysisDto>(model);
-                        foreach (var item in scans)
+                        foreach (var item in scansFormFile)
                         {
                             byte[] imageData = null;
+                            var dtoScan = new ScanOfAnalysisDocumentDto();
                             using (BinaryReader binaryReader = new BinaryReader(item.OpenReadStream()))
                             {
                                 imageData = binaryReader.ReadBytes((int)item.Length);
                             }
-                            dto.ScanOfAnalysisDocument.Add(imageData);
+                            dtoScan.ScanOfAnalysis = imageData;
+                            dtoScan.AnalysisId = idAnalysis;
+
+                            await _analysisService.CreateScanOfDocumentsAnalysisAsync(dtoScan);
                         }
-                        await _analysisService.CreateAnalysisAsync(dto);
-                        var returnUrl = model.ReturnUrl;
 
                         return Redirect(returnUrl);
-
                     }
 
-                    return View(model);
-
-                    //var analysisDto = _mapper.Map<AnalysisDto>(model);
-                    //await _analysisService.CreateAnalysisAsync(analysisDto);
-
-                    //var returnUrl = model.ReturnUrl;
-
-                    //return Redirect(returnUrl);
+                    return Redirect(returnUrl);
                 }
                 else
                 {

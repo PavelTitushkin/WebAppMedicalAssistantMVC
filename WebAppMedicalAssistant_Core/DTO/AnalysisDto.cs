@@ -5,9 +5,6 @@
         public int Id { get; set; }
         public string? NameOfAnalysis { get; set; }
         public DateTime DateOfAnalysis { get; set; }
-        //public List<ScanOfAnalysisDocumentDto?> ScanOfAnalysisDocument { get; set; }
-        public List<byte[]?> ScanOfAnalysisDocument { get; set; }
-
 
         public int UserId { get; set; }
         public int? AppointmentId { get; set; }

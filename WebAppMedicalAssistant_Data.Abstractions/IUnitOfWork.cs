@@ -20,6 +20,7 @@ namespace WebAppMedicalAssistant_Data.Abstractions
         IRepository<User> User { get; }
         IRepository<Vaccination> Vaccination { get; }
         IRepository<Role> Roles { get; }
+        IRepository<ScanOfAnalysisDocument> ScanOfAnalysisDocument { get; }
 
         Task<int> Commit();
     }

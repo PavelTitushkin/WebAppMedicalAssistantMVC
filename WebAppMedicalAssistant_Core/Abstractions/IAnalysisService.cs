@@ -8,6 +8,6 @@ namespace WebAppMedicalAssistant_Core.Abstractions
         Task<AnalysisDto> GetAnalysisByIdAsync(int id);
         Task<List<AnalysisDto>> GetPeriodAnalysisAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int userId);
         Task<int> CreateAnalysisAsync(AnalysisDto analysisDto);
-
+        Task<int> CreateScanOfDocumentsAnalysisAsync(ScanOfAnalysisDocumentDto dto);
     }
 }

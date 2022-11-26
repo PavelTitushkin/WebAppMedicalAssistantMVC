@@ -12,7 +12,8 @@ namespace WebAppMedicalAssistantMVC.Models
 
         [DataType(DataType.Date)]
         public DateTime DateOfAnalysis { get; set; }
-        public List<ScanOfAnalysisDocumentDto?> ScanOfAnalysisDocument { get; set; }
+        public List<IFormFile?>? ScanOfAnalysisDocument { get; set; }
+        public int CountList { get; set; }
         public IFormFile? ScanOfAnalysisOne { get; set; }
         public IFormFile? ScanOfAnalysisTwo { get; set; }
         public IFormFile? ScanOfAnalysisThree { get; set; }

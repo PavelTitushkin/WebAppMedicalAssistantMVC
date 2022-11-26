@@ -10,7 +10,6 @@ namespace WebAppMedicalAssistant_Core.DTO
     {
         public int Id { get; set; }
         public byte[]? ScanOfAnalysis { get; set; }
-        //public Analysis? Analysis { get; set; }
-        //public int AnalysisId { get; set; }
+        public int AnalysisId { get; set; }
     }
 }
