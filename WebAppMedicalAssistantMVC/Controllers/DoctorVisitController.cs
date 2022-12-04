@@ -39,7 +39,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
             {
                 var emailUser = HttpContext.User.Identity.Name;
                 var userDto = await _userService.GetUserByEmailAsync(emailUser);
-                if(!AllDates)
+                if (!AllDates)
                 {
                     var listDoctorVisits = await _doctorVisitService.GetAllDoctorVisitAsync(userDto.Id);
                     if (pageIndex == 0)
@@ -57,6 +57,26 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                     return View(model);
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> IndexByTransferredDisease(int id, int pageIndex)
+        {
+            try
+            {
+                var dto = await _doctorVisitService.GetDoctorVisitByIdTransferredDiseaseAsync(id);
+                if (pageIndex == 0)
+                {
+                    pageIndex = 1;
+                }
+                var model = PagingList.Create(dto, 5, pageIndex);
+
+                return View(model);
             }
             catch (Exception)
             {
@@ -93,6 +113,39 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateWithTransferredDisease(int id)
+        {
+            try
+            {
+                var doctorsDto = await _doctorService.GetAllDoctorAsync();
+                var medicalInstitutionsDto = await _medicalInstitutionService.GetMedicalInstitutionsAsync();
+
+                var model = new DoctorVisitModel()
+                {
+                    TransferredDiseaseId = id,
+                    MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution"),
+                    DoctorList = new SelectList(doctorsDto, "Id", "FullNameDoctor")
+                };
+                if (model.ReturnUrl == "https://localhost:7068/DoctorVisit/CreateDoctor")
+                {
+                    model.ReturnUrl = "https://localhost:7068/DoctorVisit/Index";
+                }
+                if (model.ReturnUrl == "https://localhost:7068/MedicalInstitution/Create")
+                {
+                    model.ReturnUrl = "https://localhost:7068/DoctorVisit/Index";
+                }
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(DoctorVisitModel doctorVisitModel)

@@ -13,6 +13,7 @@ namespace WebAppMedicalAssistantMVC.Models
         public string? NameMedicalInstitution { get; set; }
         public string? NameOfDisease { get; set; }
 
+        public int? TransferredDiseaseId { get; set; }
         public decimal PriceVisit { get; set; }
         public int MedicalInstitutionId { get; set; }
         public SelectList? MedicalInstitutionList { get; set; }

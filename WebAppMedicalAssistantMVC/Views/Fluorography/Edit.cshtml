@@ -1,0 +1,49 @@
+﻿@model FluorographyModel
+
+@{
+    ViewData["Title"] = "Редактировать флюорографию";
+    Layout = "_Layout";
+}
+
+<div>
+    <h2>Редактирование флюорографии</h2>
+
+    <form asp-controller="Fluorography" asp-action="Edit" method="post">
+        <div class="mb-3">
+            <label for="DataOfExamination" class="form-label">Дата снимка:</label>
+            <input asp-for="DataOfExamination" type="date" class="form-control" id="DataOfExamination" value="@Model.DataOfExamination" required />
+            <span asp-validation-for="DataOfExamination" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="EndDateOfSurvey" class="form-label">Дата окончания действия снимка:</label>
+            <input asp-for="EndDateOfSurvey" type="date" class="form-control" id="EndDateOfSurvey" value="@Model.EndDateOfSurvey" required />
+            <span asp-validation-for="EndDateOfSurvey" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="NumberFluorography" class="form-label">Номер:</label>
+            <input asp-for="NumberFluorography" type="text" class="form-control" id="NumberFluorography" value="@Model.NumberFluorography" required />
+            <span asp-validation-for="NumberFluorography" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label for="Result" class="form-check-label">Результат:</label>
+            <input asp-for="Result" type="radio" class="form-check-input" id="Result" value="true" required />
+            <span asp-validation-for="Result">Положительный</span>
+            <input asp-for="Result" type="radio" checked="checked" class="form-check-input" id="Result" value="false" required />
+            <span asp-validation-for="Result">Отрицательный</span>
+        </div>
+        <div class="mb-3">
+            <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
+            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList">@Model.MedicalInstitutionId</select>
+            <a asp-controller="MedicalInstitution" asp-action="Create">Добавить медицинское учреждение</a>
+        </div>
+
+        <input type="submit" class="btn btn-danger m-1" value="Сохранить" />
+        <a class="btn btn-primary m-1" role="button" asp-controller="Fluorography" asp-action="Index">Отмена</a>
+    </form>
+</div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

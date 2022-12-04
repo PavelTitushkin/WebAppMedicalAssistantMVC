@@ -14,7 +14,7 @@
         public TransferredDiseaseDto? TransferredDisease { get; set; }
         public int? TransferredDiseaseId { get; set; }
 
-        public int AppointmentDtoId { get; set; }
+        public int AppointmentId { get; set; }
         public DiseaseDto? DiseaseDto { get; set; }
         public int UserDtoId { get; set; }
     }

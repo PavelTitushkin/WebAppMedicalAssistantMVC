@@ -11,6 +11,7 @@
         public DiseaseDto Disease { get; set; }
         public int DiseaseId { get; set; }
         public int UserId { get; set; }
-        public int? AppointmentId { get; set; }
+        public List<DoctorVisitDto>? DoctorVisits { get; set; }
+
     }
 }

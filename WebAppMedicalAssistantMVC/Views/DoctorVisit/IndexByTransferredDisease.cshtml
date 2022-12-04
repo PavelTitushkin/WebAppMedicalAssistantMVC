@@ -22,7 +22,7 @@
 </div>
 
 <p>
-    <a class="btn btn-outline-success" asp-action="Create">Добавить новую запись</a>
+    <a class="btn btn-outline-success" asp-action="Create">Добавить посещение</a>
 </p>
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
@@ -70,7 +70,7 @@
                     @Html.ActionLink(item.Doctor.FullNameDoctor, "DetailsDoctorPartialView",  new { id = item.DoctorId }, new { @class = "tempClass" })
                 </td>
                 <td>
-                    @if(item.DiseaseDto != null)
+                    @if (item.DiseaseDto != null)
                     {
                         <div>
                             @Html.ActionLink(item.DiseaseDto.NameOfDisease, "DetailsTransferredDiseasePartialView", "TransferredDisease", new { id = item.TransferredDiseaseId }, new { @class = "tempClass" })
@@ -85,16 +85,16 @@
                     @Html.DisplayFor(modelItem=> item.PriceVisit)
                 </td>
                 <td>
-                    @if(item.Appointment!=null)
+                    @if (item.Appointment != null)
                     {
                         @Html.ActionLink("Смотреть назначение", "Appointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.DiseaseDto?.NameOfDisease})
-@*                        <a class="link-primary" href="~/DoctorVisit/Appointment/@item.Id?nameOfDisease=@item.NameOfDisease">Смотреть назначение</a>
-*@                    }
+                        @*                        <a class="link-primary" href="~/DoctorVisit/Appointment/@item.Id?nameOfDisease=@item.NameOfDisease">Смотреть назначение</a>
+                *@                    }
                     else
                     {
                         @Html.ActionLink("Добавить назначение", "CreateAppointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.DiseaseDto?.NameOfDisease})
-@*                        <a class="link-primary" href="~/DoctorVisit/CreateAppointment/@item.Id">Добавить назначение</a>
-*@                    }
+                        @*                        <a class="link-primary" href="~/DoctorVisit/CreateAppointment/@item.Id">Добавить назначение</a>
+                *@                    }
                 </td>
                 <td>
                     <a class="btn btn-outline-success" asp-action="CreateWithTransferredDisease" asp-route-id="@item.TransferredDiseaseId">Добавить посещение</a>
@@ -104,13 +104,15 @@
                 </td>
                 <td>
                     <a class="btn btn-outline-danger" asp-controller="DoctorVisit" asp-action="Delete" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitution.NameMedicalInstitution" asp-route-nameOfDisease="@item.DiseaseDto?.NameOfDisease">Удалить</a>
+                    @*                    @Html.ActionLink("Удалить", "Delete", "DoctorVisit", new {id = item.Id, dateVisit = item.DateVisit, nameMedicalInstitution = item.MedicalInstitution.NameMedicalInstitution, nameOfDisease = item.DiseaseDto?.NameOfDisease})
+                *@
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <nav class="pagination">
-    <vc:pager paging-list="@Model"/>
+    <vc:pager paging-list="@Model" />
 </nav>
 
 @section Scripts

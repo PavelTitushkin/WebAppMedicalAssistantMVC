@@ -58,11 +58,31 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             }
         }
 
+        public async Task DeleteTransferredDiseaseAsync(int id)
+        {
+            try
+            {
+                var entity = await _unitOfWork.TransferredDisease
+                    .FindBy(entity => entity.Id.Equals(id))
+                    .FirstOrDefaultAsync();
+                _unitOfWork.TransferredDisease.Remove(entity);
+
+                await _unitOfWork.Commit();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public async Task<List<DiseaseDto>> GetAllDiseaseAsync()
         {
             try
             {
                 var dto = await _unitOfWork.Disease.Get()
+                    .AsNoTracking()
                     .Select(entity => _mapper.Map<DiseaseDto>(entity))
                     .ToListAsync();
 
@@ -80,7 +100,10 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             {
                 var listTransferredDiseaseis = await _unitOfWork.TransferredDisease
                     .FindBy(entity => entity.UserId.Equals(id))
+                    .AsNoTracking()
                     .Include(include => include.Disease)
+                    .Include(include=>include.DoctorVisits)
+                    .OrderBy(entity=>entity.DateOfDisease)
                     .Select(transferredDisease => _mapper.Map<TransferredDiseaseDto>(transferredDisease))
                     .ToListAsync();
                 return listTransferredDiseaseis;
@@ -91,6 +114,29 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 throw;
             }
         }
+
+        public async Task<List<TransferredDiseaseDto>> GetPeriodtransferredDiseaseAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int userId)
+        {
+            try
+            {
+                var listTransferredDisease = await _unitOfWork.TransferredDisease
+                    .FindBy(entity => entity.UserId == userId)
+                    .AsNoTracking()
+                    .Where(entityData => entityData.DateOfDisease >= SearchDateStart && entityData.DateOfRecovery <= SearchDateEnd)
+                    .Include(entity => entity.DoctorVisits)
+                    .Include(entity => entity.Disease)
+                    .OrderBy(entity => entity.DateOfDisease)
+                    .Select(entity => _mapper.Map<TransferredDiseaseDto>(entity))
+                    .ToListAsync();
+
+                return listTransferredDisease;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
 
         public async Task<TransferredDiseaseDto?> GetTransferredDiseaseByIdAsync(int id)
         {

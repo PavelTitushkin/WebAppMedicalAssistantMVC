@@ -1,0 +1,22 @@
+﻿@model TransferredDiseaseModel
+
+@{
+    ViewData["Title"] = "Удаление истории";
+    Layout = "_Layout";
+}
+<div>
+    <h4>Вы уверены, что хотите удалить историю болезней?</h4>
+    <p>@Model.NameOfDisease</p>
+</div>
+<form asp-controller="TransferredDisease" asp-action="Delete" method="post" asp-route-id="@Model.Id">
+    <div>
+        <input type="submit" class="btn btn-danger m-1" value="Удалить историю" />
+        <a class="btn btn-primary m-1" role="button" asp-controller="TransferredDisease" asp-action="Index">Отмена</a>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

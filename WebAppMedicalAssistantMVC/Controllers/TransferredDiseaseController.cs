@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
+using ReflectionIT.Mvc.Paging;
 using System.Security.Permissions;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core;
@@ -28,15 +30,31 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageIndex, DateTime SearchDateStart, DateTime SearchDateEnd, bool AllDates)
         {
             try
             {
                 var emailUser = HttpContext.User.Identity.Name;
                 var userDto = await _userService.GetUserByEmailAsync(emailUser);
-                var listTransferredDisease = await _transferredDiseaseService.GetAllTransferredDiseaseAsync(userDto.Id);
+                if (!AllDates)
+                {
+                    var listTransferredDisease = await _transferredDiseaseService.GetAllTransferredDiseaseAsync(userDto.Id);
+                    if (pageIndex == 0)
+                    {
+                        pageIndex = 1;
+                    }
+                    var model = PagingList.Create(listTransferredDisease, 5, pageIndex);
 
-                return View(listTransferredDisease);
+                    return View(model);
+                }
+                else
+                {
+                    var listTransferredDisease = await _transferredDiseaseService
+                        .GetPeriodtransferredDiseaseAsync(SearchDateStart, SearchDateEnd, userDto.Id);
+                    var model = PagingList.Create(listTransferredDisease, 5, pageIndex);
+
+                    return View(model);
+                }
             }
             catch (Exception)
             {
@@ -210,6 +228,40 @@ namespace WebAppMedicalAssistantMVC.Controllers
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id, string nameOfDisease)
+        {
+            try
+            {
+                var model = new TransferredDiseaseModel()
+                {
+                    Id = id,
+                    NameOfDisease = nameOfDisease
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _transferredDiseaseService.DeleteTransferredDiseaseAsync(id);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
     }

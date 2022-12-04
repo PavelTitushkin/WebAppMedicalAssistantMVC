@@ -24,7 +24,8 @@
             }
         </dl>
         <div>
-            @Html.ActionLink("Изменить", "Edit", new {id = Model.Id, diseaseDtoId = Model.DiseaseId, dateOfDisease = Model.DateOfDisease, dateOfRecovery = Model.DateOfRecovery })
-        </div>
+            <a class="btn btn-outline-secondary" asp-controller="TransferredDisease" asp-action="Edit" asp-route-id="@Model.Id" asp-route-diseaseDtoId="@Model.DiseaseId" asp-route-dateOfDisease="@Model.DateOfDisease" asp-route-dateOfRecovery="@Model.DateOfRecovery" >Изменить</a>
+@*            @Html.ActionLink("Изменить", "Edit", new {id = Model.Id, diseaseDtoId = Model.DiseaseId, dateOfDisease = Model.DateOfDisease, dateOfRecovery = Model.DateOfRecovery })
+*@        </div>
     </div>
 </div>

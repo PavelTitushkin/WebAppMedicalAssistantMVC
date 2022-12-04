@@ -12,7 +12,7 @@ namespace WebAppMedicalAssistant_DataBase.Entities
 
         public Disease Disease { get; set; }
         public int DiseaseId { get; set; }
-        public List<Appointment>? Appointments { get; set; }
+        public List<DoctorVisit>? DoctorVisits { get; set; }
         public User User { get; set; }
         public int UserId { get; set; }
     }
