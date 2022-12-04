@@ -8,7 +8,8 @@
 
         public int UserId { get; set; }
         public int? AppointmentId { get; set; }
-        public int MedicalInstitutionDtoId { get; set; }
-        public MedicalInstitutionDto? MedicalInstitutionDto { get; set; }
+        public int? MedicalInstitutionId { get; set; }
+        public MedicalInstitutionDto? MedicalInstitution { get; set; }
+        public List<ScanOfAnalysisDocumentDto?> ScanOfAnalysisDocument { get; set; }
     }
 }

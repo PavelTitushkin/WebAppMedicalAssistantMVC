@@ -1,0 +1,36 @@
+﻿@model AnalysisModel
+
+@{
+    ViewData["Title"] = "Фото анализа";
+    Layout = "_Layout";
+}
+
+<form asp-controller="Analysis" asp-action="AddScanOfAnalysis" method="post" enctype="multipart/form-data">
+    <div>
+        <h4>Добавление фото анализов</h4>
+
+        <div class="mb-3">
+            Название анализа:@Model.NameOfAnalysis
+        </div>
+        <div class="mb-3">
+            Дата проведения анализа:@Model.DateOfAnalysis
+        </div>
+        <label for="Avatar">Фото анализов</label>
+        <input asp-for="ScanOfAnalysisOne" type="file" class="form-control" />
+        <input asp-for="ScanOfAnalysisTwo" type="file" class="form-control" />
+        <input asp-for="ScanOfAnalysisThree" type="file" class="form-control" />
+        <input asp-for="ScanOfAnalysisFour" type="file" class="form-control" />
+        <input asp-for="ScanOfAnalysisFive" type="file" class="form-control" />
+    </div>
+    <div>
+        <input asp-for="Id" type="hidden" />
+    </div>
+    <input type="submit" class="btn btn-danger m-2" value="Сохранить" />
+    <a class="btn btn-primary m-2" role="button" asp-controller="Analysis" asp-action="Index">Отмена</a>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

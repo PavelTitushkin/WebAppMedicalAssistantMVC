@@ -11,6 +11,7 @@ namespace WebAppMedicalAssistantMVC.Models
         public string NameOfAnalysis { get; set; }
 
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfAnalysis { get; set; }
         public List<IFormFile?>? ScanOfAnalysisDocument { get; set; }
         public int CountList { get; set; }
@@ -19,6 +20,7 @@ namespace WebAppMedicalAssistantMVC.Models
         public IFormFile? ScanOfAnalysisThree { get; set; }
         public IFormFile? ScanOfAnalysisFour { get; set; }
         public IFormFile? ScanOfAnalysisFive { get; set; }
+        public List<ScanOfAnalysisDocumentDto?> ScanOfAnalysisDocumentList { get; set; }
 
         public int UserId { get; set; }
         public int? AppointmentId { get; set; }

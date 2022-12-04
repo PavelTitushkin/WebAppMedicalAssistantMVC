@@ -1,0 +1,34 @@
+﻿@model ScanOfAnalysisDocumentModel
+
+@{
+    ViewData["Title"] = "Фото анализа";
+    Layout = "_Layout";
+}
+
+<h4>Редактирование фото анализов</h4>
+<div>
+    @if (Model.ScanOfAnalysisByte != null)
+    {
+        <div>
+            <img class="rounded mx-auto d-block img-thumbnail m-1 img-fluid" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ScanOfAnalysisByte))" />
+        </div>
+    }
+</div>
+<form asp-controller="Analysis" asp-action="EditScanOfAnalysis" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="Avatar">Добавить изображение</label>
+        <input asp-for="ScanOfAnalysis" type="file" class="form-control" />
+    </div>
+    <div>
+        <input asp-for="Id" type="hidden" />
+@*        <input asp-for="ReturnUrl" type="hidden" />
+*@    </div>
+    <input type="submit" class="btn btn-danger m-1" value="Сохранить" />
+    <a class="btn btn-primary m-1" role="button" asp-controller="Analysis" asp-action="Index">Отмена</a>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -53,6 +53,20 @@ namespace WebAppMedicalAssistantMVC.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DetailsMedicalInstitutionPartialView(int id)
+        {
+            try
+            {
+                var dto = await _medicalInstitutionService.GetByIdMedicalInstitutionAsync(id);
+
+                return PartialView(dto);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
     }
 }

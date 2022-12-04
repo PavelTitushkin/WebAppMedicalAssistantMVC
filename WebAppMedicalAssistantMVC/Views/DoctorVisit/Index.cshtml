@@ -22,7 +22,7 @@
 </div>
 
 <p>
-    <a asp-action="Create">Добавить новое посещение</a>
+    <a class="btn btn-outline-success" asp-action="Create">Добавить посещение</a>
 </p>
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
@@ -62,7 +62,7 @@
                     @Html.DisplayFor(modelItem => item.DateVisit)
                 </td>
                 <td>
-                    @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView",  new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
+                    @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView", "MedicalInstitution",  new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
                 </td>
                 <td>
                     @Html.ActionLink(item.Doctor.FullNameDoctor, "DetailsDoctorPartialView",  new { id = item.DoctorId }, new { @class = "tempClass" })
@@ -95,11 +95,12 @@
 *@                    }
                 </td>
                 <td>
-                    <a asp-controller="DoctorVisit" asp-action="Edit" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitution.NameMedicalInstitution" asp-route-fullNameDoctor="@item.Doctor.FullNameDoctor" asp-route-priceVisit="@item.PriceVisit">Редактировать</a>
+                    <a class="btn btn-outline-secondary" asp-controller="DoctorVisit" asp-action="Edit" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitution.NameMedicalInstitution" asp-route-fullNameDoctor="@item.Doctor.FullNameDoctor" asp-route-priceVisit="@item.PriceVisit">Редактировать</a>
                 </td>
                 <td>
-                    @Html.ActionLink("Удалить", "Delete", "DoctorVisit", new {id = item.Id, dateVisit = item.DateVisit, nameMedicalInstitution = item.MedicalInstitution.NameMedicalInstitution, nameOfDisease = item.DiseaseDto?.NameOfDisease})
-                </td>
+                    <a class="btn btn-outline-danger" asp-controller="DoctorVisit" asp-action="Delete" asp-route-id="@item.Id" asp-route-dateVisit="@item.DateVisit" asp-route-nameMedicalInstitution="@item.MedicalInstitution.NameMedicalInstitution" asp-route-nameOfDisease="@item.DiseaseDto?.NameOfDisease">Удалить</a>
+@*                    @Html.ActionLink("Удалить", "Delete", "DoctorVisit", new {id = item.Id, dateVisit = item.DateVisit, nameMedicalInstitution = item.MedicalInstitution.NameMedicalInstitution, nameOfDisease = item.DiseaseDto?.NameOfDisease})
+*@                </td>
             </tr>
         }
     </tbody>

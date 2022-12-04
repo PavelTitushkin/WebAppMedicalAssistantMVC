@@ -1,47 +1,39 @@
 ﻿@model AnalysisModel
 
 @{
-    ViewData["Title"] = "Добавить анализ";
+    ViewData["Title"] = "Редактировать анализ";
     Layout = "_Layout";
 }
 
 <div>
-    <h2>Добавление нового анализа</h2>
+    <h2>Редактировать анализа</h2>
 
-    <form asp-controller="Analysis" asp-action="Create" method="post" enctype="multipart/form-data">
+    <form asp-controller="Analysis" asp-action="Edit" method="post">
         <div class="mb-3">
             <label for="NameOfAnalysis" class="form-label">Название анализа:</label>
-            <input asp-for="NameOfAnalysis" type="text" class="form-control" id="NameOfAnalysis" required />
+            <input asp-for="NameOfAnalysis" type="text" class="form-control" id="NameOfAnalysis" value="@Model.NameOfAnalysis" required />
             <span asp-validation-for="NameOfAnalysis" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="DateOfAnalysis" class="form-label">Дата проведения анализа:</label>
-            <input asp-for="DateOfAnalysis" type="date" class="form-control" name="Date" required />
+            <input asp-for="DateOfAnalysis" type="date" class="form-control" name="Date" value="@Model.DateOfAnalysis.Date" required />
             <span asp-validation-for="DateOfAnalysis" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="DateOfAnalysis" class="form-label">Время проведения анализа:</label>
-            <input asp-for="DateOfAnalysis" type="time" class="form-control" name="Time" required />
+            <input asp-for="DateOfAnalysis" type="time" class="form-control" name="Time" value="@Model.DateOfAnalysis.TimeOfDay" required />
             <span asp-validation-for="DateOfAnalysis" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
-            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
+            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList">@Model.MedicalInstitutionId</select>
             <a asp-controller="MedicalInstitution" asp-action="Create">Добавить медицинское учреждение</a>
         </div>
-@*        <div class="mb-3">
-            <label for="Avatar">Добавить изображение</label>
-            <input asp-for="ScanOfAnalysisOne" type="file" class="form-control" />
-            <input asp-for="ScanOfAnalysisTwo" type="file" class="form-control" />
-            <input asp-for="ScanOfAnalysisThree" type="file" class="form-control" />
-            <input asp-for="ScanOfAnalysisFour" type="file" class="form-control" />
-            <input asp-for="ScanOfAnalysisFive" type="file" class="form-control" />
-        </div>
-*@        <div>
-            <input asp-for="AppointmentId" type="hidden" />
+        <div>
+            <input asp-for="Id" type="hidden" />
             <input asp-for="ReturnUrl" type="hidden" />
         </div>
-        <input type="submit" class="btn btn-primary m-1" value="Добавить анализ" />
+        <input type="submit" class="btn btn-danger m-1" value="Изменить" />
         <a class="btn btn-primary m-1" role="button" asp-controller="Analysis" asp-action="Index">Отмена</a>
     </form>
 </div>

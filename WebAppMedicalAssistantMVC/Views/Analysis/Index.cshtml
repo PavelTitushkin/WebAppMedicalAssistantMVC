@@ -6,7 +6,7 @@
 }
 
 <h2 class="text-center">Мои анализы</h2>
-<div>
+<div class="text-center">
     <form asp-controller="Analysis" asp-action="Index" method="get">
         <div>
             Дата начала поиска: <input type="date" name="SearchDateStart" value="@DateTime.UtcNow"/>
@@ -22,10 +22,11 @@
 </div>
 <div>
     <p>
-        @Html.ActionLink("Добавить анализ", "Create", "Analysis")
-        @*    <a asp-action="Create">Добавить новый анализ</a>
-        *@
+        <a class="btn btn-outline-success" asp-controller="Analysis" asp-action="Create">Добавить анализ</a>
     </p>
+    <div id="modDialog" class="modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -38,6 +39,9 @@
                 <th>
                     Медицинское учреждение
                 </th>
+                <th></th>
+                <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -48,20 +52,23 @@
                         @Html.DisplayFor(modelItem => item.DateOfAnalysis)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.NameOfAnalysis)
+                        @Html.ActionLink(item.NameOfAnalysis, "DetailsAnalysisPartialView", "Analysis", new { id = item.Id }, new { @class = "tempClass" })
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MedicalInstitutionDto.NameMedicalInstitution)
+                        @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView", "MedicalInstitution", new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-secondary" asp-controller="Analysis" asp-action="Edit" asp-route-id="@item.Id" asp-route-nameOfAnalysis="@item.NameOfAnalysis" asp-route-dateOfAnalysis="@item.DateOfAnalysis" asp-route-medicalInstitutionId="@item.MedicalInstitutionId">Редактировать</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-danger" asp-controller="Analysis" asp-action="Delete" asp-route-id="@item.Id" asp-route-nameOfAnalysis="@item.NameOfAnalysis" asp-route-dateOfAnalysis="@item.DateOfAnalysis">Удалить</a>
                     </td>
                 </tr>
             }
         </tbody>
-        <nav>
-            <vc:pager paging-list="@Model" />
-        </nav>
     </table>
     <nav>
-        @await this.Component.InvokeAsync("Pager", new{pagingList = this.Model})
+        <vc:pager paging-list="@Model" class="page-item" />
     </nav>
 </div>
 
@@ -69,4 +76,11 @@
     {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/modalWindow.js" asp-append-version="true"></script>
 }
+
+@*    <nav>
+        @await this.Component.InvokeAsync("Pager", new{pagingList = this.Model})
+    </nav>
+*@

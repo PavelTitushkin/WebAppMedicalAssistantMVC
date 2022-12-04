@@ -9,7 +9,7 @@
     @if (Model.AvatarByte?.Length != 0)
     {
         <div class="border border-dark border-1 rounded-3 m-1" >
-            <img style='width:100px; height:150px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.AvatarByte))" />
+            <img class="img-thumbnail img-fluid" style='width:100px; height:150px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.AvatarByte))" />
         </div>
         <div class="m-1">
             <a class="btn btn-primary m-1" role="button" asp-controller="Home" asp-action="AddOrEditAvatar">Изменить</a>

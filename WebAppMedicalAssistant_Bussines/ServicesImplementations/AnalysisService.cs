@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebAppMedicalAssistant_Core;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
@@ -32,6 +33,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                     .FindBy(entity => entity.Id==id)
                     .AsNoTracking()
                     .Include(include => include.MedicalInstitution)
+                    .Include(include=> include.ScanOfAnalysisDocument)
                     .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
                     .FirstOrDefaultAsync();
 
@@ -89,6 +91,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             try
             {
                 var analysis = _mapper.Map<Analysis>(analysisDto);
+                analysis.Id = 0;
                 await _unitOfWork.Analysis.AddEntityAsync(analysis);
                 var resultAdd = await _unitOfWork.Commit();
                 var id = analysis.Id;
@@ -113,6 +116,133 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             catch (Exception)
             {
                 throw new ArgumentException();
+            }
+        }
+
+        public async Task<int> UpdateAnalysisAsync(AnalysisDto dto, int id)
+        {
+            try
+            {
+                var sourceDto = await GetAnalysisByIdAsync(id);
+                var patchList = new List<PatchModel>();
+                if (dto != null)
+                {
+                    if (dto.NameOfAnalysis != sourceDto.NameOfAnalysis)
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.NameOfAnalysis),
+                            PropertyValue = dto.NameOfAnalysis
+                        });
+                    }
+                    if (dto.DateOfAnalysis != sourceDto.DateOfAnalysis)
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.DateOfAnalysis),
+                            PropertyValue = dto.DateOfAnalysis
+                        });
+                    }
+                    if (dto.MedicalInstitutionId != sourceDto.MedicalInstitutionId)
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.MedicalInstitutionId),
+                            PropertyValue = dto.MedicalInstitutionId
+                        });
+                    }
+                }
+
+                await _unitOfWork.Analysis.PatchAsync(id, patchList);
+
+                return await _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task DeleteAnalysisAsync(int id)
+        {
+            try
+            {
+                var entity = await _unitOfWork.Analysis
+                    .FindBy(entity => entity.Id == id)
+                    .FirstOrDefaultAsync();
+                _unitOfWork.Analysis.Remove(entity);
+
+                await _unitOfWork.Commit();
+            }
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<ScanOfAnalysisDocumentDto?> GetScanOfAnalysisByIdAsync(int id)
+        {
+            try
+            {
+                var dto = await _unitOfWork.ScanOfAnalysisDocument
+                    .FindBy(entity => entity.Id == id)
+                    .AsNoTracking()
+                    .Select(entity => _mapper.Map<ScanOfAnalysisDocumentDto>(entity))
+                    .FirstOrDefaultAsync();
+
+                return dto;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<int> UpdateScanOfDocumentsAnalysisAsync(ScanOfAnalysisDocumentDto dto)
+        {
+            try
+            {
+                var sourceDto = await GetScanOfAnalysisByIdAsync(dto.Id);
+                var patchList = new List<PatchModel>();
+                if (dto != null)
+                {
+                    if (dto.ScanOfAnalysis != sourceDto.ScanOfAnalysis)
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.ScanOfAnalysis),
+                            PropertyValue = dto.ScanOfAnalysis
+                        });
+                    }
+                }
+
+                await _unitOfWork.ScanOfAnalysisDocument.PatchAsync(dto.Id, patchList);
+
+                return await _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public async Task DeleteScanOfAnalysisAsync(int id)
+        {
+            try
+            {
+                var entity = await _unitOfWork.ScanOfAnalysisDocument
+                    .FindBy(entity => entity.Id == id)
+                    .FirstOrDefaultAsync();
+                _unitOfWork.ScanOfAnalysisDocument.Remove(entity);
+
+                await _unitOfWork.Commit();
+            }
+
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

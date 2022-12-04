@@ -1,21 +1,44 @@
 ﻿@model WebAppMedicalAssistant_Core.DTO.AnalysisDto
 
-<div class="modal-content">
-    <div class="modal-header text-center">
-        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
-        <h4>Анализ</h4>
+    <div class="modal-content">
+    <div class="modal-header">
+        <button class="btn-close" data-bs-dismiss="modal" area-hidden="true"></button>
     </div>
+    <h4 class="text-center">Анализ</h4>
     <div class="modal-body">
         <dl class="dl-horizontal">
             <dt>Название:</dt>
             <dd>@Html.DisplayFor(model => model.NameOfAnalysis)</dd>
             <dt>Дата:</dt>
             <dd>@Html.DisplayFor(model => model.DateOfAnalysis)</dd>
-            <dt>Дата:</dt>
-            <dd>@Html.DisplayFor(model => model.MedicalInstitutionDto.NameMedicalInstitution)</dd>
+            <dt>Медицинское учреждение:</dt>
+            <dd>@Html.DisplayFor(model => model.MedicalInstitution.NameMedicalInstitution)</dd>
         </dl>
-@*        <div>
-            @Html.ActionLink("Изменить", "Edit", new {id = Model.Id, diseaseDtoId = Model.DiseaseId, dateOfDisease = Model.DateOfDisease, dateOfRecovery = Model.DateOfRecovery })
+        <div>Фото результатов анализа:</div>
+        <div>
+            @if (Model.ScanOfAnalysisDocument.Any())
+            {
+                foreach (var item in Model.ScanOfAnalysisDocument)
+                {
+                    if (item?.ScanOfAnalysis != null)
+                    {
+                        <div class="d-inline-flex">
+                            <img class="rounded mx-auto d-block img-thumbnail m-1 img-fluid" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.ScanOfAnalysis))" />
+                        </div>
+                        <a class="btn btn-outline-success m-1" asp-controller="Analysis" asp-action="EditScanOfAnalysis" asp-route-id="@item.Id">Изменить фото</a>
+                        <a class="btn btn-outline-danger m-1" asp-controller="Analysis" asp-action="DeleteScanOfAnalysis" asp-route-id="@item.Id" asp-route-nameOfAnalysis="@Model.NameOfAnalysis" asp-route-dateOfAnalysis="@Model.DateOfAnalysis">Удалить фото</a>
+                    }
+                }
+                <a class="btn btn-outline-success m-1" asp-controller="Analysis" asp-action="AddScanOfAnalysis" asp-route-id="@Model.Id" asp-route-nameOfAnalysis="@Model.NameOfAnalysis" asp-route-dateOfAnalysis="@Model.DateOfAnalysis" >Добавить фото</a>
+            }
+            else
+            {
+                <div class="rounded-circle">Фото результатов отсутствует</div>
+                <a class="btn btn-outline-success m-1" asp-controller="Analysis" asp-action="AddScanOfAnalysis" asp-route-id="@Model.Id" asp-route-nameOfAnalysis="@Model.NameOfAnalysis" asp-route-dateOfAnalysis="@Model.DateOfAnalysis">Добавить фото</a>
+            }
+        <div>
+                <a class="btn btn-outline-secondary m-1" asp-controller="Analysis" asp-action="Edit" asp-route-id="@Model.Id" asp-route-nameOfAnalysis="@Model.NameOfAnalysis" asp-route-dateOfAnalysis="@Model.DateOfAnalysis" asp-route-medicalInstitutionId="@Model.MedicalInstitutionId">Редактировать анализ</a>
         </div>
-*@    </div>
+    </div>
+</div>
 </div>

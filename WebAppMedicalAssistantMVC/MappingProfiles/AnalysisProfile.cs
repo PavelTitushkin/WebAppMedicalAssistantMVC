@@ -9,15 +9,16 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
     {
         public AnalysisProfile()
         {
-            CreateMap<Analysis, AnalysisDto>()
-                .ForMember(dto => dto.MedicalInstitutionDto, opt => opt.MapFrom(analysis => analysis.MedicalInstitution));
+            CreateMap<Analysis, AnalysisDto>();
+            //.ForMember(dto => dto.MedicalInstitutionDto, opt => opt.MapFrom(analysis => analysis.MedicalInstitution))
+            //.ForMember(dto => dto.MedicalInstitutionDtoId, opt => opt.MapFrom(analysis => analysis.MedicalInstitutionId));
 
-            CreateMap<AnalysisModel, AnalysisDto>()
-                .ForMember(dto => dto.MedicalInstitutionDtoId, opt => opt.MapFrom(model => model.MedicalInstitutionId))
-                .ForMember(dto => dto.AppointmentId, opt => opt.MapFrom(model => model.AppointmentId));
+            CreateMap<AnalysisModel, AnalysisDto>();
+                //.ForMember(dto => dto.MedicalInstitutionDtoId, opt => opt.MapFrom(model => model.MedicalInstitutionId))
+                //.ForMember(dto => dto.AppointmentId, opt => opt.MapFrom(model => model.AppointmentId));
 
-            CreateMap<AnalysisDto, Analysis>()
-                .ForMember(entity => entity.MedicalInstitutionId, opt => opt.MapFrom(dto => dto.MedicalInstitutionDtoId));
+            CreateMap<AnalysisDto, Analysis>();
+                //.ForMember(entity => entity.MedicalInstitutionId, opt => opt.MapFrom(dto => dto.MedicalInstitutionDtoId));
 
         }
     }

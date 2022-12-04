@@ -9,6 +9,9 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
         public ScanOfAnalysisDocumentProfile()
         {
             CreateMap<ScanOfAnalysisDocumentDto, ScanOfAnalysisDocument>();
+
+            CreateMap<ScanOfAnalysisDocument, ScanOfAnalysisDocumentDto>();
+
         }
     }
 }

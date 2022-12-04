@@ -1,0 +1,23 @@
+﻿@model ScanOfAnalysisDocumentModel
+
+@{
+    ViewData["Title"] = "Удаление фото анализа";
+    Layout = "_Layout";
+}
+<div>
+    <h4>Вы уверены, что хотите удалить фото?</h4>
+    <p> @Model.NameOfAnalysis</p>
+    <p> @Model.DateOfAnalysis</p>
+</div>
+<form asp-controller="Analysis" asp-action="DeleteScanOfAnalysis" method="post" asp-route-id="@Model.Id">
+    <div>
+        <input type="submit" class="btn btn-danger m-1" value="Удалить фото анализ" />
+        <a class="btn btn-primary m-1" role="button" asp-controller="Analysis" asp-action="Index">Отмена</a>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
