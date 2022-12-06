@@ -1,0 +1,54 @@
+﻿@model WebAppMedicalAssistant_Core.DTO.MedicalExaminationDto
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="btn-close" data-bs-dismiss="modal" area-hidden="true"></button>
+    </div>
+    <h4 class="text-center">Медицинское исследование</h4>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>Название:</dt>
+            <dd>@Html.DisplayFor(model => model.NameOfMedicalExamination)</dd>
+            <dt>Дата:</dt>
+            <dd>@Html.DisplayFor(model => model.DateOfMedicalExamination)</dd>
+            <dt>Медицинское учреждение:</dt>
+            <dd>@Html.DisplayFor(model => model.MedicalInstitution.NameMedicalInstitution)</dd>
+            <dt>Стоимость исследования:</dt>
+            @if (Model.PriceOfMedicalExamination != null)
+            {
+                <dd>@Html.DisplayFor(model => model.PriceOfMedicalExamination)</dd>
+            }
+            else
+            {
+                <p>Бесплатно</p>
+            }
+        </dl>
+        <h6>Фото результатов иследования:</h6>
+        <div>
+            @if (Model.ScanOfMedicalExaminations.Any())
+            {
+                foreach (var item in Model.ScanOfMedicalExaminations)
+                {
+                    if (item?.ScanData != null)
+                    {
+                        <div class="d-inline-flex">
+                            <img class="rounded mx-auto d-block img-thumbnail m-1 img-fluid" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.ScanData))" />
+                        </div>
+                        <a class="btn btn-outline-secondary m-1" asp-controller="MedicalExamination" asp-action="EditScanOfMedicalExamination" asp-route-id="@item.Id">Изменить фото</a>
+                        <a class="btn btn-outline-danger m-1" asp-controller="MedicalExamination" asp-action="DeleteScanOfMedicalExamination" asp-route-id="@item.Id" asp-route-nameOfMedicalExamination="@Model.NameOfMedicalExamination" asp-route-dateOfMedicalExamination="@Model.DateOfMedicalExamination">Удалить фото</a>
+                    }
+                }
+                <a class="btn btn-outline-success m-1" asp-controller="MedicalExamination" asp-action="AddScanOfMedicalExamination" asp-route-id="@Model.Id" asp-route-nameOfMedicalExamination="@Model.NameOfMedicalExamination" asp-route-dateOfMedicalExamination="@Model.DateOfMedicalExamination">Добавить фото</a>
+            }
+            else
+            {
+                <div class="rounded-circle">Фото результатов отсутствует</div>
+                <a class="btn btn-outline-success m-1" asp-controller="MedicalExamination" asp-action="AddScanOfMedicalExamination" asp-route-id="@Model.Id" asp-route-nameOfMedicalExamination="@Model.NameOfMedicalExamination" asp-route-dateOfMedicalExamination="@Model.DateOfMedicalExamination">Добавить фото</a>
+            }
+            <div>             
+                <a class="btn btn-outline-secondary m-1" asp-controller="MedicalExamination" asp-action="Edit" asp-route-id="@Model.Id" asp-route-nameOfMedicalExamination="@Model.NameOfMedicalExamination" asp-route-dateOfMedicalExamination="@Model.DateOfMedicalExamination" asp-route-medicalInstitutionId="@Model.MedicalInstitutionId" asp-route-priceOfMedicalExamination="@Model.PriceOfMedicalExamination">Редактировать исследование</a>
+                <a class="btn btn-outline-danger m-1" asp-controller="MedicalExamination" asp-action="Delete" asp-route-id="@Model.Id" asp-route-nameOfMedicalExamination="@Model.NameOfMedicalExamination" asp-route-dateOfMedicalExamination="@Model.DateOfMedicalExamination">Удалить исследование</a>
+            </div>
+        </div>
+    </div>
+</div>

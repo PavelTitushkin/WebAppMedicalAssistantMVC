@@ -1,0 +1,22 @@
+﻿@model WebAppMedicalAssistant_Core.DTO.PhysicalTherapyDto
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="btn-close" data-bs-dismiss="modal" area-hidden="true"></button>
+    </div>
+    <h4 class="text-center">Физиотерапия</h4>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>Название:</dt>
+            <dd>@Html.DisplayFor(model => model.NameOfPhysicalTherapy)</dd>
+            <dt>Дата:</dt>
+            <dd>@Html.DisplayFor(model => model.DatePhysicalTherapy)</dd>
+            <dt>Медицинское учреждение:</dt>
+            <dd>@Html.DisplayFor(model => model.MedicalInstitution.NameMedicalInstitution)</dd>
+        </dl>
+    </div>
+    <div>
+        <a class="btn btn-outline-secondary m-1" asp-controller="PhysicalTherapy" asp-action="Edit" asp-route-id="@Model.Id" asp-route-nameOfPhysicalTherapy="@Model.NameOfPhysicalTherapy" asp-route-datePhysicalTherapy="@Model.DatePhysicalTherapy" asp-route-medicalInstitutionDtoId="@Model.MedicalInstitutionId">Редактировать</a>
+        <a class="btn btn-outline-danger m-1" asp-controller="PhysicalTherapy" asp-action="Delete" asp-route-id="@Model.Id" asp-route-nameOfPhysicalTherapy="@Model.NameOfPhysicalTherapy" asp-route-startPhysicalTherapy="@Model.DatePhysicalTherapy">Удалить</a>
+    </div>
+</div>

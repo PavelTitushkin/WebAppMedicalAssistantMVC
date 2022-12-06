@@ -4,8 +4,7 @@
     {
         public int Id { get; set; }
         public string NameOfPhysicalTherapy { get; set; }
-        public DateTime StartPhysicalTherapy { get; set; }
-        public DateTime? EndPhysicalTherapy { get; set; }
+        public DateTime DatePhysicalTherapy { get; set; }
 
         public User User { get; set; }
         public int UserId { get; set; }

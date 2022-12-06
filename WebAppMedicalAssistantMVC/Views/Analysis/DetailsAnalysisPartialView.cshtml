@@ -25,7 +25,7 @@
                         <div class="d-inline-flex">
                             <img class="rounded mx-auto d-block img-thumbnail m-1 img-fluid" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.ScanOfAnalysis))" />
                         </div>
-                        <a class="btn btn-outline-success m-1" asp-controller="Analysis" asp-action="EditScanOfAnalysis" asp-route-id="@item.Id">Изменить фото</a>
+                        <a class="btn btn-outline-secondary m-1" asp-controller="Analysis" asp-action="EditScanOfAnalysis" asp-route-id="@item.Id">Изменить фото</a>
                         <a class="btn btn-outline-danger m-1" asp-controller="Analysis" asp-action="DeleteScanOfAnalysis" asp-route-id="@item.Id" asp-route-nameOfAnalysis="@Model.NameOfAnalysis" asp-route-dateOfAnalysis="@Model.DateOfAnalysis">Удалить фото</a>
                     }
                 }
@@ -38,6 +38,7 @@
             }
         <div>
                 <a class="btn btn-outline-secondary m-1" asp-controller="Analysis" asp-action="Edit" asp-route-id="@Model.Id" asp-route-nameOfAnalysis="@Model.NameOfAnalysis" asp-route-dateOfAnalysis="@Model.DateOfAnalysis" asp-route-medicalInstitutionId="@Model.MedicalInstitutionId">Редактировать анализ</a>
+                <a class="btn btn-outline-danger" asp-controller="Analysis" asp-action="Delete" asp-route-id="@Model.Id" asp-route-nameOfAnalysis="@Model.NameOfAnalysis" asp-route-dateOfAnalysis="@Model.DateOfAnalysis">Удалить анализ</a>
         </div>
     </div>
 </div>

@@ -1,39 +1,40 @@
 ﻿@model PhysicalTherapyModel
 
 @{
-    ViewData["Title"] = "Добавить физиотерапию";
+    ViewData["Title"] = "Редактирование физиотерапию";
     Layout = "_Layout";
 }
 
 <div>
-    <h2>Добавление новой физиотерапии</h2>
+    <h2>Редактирование физиотерапии</h2>
 
-    <form asp-controller="PhysicalTherapy" asp-action="Create" method="post">
+    <form asp-controller="PhysicalTherapy" asp-action="Edit" method="post">
         <div class="mb-3">
             <label for="NameOfPhysicalTherapy" class="form-label">Название физиотерапии:</label>
-            <input asp-for="NameOfPhysicalTherapy" type="text" class="form-control" id="NameOfPhysicalTherapy" required />
+            <input asp-for="NameOfPhysicalTherapy" type="text" class="form-control" id="NameOfPhysicalTherapy" value="@Model.NameOfPhysicalTherapy" required />
             <span asp-validation-for="NameOfPhysicalTherapy" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="DatePhysicalTherapy" class="form-label">Дата физиотерапии:</label>
-            <input asp-for="DatePhysicalTherapy" type="date" class="form-control" name="Date" required />
+            <input asp-for="DatePhysicalTherapy" type="date" class="form-control" name="Date" value="@Model.DatePhysicalTherapy.ToShortDateString()" required />
             <span asp-validation-for="DatePhysicalTherapy" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="DatePhysicalTherapy" class="form-label">Время физиотерапии:</label>
-            <input asp-for="DatePhysicalTherapy" type="time" class="form-control" name="Time" required />
+            <input asp-for="DatePhysicalTherapy" type="time" class="form-control" name="Time" value="@Model.DatePhysicalTherapy.TimeOfDay" required />
             <span asp-validation-for="DatePhysicalTherapy" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
-            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
+            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList">@Model.MedicalInstitutionId</select>
             <a class="btn btn-outline-success" asp-controller="MedicalInstitution" asp-action="Create">Добавить медицинское учреждение</a>
         </div>
         <div>
+            <input asp-for="Id" type="hidden" />
             <input asp-for="AppointmentId" type="hidden" />
             <input asp-for="ReturnUrl" type="hidden" />
         </div>
-        <input type="submit" class="btn btn-primary m-1" value="Добавить терапию" />
+        <input type="submit" class="btn btn-primary m-1" value="Редактировать терапию" />
         <a class="btn btn-outline-primary" asp-controller="PhysicalTherapy" asp-action="Index">Отмена</a>
     </form>
 </div>

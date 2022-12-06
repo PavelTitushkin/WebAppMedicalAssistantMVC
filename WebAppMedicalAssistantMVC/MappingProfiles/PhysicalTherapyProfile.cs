@@ -9,13 +9,11 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
     {
         public PhysicalTherapyProfile()
         {
-            CreateMap<PhysicalTherapyModel, PhysicalTherapyDto>()
-                .ForMember(dto => dto.AppointmentId, opt => opt.MapFrom(model => model.AppointmentId));
-
             CreateMap<PhysicalTherapyDto, PhysicalTherapy>();
 
-            CreateMap<PhysicalTherapy, PhysicalTherapyDto>()
-                .ForMember(dto => dto.MedicalInstitutionDto, opt => opt.MapFrom(entity => entity.MedicalInstitution));
+            CreateMap<PhysicalTherapy, PhysicalTherapyDto>();
+
+            CreateMap<PhysicalTherapyModel, PhysicalTherapyDto>();
         }
 
     }

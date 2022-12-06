@@ -11,9 +11,9 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
         {
             CreateMap<Fluorography, FluorographyDto>();
 
-            CreateMap<FluorographyModel, FluorographyDto>();
-
             CreateMap<FluorographyDto, Fluorography>();
+
+            CreateMap<FluorographyModel, FluorographyDto>();
         }
     }
 }

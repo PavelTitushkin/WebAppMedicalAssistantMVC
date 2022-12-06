@@ -26,12 +26,12 @@
             @if (Model.DescriptionOfDestination != null)
             {
                 <p class=" mb-1">Рекомендации: @Model.DescriptionOfDestination</p>
-                @Html.ActionLink("Рекактировать", "AddOrEditDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
+                <a class="btn btn-outline-secondary" asp-controller="DoctorVisit" asp-action="AddOrEditDescriptionAppointment" asp-route-id="@Model.Id" asp-route-descriptionOfDestination="@Model.DescriptionOfDestination">Рекактировать</a>
             }
             else
             {
                 <p class=" mb-1">Рекомендации: не назначены</p>
-                @Html.ActionLink("Добавить", "AddOrEditDescriptionAppointment", "DoctorVisit", new {id = Model.Id})
+                <a class="btn btn-outline-success" asp-controller="DoctorVisit" asp-action="AddOrEditDescriptionAppointment" asp-route-id="@Model.Id">Добавить описание назначения</a>
             }
         </div>
     </div>
@@ -40,16 +40,16 @@
             <h5>Назначенные анализы:</h5>
             @if (Model.AnalysisDto.Count() != 0)
             {
-                <ul>
+                <ul class="list-group">
                     @foreach (var item in Model.AnalysisDto)
                     {
-                        <li>
+                        <li class="list-group-item">
                             @Html.ActionLink(item.NameOfAnalysis, "DetailsAnalysisPartialView", "Analysis", new { id = item.Id }, new { @class = "tempClass" })
                         </li>
                     }
                 </ul>
                 <div>
-                    @Html.ActionLink("Добавить", "Create", "Analysis", new {id = Model.Id})
+                    <a class="btn btn-outline-success" asp-controller="Analysis" asp-action="Create" asp-route-id="@Model.Id">Добавить анализ</a>
                 </div>
             }
             else
@@ -62,10 +62,10 @@
             <h5>Назначенные лекарства</h5>
             @if (Model.PrescribedMedicationsDto.Count() != 0)
             {
-                <ul>
+                <ul class="list-group">
                     @foreach (var item in Model.PrescribedMedicationsDto)
                     {
-                        <li>@item.MedicinesDto.NameOfMedicine</li>
+                        <li class="list-group-item">@item.MedicinesDto.NameOfMedicine</li>
                     }
                     @Html.ActionLink("Добавить", "Create", "PrescribedMedication", new {id = Model.Id})
                 </ul> 
@@ -80,40 +80,44 @@
             <h5>Назначенные медицинские исследования</h5>
             @if (Model.MedicalExaminationsDto.Count() != 0)
             {
-                <ul>
+                <ul class="list-group">
                     @foreach (var item in Model.MedicalExaminationsDto)
                     {
-                        <li>@item.NameOfMedicalExamination</li>
+                        <li class="list-group-item">
+                            @Html.ActionLink(item.NameOfMedicalExamination, "DetailsMedicalExaminationPartialView", "MedicalExamination", new { id = item.Id }, new { @class = "tempClass" })
+                        </li>
                     }
-                    @Html.ActionLink("Добавить", "Create", "MedicalExamination", new {id = Model.Id})
+                    <a class="btn btn-outline-success" asp-controller="MedicalExamination" asp-action="Create" asp-route-id="@Model.Id">Добавить</a>
                 </ul>
             }
             else
             {
                 <p>Нет назначенных исследований</p>
-                @Html.ActionLink("Добавить", "Create", "MedicalExamination", new {id = Model.Id})
+                <a class="btn btn-outline-success" asp-controller="MedicalExamination" asp-action="Create" asp-route-id="@Model.Id">Добавить</a>
             }
         </div>
         <div class="col border border-secondary rounded-3 m-1 p-1">
             <h4>Назначенные физиотерапии</h4>
             @if (Model.PhysicalTherapysDto.Count() != 0)
             {
-                <ul>
+                <ul class="list-group">
                     @foreach (var item in Model.PhysicalTherapysDto)
                     {
-                        <li>@item.NameOfPhysicalTherapy</li>
+                        <li class="list-group-item">
+                            @Html.ActionLink(item.NameOfPhysicalTherapy, "DetailsPhysicalTherapyPartialView", "PhysicalTherapy", new { id = item.Id }, new { @class = "tempClass" })
+                        </li>
                     }
-                    @Html.ActionLink("Добавить", "Create", "PhysicalTherapy", new {id = Model.Id})
+                    <a class="btn btn-outline-success" asp-controller="PhysicalTherapy" asp-action="Create" asp-route-id="@Model.Id">Добавить</a>
                 </ul>
             }
             else
             {
                 <p>Нет назначенных физиотерапии</p>
-                @Html.ActionLink("Добавить", "Create", "PhysicalTherapy", new {id = Model.Id})
+                <a class="btn btn-outline-success" asp-controller="PhysicalTherapy" asp-action="Create" asp-route-id="@Model.Id">Добавить</a>
             }
         </div>
     </div>
-    <a class="btn btn-primary m-1" role="button" asp-controller="DoctorVisit" asp-action="Index">Назад</a>
+    <a class="btn btn-outline-primary m-1" role="button" asp-controller="DoctorVisit" asp-action="Index">Назад</a>
 </div>
 
 @section Scripts

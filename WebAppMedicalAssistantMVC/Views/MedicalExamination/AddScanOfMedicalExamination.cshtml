@@ -1,0 +1,36 @@
+﻿@model MedicalExaminationModel
+
+@{
+    ViewData["Title"] = "Фото исследования";
+    Layout = "_Layout";
+}
+
+<form asp-controller="MedicalExamination" asp-action="AddScanOfMedicalExamination" method="post" enctype="multipart/form-data">
+    <div>
+        <h4>Добавление фото исследования</h4>
+
+        <div class="mb-3">
+            Название исследования:@Model.NameOfMedicalExamination
+        </div>
+        <div class="mb-3">
+            Дата проведения исследования:@Model.DateOfMedicalExamination
+        </div>
+        <label for="Avatar">Фото исследования</label>
+        <input asp-for="ScanOfMedicalExaminationOne" type="file" class="form-control" />
+        <input asp-for="ScanOfMedicalExaminationTwo" type="file" class="form-control" />
+        <input asp-for="ScanOfMedicalExaminationThree" type="file" class="form-control" />
+        <input asp-for="ScanOfMedicalExaminationFour" type="file" class="form-control" />
+        <input asp-for="ScanOfMedicalExaminationFive" type="file" class="form-control" />
+    </div>
+    <div>
+        <input asp-for="Id" type="hidden" />
+    </div>
+    <input type="submit" class="btn btn-danger m-2" value="Сохранить" />
+    <a class="btn btn-primary m-2" role="button" asp-controller="MedicalExamination" asp-action="Index">Отмена</a>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

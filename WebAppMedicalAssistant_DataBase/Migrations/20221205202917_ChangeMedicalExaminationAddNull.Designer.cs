@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebAppMedicalAssistant_DataBase;
 
@@ -11,9 +12,11 @@ using WebAppMedicalAssistant_DataBase;
 namespace WebAppMedicalAssistantDataBase.Migrations
 {
     [DbContext(typeof(MedicalAssistantContext))]
-    partial class MedicalAssistantContextModelSnapshot : ModelSnapshot
+    [Migration("20221205202917_ChangeMedicalExaminationAddNull")]
+    partial class ChangeMedicalExaminationAddNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,7 +292,7 @@ namespace WebAppMedicalAssistantDataBase.Migrations
                     b.Property<int?>("AppointmentId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DatePhysicalTherapy")
+                    b.Property<DateTime?>("EndPhysicalTherapy")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("MedicalInstitutionId")
@@ -298,6 +301,9 @@ namespace WebAppMedicalAssistantDataBase.Migrations
                     b.Property<string>("NameOfPhysicalTherapy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartPhysicalTherapy")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -410,7 +416,7 @@ namespace WebAppMedicalAssistantDataBase.Migrations
 
                     b.HasIndex("MedicalExaminationId");
 
-                    b.ToTable("ScanOfMedicalExaminations");
+                    b.ToTable("ScanOfMedicalExamination");
                 });
 
             modelBuilder.Entity("WebAppMedicalAssistant_DataBase.Entities.TransferredDisease", b =>

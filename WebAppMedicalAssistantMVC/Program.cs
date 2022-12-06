@@ -75,6 +75,7 @@ namespace WebAppMedicalAssistantMVC
             builder.Services.AddScoped<IRepository<Vaccination>, Repository<Vaccination>>();
             builder.Services.AddScoped<IRepository<Role>, Repository<Role>>();
             builder.Services.AddScoped<IRepository<ScanOfAnalysisDocument>, Repository<ScanOfAnalysisDocument>>();
+            builder.Services.AddScoped<IRepository<ScanOfMedicalExamination>, Repository<ScanOfMedicalExamination>>();
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

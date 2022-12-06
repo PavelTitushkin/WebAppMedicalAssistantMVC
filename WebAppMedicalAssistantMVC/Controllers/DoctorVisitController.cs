@@ -264,12 +264,13 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddOrEditDescriptionAppointment(int id)
+        public IActionResult AddOrEditDescriptionAppointment(int id, string? descriptionOfDestination)
         {
             try
             {
                 var model = new AppointmentModel();
                 model.Id = id;
+                model.DescriptionOfDestination = descriptionOfDestination;
                 model.ReturnUrl = Request.Headers["Referer"].ToString();
 
                 return View(model);

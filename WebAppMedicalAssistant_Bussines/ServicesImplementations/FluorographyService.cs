@@ -169,7 +169,6 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                     }
 
                 }
-
                 await _unitOfWork.Fluorography.PatchAsync(dto.Id, patchList);
 
                 return await _unitOfWork.Commit();
@@ -178,7 +177,6 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             {
                 throw;
             }
-
         }
     }
 }

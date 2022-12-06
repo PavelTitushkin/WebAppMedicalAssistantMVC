@@ -59,7 +59,6 @@ namespace WebAppMedicalAssistantMVC.Controllers
             }
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -99,6 +98,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 throw;
             }
         }
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id, DateTime dataOfExamination, DateTime endDateOfSurvey, int medicalInstitutionDtoId, string numberFluorography)
         {

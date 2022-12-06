@@ -87,13 +87,15 @@
                 <td>
                     @if(item.Appointment!=null)
                     {
-                        @Html.ActionLink("Смотреть назначение", "Appointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.DiseaseDto?.NameOfDisease})
-@*                        <a class="link-primary" href="~/DoctorVisit/Appointment/@item.Id?nameOfDisease=@item.NameOfDisease">Смотреть назначение</a>
+                        <a class="btn btn-outline-info" asp-controller="DoctorVisit" asp-action="Appointment" asp-route-id="@item.Id" asp-route-nameOfDisease="@item.DiseaseDto?.NameOfDisease">Смотреть назначение</a>
+@*                        @Html.ActionLink("Смотреть назначение", "Appointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.DiseaseDto?.NameOfDisease})
+                        <a class="link-primary" href="~/DoctorVisit/Appointment/@item.Id?nameOfDisease=@item.NameOfDisease">Смотреть назначение</a>
 *@                    }
                     else
                     {
-                        @Html.ActionLink("Добавить назначение", "CreateAppointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.DiseaseDto?.NameOfDisease})
-@*                        <a class="link-primary" href="~/DoctorVisit/CreateAppointment/@item.Id">Добавить назначение</a>
+                        <a class="btn btn-outline-success" asp-controller="DoctorVisit" asp-action="CreateAppointment" asp-route-id="@item.Id" asp-route-nameOfDisease="@item.DiseaseDto?.NameOfDisease">Добавить назначение</a>
+@*                        @Html.ActionLink("Добавить назначение", "CreateAppointment", "DoctorVisit", new {id = item.Id, nameOfDisease = item.DiseaseDto?.NameOfDisease})
+                        <a class="link-primary" href="~/DoctorVisit/CreateAppointment/@item.Id">Добавить назначение</a>
 *@                    }
                 </td>
                 <td>

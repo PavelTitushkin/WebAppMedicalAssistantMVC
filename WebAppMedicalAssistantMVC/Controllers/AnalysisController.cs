@@ -292,37 +292,6 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     var idAnalysis = await _analysisService.CreateAnalysisAsync(dto);
                     var returnUrl = model.ReturnUrl;
 
-                    if (model.ScanOfAnalysisOne != null || model.ScanOfAnalysisTwo != null || model.ScanOfAnalysisThree != null || model.ScanOfAnalysisFour != null || model.ScanOfAnalysisFive != null)
-                    {
-                        var scansFormFile = new List<IFormFile?>();
-                        if(model.ScanOfAnalysisOne != null)
-                            scansFormFile.Add(model?.ScanOfAnalysisOne);
-                        if (model.ScanOfAnalysisTwo != null)
-                            scansFormFile.Add(model?.ScanOfAnalysisTwo);
-                        if (model.ScanOfAnalysisThree != null)
-                            scansFormFile.Add(model?.ScanOfAnalysisThree);
-                        if (model.ScanOfAnalysisFour != null)
-                            scansFormFile.Add(model?.ScanOfAnalysisFour);
-                        if (model.ScanOfAnalysisFive != null)
-                            scansFormFile.Add(model?.ScanOfAnalysisFive);
-
-                        foreach (var item in scansFormFile)
-                        {
-                            byte[] imageData = null;
-                            var dtoScan = new ScanOfAnalysisDocumentDto();
-                            using (BinaryReader binaryReader = new BinaryReader(item.OpenReadStream()))
-                            {
-                                imageData = binaryReader.ReadBytes((int)item.Length);
-                            }
-                            dtoScan.ScanOfAnalysis = imageData;
-                            dtoScan.AnalysisId = idAnalysis;
-
-                            await _analysisService.CreateScanOfDocumentsAnalysisAsync(dtoScan);
-                        }
-
-                        return Redirect(returnUrl);
-                    }
-
                     return Redirect(returnUrl);
                 }
                 else

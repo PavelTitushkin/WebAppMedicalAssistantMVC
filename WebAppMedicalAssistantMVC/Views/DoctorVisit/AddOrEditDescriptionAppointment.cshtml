@@ -11,7 +11,7 @@
     <form asp-controller="DoctorVisit" asp-action="AddOrEditDescriptionAppointment" method="post">
         <div class="mb-3">
             <label for="DateVisit" class="form-label">Описание рекомендации:</label>
-            <textarea asp-for="DescriptionOfDestination" class="form-control" id="DescriptionOfDestination" rows="3" required></textarea>
+            <textarea asp-for="DescriptionOfDestination" class="form-control" id="DescriptionOfDestination" rows="3" required>@Model.DescriptionOfDestination</textarea>
             <span asp-validation-for="DescriptionOfDestination" class="text-danger"></span>
         </div>
         <input asp-for="Id" type="hidden" />

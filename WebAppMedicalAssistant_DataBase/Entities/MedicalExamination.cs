@@ -6,7 +6,7 @@
         public string NameOfMedicalExamination { get; set; }
         public DateTime DateOfMedicalExamination { get; set; }
         public decimal? PriceOfMedicalExamination { get; set; }
-        public byte[]? ScanOfMedicalExamination { get; set; }
+        public List<ScanOfMedicalExamination?> ScanOfMedicalExaminations { get; set; }
 
         public Appointment? Appointment { get; set; }
         public int? AppointmentId { get; set; }

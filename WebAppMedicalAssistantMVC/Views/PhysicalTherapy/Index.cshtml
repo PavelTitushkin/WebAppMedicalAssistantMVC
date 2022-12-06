@@ -1,15 +1,30 @@
-﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.PhysicalTherapyDto>
-
+﻿@model PagingList<WebAppMedicalAssistant_Core.DTO.PhysicalTherapyDto>
 @{
     ViewData["Title"] = "Мои физиотерапии";
     Layout = "_layout";
 }
 
-<h2>Мои физиотерапии</h2>
-
+<div class="text-center">
+    <h2>Мои физиотерапии</h2>
+    <form asp-controller="PhysicalTherapy" asp-action="Index" method="get">
+        <div>
+            Дата начала поиска: <input type="date" name="SearchDateStart" value="@DateTime.UtcNow" />
+            Дата окончания поиска: <input type="date" name="SearchDateEnd" />
+        </div>
+        <div class="mb-3">
+            <label for="Result" class="form-check-label">Показать физиотерапии за весь период:</label>
+            Да<input type="radio" class="form-check-input" name="AllDates" value="false" checked="checked" />
+            Нет<input type="radio" class="form-check-input" name="AllDates" value="true" />
+        </div>
+        <input type="submit" value="Поиск" />
+    </form>
+</div>
 <p>
-    <a asp-action="Create">Добавить новую физиотерапию</a>
+    <a class="btn btn-outline-success" asp-action="Create">Добавить новую физиотерапию</a>
 </p>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -17,14 +32,13 @@
                 Название физиотерапии
             </th>
             <th>
-                Дата начала
-            </th>
-            <th>
-                Дата окончания
+                Дата
             </th>
             <th>
                 Медицинское учреждение
             </th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -32,18 +46,32 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NameOfPhysicalTherapy)
+                    @Html.ActionLink(item.NameOfPhysicalTherapy, "DetailsPhysicalTherapyPartialView", "PhysicalTherapy", new { id = item.Id }, new { @class = "tempClass" })
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.StartPhysicalTherapy)
+                    @Html.DisplayFor(modelItem => item.DatePhysicalTherapy)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EndPhysicalTherapy)
+                    @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView", "MedicalInstitution", new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem=> item.MedicalInstitutionDto.NameMedicalInstitution)
+                    <a class="btn btn-outline-secondary" asp-controller="PhysicalTherapy" asp-action="Edit" asp-route-id="@item.Id" asp-route-nameOfPhysicalTherapy="@item.NameOfPhysicalTherapy" asp-route-datePhysicalTherapy="@item.DatePhysicalTherapy" asp-route-medicalInstitutionDtoId="@item.MedicalInstitutionId">Редактировать</a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger" asp-controller="PhysicalTherapy" asp-action="Delete" asp-route-id="@item.Id" asp-route-nameOfPhysicalTherapy="@item.NameOfPhysicalTherapy" asp-route-startPhysicalTherapy="@item.DatePhysicalTherapy">Удалить</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<nav>
+    <vc:pager paging-list="@Model" class="page-item" />
+</nav>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/modalWindow.js" asp-append-version="true"></script>
+}

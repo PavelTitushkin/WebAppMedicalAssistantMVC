@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
+using ReflectionIT.Mvc.Paging;
+using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistantMVC.Models;
@@ -25,19 +28,34 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageIndex, DateTime SearchDateStart, DateTime SearchDateEnd, bool AllDates)
         {
             try
             {
-                var userEmail = HttpContext.User.Identity.Name;
-                var userDto = await _userService.GetUserByEmailAsync(userEmail);
-                var dto = await _physicalTherapyService.GetAllPhysicalTherapyAsync(userDto.Id);
+                var emailUser = HttpContext.User.Identity?.Name;
+                var userDto = await _userService.GetUserByEmailAsync(emailUser);
 
-                return View(dto);
+                if (!AllDates)
+                {
+                    var dto = await _physicalTherapyService.GetAllPhysicalTherapyAsync(userDto.Id);
+                    if (pageIndex == 0)
+                    {
+                        pageIndex = 1;
+                    }
+                    var model = PagingList.Create(dto, 5, pageIndex);
+
+                    return View(model);
+                }
+                else
+                {
+                    var dto = await _physicalTherapyService.GetPeriodPhysicalTherapyAsync(SearchDateStart, SearchDateEnd, userDto.Id);
+                    var model = PagingList.Create(dto, 5, pageIndex);
+
+                    return View(model);
+                }
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
@@ -90,6 +108,103 @@ namespace WebAppMedicalAssistantMVC.Controllers
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id, string nameOfPhysicalTherapy, DateTime datePhysicalTherapy, int medicalInstitutionDtoId)
+        {
+            try
+            {
+                var medicalInstitutionsDto = await _medicalInstitutionService.GetMedicalInstitutionsAsync();
+                var model = new PhysicalTherapyModel()
+                {
+                    Id = id,
+                    DatePhysicalTherapy = datePhysicalTherapy,
+                    NameOfPhysicalTherapy = nameOfPhysicalTherapy,
+                    MedicalInstitutionId = medicalInstitutionDtoId,
+                    MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution"),
+                };
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(PhysicalTherapyModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var dto = await _physicalTherapyService.GetPhysicalTherapyByIdAsync(model.Id);
+                    dto.DatePhysicalTherapy = model.DatePhysicalTherapy;
+                    dto.MedicalInstitutionId = model.MedicalInstitutionId;
+
+                    await _physicalTherapyService.UpdatePhysicalTherapyAsync(dto, dto.Id);
+
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id, string nameOfPhysicalTherapy, DateTime datePhysicalTherapy)
+        {
+            try
+            {
+                var model = new PhysicalTherapyModel()
+                {
+                    Id = id,
+                    NameOfPhysicalTherapy = nameOfPhysicalTherapy,
+                    DatePhysicalTherapy = datePhysicalTherapy,
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _physicalTherapyService.DeletePhysicalTherapyAsync(id);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsPhysicalTherapyPartialView(int id)
+        {
+            try
+            {
+                var dto = await _physicalTherapyService.GetPhysicalTherapyByIdAsync(id);
+
+                return PartialView(dto);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

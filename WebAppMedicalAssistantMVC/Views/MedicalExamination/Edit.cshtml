@@ -1,43 +1,44 @@
 ﻿@model MedicalExaminationModel
 
 @{
-    ViewData["Title"] = "Добавить медицинское исследование";
+    ViewData["Title"] = "Редактировать медицинское исследование";
     Layout = "_Layout";
 }
 
 <div>
-    <h2>Добавление нового исследования</h2>
+    <h2>Редактирование исследования</h2>
 
-    <form asp-controller="MedicalExamination" asp-action="Create" method="post">
+    <form asp-controller="MedicalExamination" asp-action="Edit" method="post">
         <div class="mb-3">
             <label for="NameOfMedicalExamination" class="form-label">Название исследования:</label>
-            <input asp-for="NameOfMedicalExamination" type="text" class="form-control" id="NameOfMedicalExamination" required />
+            <input asp-for="NameOfMedicalExamination" type="text" class="form-control" id="NameOfMedicalExamination" value="@Model.NameOfMedicalExamination" required />
             <span asp-validation-for="NameOfMedicalExamination" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="DateOfMedicalExamination" class="form-label">Дата исследования:</label>
-            <input asp-for="DateOfMedicalExamination" type="date" class="form-control" name="Date" required />
+            <input asp-for="DateOfMedicalExamination" type="date" class="form-control" name="Date" value="@Model.DateOfMedicalExamination.Date.Date" required />
             <span asp-validation-for="DateOfMedicalExamination" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="DateOfMedicalExamination" class="form-label">Время исследования:</label>
-            <input asp-for="DateOfMedicalExamination" type="time" class="form-control" name="Time" required />
+            <input asp-for="DateOfMedicalExamination" type="time" class="form-control" name="Time" value="@Model.DateOfMedicalExamination.TimeOfDay" required />
             <span asp-validation-for="DateOfMedicalExamination" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="PriceOfMedicalExamination" class="form-label">Цена исследовании:</label>
-            <input asp-for="PriceOfMedicalExamination" type="number" class="form-control" id="PriceOfMedicalExamination"/>
+            <input asp-for="PriceOfMedicalExamination" type="number" class="form-control" id="PriceOfMedicalExamination" value="@Model.PriceOfMedicalExamination"/>
         </div>
         <div class="mb-3">
             <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
-            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
+            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList">@Model.MedicalInstitutionId</select>
             <a asp-controller="MedicalInstitution" asp-action="Create">Добавить медицинское учреждение</a>
         </div>
         <div>
+            <input asp-for="Id" type="hidden" />
             <input asp-for="AppointmentId" type="hidden" />
             <input asp-for="ReturnUrl" type="hidden" />
         </div>
-        <input type="submit" class="btn btn-danger m-1" value="Добавить исследование" />
+        <input type="submit" class="btn btn-danger m-1" value="Редактировать исследование" />
         <a class="btn btn-primary m-1" role="button" asp-controller="MedicalExamination" asp-action="Index">Отмена</a>
     </form>
 </div>
