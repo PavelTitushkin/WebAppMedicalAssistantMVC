@@ -1,18 +1,31 @@
-﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.PrescribedMedicationDto>
+﻿@model PagingList<WebAppMedicalAssistant_Core.DTO.PrescribedMedicationDto>
 
 @{
     ViewData["Title"] = "Мои лекарства";
     Layout = "_layout";
 }
 
-<h2>Мои лекарства</h2>
-
+<div class="text-center">
+    <h2>Мои лекарства</h2>
+    <form asp-controller="PhysicalTherapy" asp-action="Index" method="get">
+        <div>
+            Дата начала поиска: <input type="date" name="SearchDateStart" value="@DateTime.UtcNow" />
+            Дата окончания поиска: <input type="date" name="SearchDateEnd" />
+        </div>
+        <div class="mb-3">
+            <label for="Result" class="form-check-label">Показать лекарства за весь период:</label>
+            Да<input type="radio" class="form-check-input" name="AllDates" value="false" checked="checked" />
+            Нет<input type="radio" class="form-check-input" name="AllDates" value="true" />
+        </div>
+        <input type="submit" value="Поиск" />
+    </form>
+</div>
 <p>
-    @if(ViewBag.Role)
-    {
-        <a asp-action="Create">Добавить новый лекарство</a>
-    }
+    <a class="btn btn-outline-success" asp-action="Create">Добавить новое назначение лекарства</a>
 </p>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -26,14 +39,16 @@
                 Окончание примениния
             </th>
             <th>
+                Ссылка на инструкцию
+            </th>
+            <th>
                 Доза
             </th>
             <th>
                 Цена
             </th>
-            <th>
-                Болезни
-            </th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -41,7 +56,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MedicinesDto.NameOfMedicine)
+                    @Html.DisplayFor(modelItem => item.Medicine.NameOfMedicine)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.StartDateOfMedication)
@@ -50,22 +65,32 @@
                     @Html.DisplayFor(modelItem => item.EndDateOfMedication)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Medicine.LinkToInstructions)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.MedicineDose)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MedicinePrice)
                 </td>
                 <td>
-                    <ul>
-@*                        @foreach (var itemDisease in item.DiseasesDto)
-                        {
-                            <li class="">
-                                @itemDisease.NameOfDisease
-                            </li>
-                        }
-*@                    </ul>
+                    <a class="btn btn-outline-secondary" asp-controller="PrescribedMedication" asp-action="Edit" asp-route-id="@item.Id" asp-route-medicineId="@item.MedicineId" asp-route-startDateOfMedication="@item.StartDateOfMedication" asp-route-endDateOfMedication="@item.EndDateOfMedication" asp-route-medicinePrice="@item.MedicinePrice" asp-route-medicineDose="@item.MedicineDose">Редактировать</a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger" asp-controller="PrescribedMedication" asp-action="Delete" asp-route-id="@item.Id" asp-route-nameOfMedicine="@item.Medicine.NameOfMedicine">Удалить</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<nav>
+    <vc:pager paging-list="@Model" class="page-item" />
+</nav>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/modalWindow.js" asp-append-version="true"></script>
+}

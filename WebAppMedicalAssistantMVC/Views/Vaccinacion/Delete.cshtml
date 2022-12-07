@@ -1,0 +1,22 @@
+﻿@model VaccinacionModel
+@{
+    ViewData["Title"] = "Удаление прививки";
+    Layout = "_Layout";
+}
+<div>
+    <h4>Вы уверены, что хотите удалить прививку?</h4>
+    <p>@Model.ApplicationOfVaccine</p>
+    <p>@Model.NameOfVaccine</p>
+</div>
+<form asp-controller="Vaccinacion" asp-action="Delete" method="post" asp-route-id="@Model.Id">
+    <div>
+        <input type="submit" class="btn btn-danger m-1" value="Удалить прививку"/>
+        <a class="btn btn-outline-primary m-1" role="button" asp-controller="Vaccinacion" asp-action="Index">Отмена</a>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

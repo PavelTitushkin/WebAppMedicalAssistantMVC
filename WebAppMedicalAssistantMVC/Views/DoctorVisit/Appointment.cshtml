@@ -65,7 +65,7 @@
                 <ul class="list-group">
                     @foreach (var item in Model.PrescribedMedicationsDto)
                     {
-                        <li class="list-group-item">@item.MedicinesDto.NameOfMedicine</li>
+                        <li class="list-group-item">@item.Medicine.NameOfMedicine</li>
                     }
                     @Html.ActionLink("Добавить", "Create", "PrescribedMedication", new {id = Model.Id})
                 </ul> 

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Routing;
+using ReflectionIT.Mvc.Paging;
 using System.Security.Claims;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core;
@@ -28,15 +30,31 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageIndex, DateTime SearchDateStart, DateTime SearchDateEnd, bool AllDates)
         {
             try
             {
-                var emailUser = HttpContext.User.Identity.Name;
+                var emailUser = HttpContext.User.Identity?.Name;
                 var userDto = await _userService.GetUserByEmailAsync(emailUser);
-                var listVaccinations = await _vaccinationService.GetAllVaccinationsAsync(userDto.Id);
 
-                return View(listVaccinations);
+                if (!AllDates)
+                {
+                    var dto = await _vaccinationService.GetAllVaccinationsAsync(userDto.Id);
+                    if (pageIndex == 0)
+                    {
+                        pageIndex = 1;
+                    }
+                    var model = PagingList.Create(dto, 5, pageIndex);
+
+                    return View(model);
+                }
+                else
+                {
+                    var dto = await _vaccinationService.GetPeriodVaccinationAsync(SearchDateStart, SearchDateEnd, userDto.Id);
+                    var model = PagingList.Create(dto, 5, pageIndex);
+
+                    return View(model);
+                }
             }
             catch (Exception)
             {
@@ -96,6 +114,92 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 throw;
             }
         }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id, string? applicationOfVaccine, string? nameOfVaccine, string? vacineDose, string? vacineSeria, int? medicalInstitutionDtoId)
+        {
+            try
+            {
+                var medicalInstitutionsDto = await _medicalInstitutionService.GetMedicalInstitutionsAsync();
+                var model = new VaccinacionModel()
+                {
+                    Id = id,
+                    ApplicationOfVaccine = applicationOfVaccine,
+                    NameOfVaccine = nameOfVaccine,
+                    VacineDose = vacineDose,
+                    VacineSeria= vacineSeria,
+                    MedicalInstitutionId = medicalInstitutionDtoId,
+                    MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution"),
+                };
+                return View(model);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(VaccinacionModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var dto = await _vaccinationService.GetVaccinationByIdAsync(model.Id);
+                    dto.ApplicationOfVaccine = model.ApplicationOfVaccine;
+                    dto.NameOfVaccine = model.NameOfVaccine;
+                    dto.VacineDose = model.VacineDose;
+                    dto.VacineSeria = model.VacineSeria;
+                    dto.MedicalInstitutionId = model.MedicalInstitutionId;
+
+                    await _vaccinationService.UpdateVaccinationAsync(dto, dto.Id);
+
+                    return RedirectToAction("Index");
+                }
+
+                return View(model);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id, string? applicationOfVaccine, string? nameOfVaccine)
+        {
+            try
+            {
+                var model = new VaccinacionModel()
+                {
+                    Id = id,
+                    ApplicationOfVaccine = applicationOfVaccine,
+                    NameOfVaccine = nameOfVaccine,
+                };
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _vaccinationService.DeleteVaccinationAsync(id);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

@@ -1,14 +1,29 @@
-﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.VaccinationDto>
-
+﻿@model PagingList<WebAppMedicalAssistant_Core.DTO.VaccinationDto>
 @{
     ViewData["Title"] = "Мои прививки";
     Layout = "_layout";
 }
 
-<h2>Мои привики</h2>
-
+<div class="text-center">
+    <h2 class="text-center">Мои привики</h2>
+    <form asp-controller="Vaccinacion" asp-action="Index" method="get">
+        <div>
+            Дата начала поиска: <input type="date" name="SearchDateStart" value="@DateTime.UtcNow" />
+            Дата окончания поиска: <input type="date" name="SearchDateEnd" />
+        </div>
+        <div class="mb-3">
+            <label for="Result" class="form-check-label">Показать прививки за весь период:</label>
+            Да<input type="radio" class="form-check-input" name="AllDates" value="false" checked="checked" />
+            Нет<input type="radio" class="form-check-input" name="AllDates" value="true" />
+        </div>
+        <input type="submit" value="Поиск" />
+    </form>
+</div>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 <p>
-    <a asp-action="Create">Добавить новую прививку</a>
+    <a class="btn btn-outline-success" asp-action="Create">Добавить новую прививку</a>
 </p>
 <table class="table">
     <thead>
@@ -34,6 +49,8 @@
             <th>
                 Медицинское учреждение
             </th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -59,9 +76,27 @@
                     @Html.DisplayFor(modelItem => item.VaccinationExpirationDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MedicalInstitutions.NameMedicalInstitution)
+                    @Html.ActionLink(item.MedicalInstitutions.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView", "MedicalInstitution", new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
+                </td>
+                <td>
+                    <a class="btn btn-outline-secondary" asp-controller="Vaccinacion" asp-action="Edit" asp-route-id="@item.Id" asp-route-applicationOfVaccine="@item.ApplicationOfVaccine" asp-route-nameOfVaccine="@item.NameOfVaccine" asp-route-vacineDose="@item.VacineDose" asp-route-vacineSeria="@item.VacineSeria" asp-route-medicalInstitutionDtoId="@item.MedicalInstitutionId">Редактировать</a>
+                </td>
+                <td>
+                    <a class="btn btn-outline-danger" asp-controller="Vaccinacion" asp-action="Delete" asp-route-id="@item.Id" asp-route-applicationOfVaccine="@item.ApplicationOfVaccine" asp-route-nameOfVaccine="@item.NameOfVaccine" asp-route-vacineDose="@item.VacineDose" asp-route-vacineSeria="@item.VacineSeria" asp-route-medicalInstitutionDtoId="@item.MedicalInstitutionId">Удалить</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<nav>
+    <vc:pager paging-list="@Model" class="page-item" />
+</nav>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/js/modalWindow.js" asp-append-version="true"></script>
+}

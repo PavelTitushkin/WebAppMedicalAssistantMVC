@@ -1,40 +1,40 @@
 ﻿@model PrescribedMedicationModel
 
 @{
-    ViewData["Title"] = "Добавить назначенное лекарство";
+    ViewData["Title"] = "Редактирование назначенного лекарства";
     Layout = "_Layout";
 }
 
 <div>
-    <h2>Добавление нового назначенного лекарства</h2>
+    <h2>Редактирование назначенного лекарства</h2>
 
-    <form asp-controller="PrescribedMedication" asp-action="Create" method="post">
+    <form asp-controller="PrescribedMedication" asp-action="Edit" method="post">
         <div class="mb-3">
             <label for="StartDateOfMedication" class="form-label">Начало приёма лекарства:</label>
-            <input asp-for="StartDateOfMedication" type="date" class="form-control" id="StartDateOfMedication" required />
+            <input asp-for="StartDateOfMedication" type="date" class="form-control" id="StartDateOfMedication" value="@Model.StartDateOfMedication" required />
             <span asp-validation-for="StartDateOfMedication" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="EndDateOfMedication" class="form-label">Окончание приёма лекарства:</label>
-            <input asp-for="EndDateOfMedication" type="date" class="form-control" id="EndDateOfMedication" />
+            <input asp-for="EndDateOfMedication" type="date" class="form-control" id="EndDateOfMedication" value="@Model.EndDateOfMedication" />
         </div>
         <div class="mb-3">
             <label for="MedicineId" class="form-label">Название лекарства:</label>
-            <select asp-for="MedicineId" asp-items="@Model.MedicineList"></select>
+            <select asp-for="MedicineId" asp-items="@Model.MedicineList">@Model.MedicineId</select>
         </div>
         <div class="mb-3">
             <label for="MedicineDose" class="form-label">Прописанная доза:</label>
-            <textarea asp-for="MedicineDose" class="form-control" id="MedicineDose" rows="3" required></textarea>
+            <textarea asp-for="MedicineDose" class="form-control" id="MedicineDose" rows="3" required>@Model.MedicineDose</textarea>
         </div>
         <div class="mb-3">
             <label for="MedicinePrice" class="form-label">Стоимость лекарства:</label>
-            <input asp-for="MedicinePrice" type="number" id="MedicinePrice" />
+            <input asp-for="MedicinePrice" type="number" id="MedicinePrice" value="@Model.MedicinePrice"/>
         </div>
         <div>
             <input asp-for="AppointmentId" type="hidden" />
             <input asp-for="ReturnUrl" type="hidden" />
         </div>
-        <input type="submit" class="btn btn-primary m-1" value="Добавить назначенное лекарство" />
+        <input type="submit" class="btn btn-primary m-1" value="Редактировать назначенное лекарство" />
         <a class="btn btn-outline-primary" asp-controller="PrescribedMedication" asp-action="Index">Отмена</a>
     </form>
 </div>

@@ -10,11 +10,10 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
         public VaccinacionProfile()
         {
             CreateMap<Vaccination, VaccinationDto>();
-                //.ForMember(dto => dto.MedicalInstitutions, opt => opt.MapFrom(vaccination => vaccination.MedicalInstitutions));
-
-            CreateMap<VaccinacionModel, VaccinationDto>();
 
             CreateMap<VaccinationDto, Vaccination>();
+
+            CreateMap<VaccinacionModel, VaccinationDto>();
         }
     }
 }

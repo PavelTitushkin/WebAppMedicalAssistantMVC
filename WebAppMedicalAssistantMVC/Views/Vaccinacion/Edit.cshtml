@@ -1,31 +1,31 @@
 ﻿@model VaccinacionModel
 
 @{
-    ViewData["Title"] = "Добавить прививку";
+    ViewData["Title"] = "Редактировать прививку";
     Layout = "_Layout";
 }
 
 <div>
-    <h2>Добавление новой прививки</h2>
+    <h2>Редактирование прививки</h2>
 
-    <form asp-controller="Vaccinacion" asp-action="Create" method="post">
+    <form asp-controller="Vaccinacion" asp-action="Edit" method="post">
         <div class="mb-3">
             <label for="ApplicationOfVaccine" class="form-label">Предназначение:</label>
-            <input asp-for="ApplicationOfVaccine" type="text" class="form-control" id="ApplicationOfVaccine" required />
+            <input asp-for="ApplicationOfVaccine" type="text" class="form-control" id="ApplicationOfVaccine" value="@Model.ApplicationOfVaccine" required />
             <span asp-validation-for="ApplicationOfVaccine" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="NameOfVaccine" class="form-label">Название:</label>
-            <input asp-for="NameOfVaccine" type="text" class="form-control" id="NameOfVaccine" required />
+            <input asp-for="NameOfVaccine" type="text" class="form-control" id="NameOfVaccine" value="@Model.NameOfVaccine" required />
             <span asp-validation-for="NameOfVaccine" class="text-danger"></span>
         </div>
         <div class="mb-3">
             <label for="VacineSeria" class="form-label">Серия:</label>
-            <input asp-for="VacineSeria" type="text" class="form-control" id="VacineSeria" />
+            <input asp-for="VacineSeria" type="text" class="form-control" id="VacineSeria" value="@Model.VacineSeria" />
         </div>
         <div class="mb-3">
             <label for="VacineDose" class="form-label">Доза:</label>
-            <input asp-for="VacineDose" type="text" class="form-control" id="VacineDose" required />
+            <input asp-for="VacineDose" type="text" class="form-control" id="VacineDose" value="@Model.VacineDose" required />
             <span asp-validation-for="VacineDose" class="text-danger"></span>
         </div>
         <div class="mb-3">
@@ -44,10 +44,11 @@
         </div>
         <div class="mb-3">
             <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
-            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
+            <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList">@Model.MedicalInstitutionId</select>
             <a class="btn btn-outline-success" asp-controller="MedicalInstitution" asp-action="Create">Добавить медицинское учреждение</a>
         </div>
         <div>
+            <input asp-for="Id" type="hidden" />
             <input asp-for="ReturnUrl" type="hidden" />
         </div>
         <input type="submit" class="btn btn-primary m-1" value="Добавить прививку" />
