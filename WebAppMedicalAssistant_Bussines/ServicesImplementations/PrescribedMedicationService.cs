@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebAppMedicalAssistant_Core;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
@@ -34,6 +35,25 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                     .OrderBy(entity => entity.StartDateOfMedication)
                     .Select(entity => _mapper.Map<PrescribedMedicationDto>(entity))
                     .ToListAsync();
+
+                return dto;
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException();
+            }
+        }
+
+        public async Task<PrescribedMedicationDto> GetPrescribedMedicationByIdAsync(int id)
+        {
+            try
+            {
+                var dto = await _unitOfWork.PrescribedMedication
+                    .Get().Where(entity => entity.Id.Equals(id))
+                    .AsNoTracking()
+                    .Include(include => include.Medicine)
+                    .Select(entity => _mapper.Map<PrescribedMedicationDto>(entity))
+                    .FirstOrDefaultAsync();
 
                 return dto;
             }
@@ -78,6 +98,84 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             catch (Exception)
             {
                 throw new ArgumentException();
+            }
+        }
+
+        public async Task<int> UpdatePrescribedMedicationAsync(PrescribedMedicationDto dto, int id)
+        {
+            try
+            {
+                var sourceDto = await GetPrescribedMedicationByIdAsync(id);
+                var patchList = new List<PatchModel>();
+                if (dto != null)
+                {
+                    if (dto.StartDateOfMedication != sourceDto.StartDateOfMedication)
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.StartDateOfMedication),
+                            PropertyValue = dto.StartDateOfMedication
+                        });
+                    }
+                    if (dto.EndDateOfMedication != sourceDto.EndDateOfMedication)
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.EndDateOfMedication),
+                            PropertyValue = dto.EndDateOfMedication
+                        });
+                    }
+                    if (dto.MedicineId != sourceDto.MedicineId)
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.MedicineId),
+                            PropertyValue = dto.MedicineId
+                        });
+                    }
+                    if (dto.MedicinePrice != sourceDto.MedicinePrice)
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.MedicinePrice),
+                            PropertyValue = dto.MedicinePrice
+                        });
+                    }
+                    if (dto.MedicineDose != sourceDto.MedicineDose)
+                    {
+                        patchList.Add(new PatchModel()
+                        {
+                            PropertyName = nameof(dto.MedicineDose),
+                            PropertyValue = dto.MedicineDose
+                        });
+                    }
+                }
+
+                await _unitOfWork.PrescribedMedication.PatchAsync(id, patchList);
+
+                return await _unitOfWork.Commit();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task DeletePrescribedMedicationAsync(int id)
+        {
+            try
+            {
+                var entity = await _unitOfWork.PrescribedMedication
+                    .FindBy(entity => entity.Id == id)
+                    .FirstOrDefaultAsync();
+                _unitOfWork.PrescribedMedication.Remove(entity);
+
+                await _unitOfWork.Commit();
+            }
+
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

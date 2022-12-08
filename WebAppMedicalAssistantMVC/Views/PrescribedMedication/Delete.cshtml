@@ -1,0 +1,21 @@
+﻿@model PrescribedMedicationModel
+@{
+    ViewData["Title"] = "Удаление назначенного лекарства";
+    Layout = "_Layout";
+}
+<div>
+    <h4>Вы уверены, что хотите удалить назначенное лекарство?</h4>
+    <p>@Model.NameOfMedicine</p>
+</div>
+<form asp-controller="PrescribedMedication" asp-action="Delete" method="post" asp-route-id="@Model.Id">
+    <div>
+        <input type="submit" class="btn btn-danger m-1" value="Удалить назначенное лекарство" />
+        <a class="btn btn-outline-primary m-1" role="button" asp-controller="PrescribedMedication" asp-action="Index">Отмена</a>
+    </div>
+</form>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

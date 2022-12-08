@@ -65,15 +65,17 @@
                 <ul class="list-group">
                     @foreach (var item in Model.PrescribedMedicationsDto)
                     {
-                        <li class="list-group-item">@item.Medicine.NameOfMedicine</li>
+                        <li class="list-group-item">
+                            @Html.ActionLink(item.Medicine.NameOfMedicine, "DetailsPrescribedMedicationPartialView", "PrescribedMedication", new { id = item.Id }, new { @class = "tempClass" })
+                        </li>
                     }
-                    @Html.ActionLink("Добавить", "Create", "PrescribedMedication", new {id = Model.Id})
+                    <a class="btn btn-outline-success" asp-controller="PrescribedMedication" asp-action="Create" asp-route-id="@Model.Id">Добавить</a>
                 </ul> 
             }
             else
             {
                 <p>Нет назначенных лекарств</p>
-                @Html.ActionLink("Добавить", "Create", "PrescribedMedication", new {id = Model.Id})
+                <a class="btn btn-outline-success" asp-controller="PrescribedMedication" asp-action="Create" asp-route-id="@Model.Id">Добавить</a>
             }
         </div>
         <div class="col border border-secondary rounded-3 m-1 p-1">

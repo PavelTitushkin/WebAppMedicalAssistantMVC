@@ -8,5 +8,7 @@ namespace WebAppMedicalAssistant_Core.Abstractions
         Task<List<PrescribedMedicationDto>> GetPeriodPrescribedMedicationAsync(DateTime searchDateStart, DateTime searchDateEnd, int id);
         Task<PrescribedMedicationDto> GetPrescribedMedicationByIdAsync(int id);
         Task<int> CreatePrescribedMedicationAsync(PrescribedMedicationDto dto);
+        Task<int> UpdatePrescribedMedicationAsync(PrescribedMedicationDto dto, int id);
+        Task DeletePrescribedMedicationAsync(int id);
     }
 }

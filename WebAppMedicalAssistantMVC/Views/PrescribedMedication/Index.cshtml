@@ -65,7 +65,14 @@
                     @Html.DisplayFor(modelItem => item.EndDateOfMedication)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Medicine.LinkToInstructions)
+                    @if(item.Medicine.LinkToInstructions != null)
+                    {
+                        <a href="@item.Medicine.LinkToInstructions">Смотреть инструкцию</a>
+                    }
+                    else
+                    {
+                        <p>Инструкция отсутствует</p>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MedicineDose)

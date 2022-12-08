@@ -8,7 +8,7 @@
 <h2>Лекарства</h2>
 
 <p>
-    <a asp-action="AddMedicine">Добавить новое лекарство</a>
+    <a class="btn btn-outline-success" asp-action="AddMedicine">Добавить новое лекарство</a>
 </p>
 <table class="table">
     <thead>
@@ -41,8 +41,8 @@
                     }
                 </td>
                 <td>
-                    @Html.ActionLink("Редактировать", "ShowEditMedicine", "Admin", new {id = item.Id, nameMedicine = item.NameOfMedicine, linkToInstructions = item.LinkToInstructions})
-                    <a asp-controller="Admin" asp-action="ShowDeleteMedicine" asp-route-id="@item.Id" asp-route-nameOfMedicine="@item.NameOfMedicine" class="m-1">Удалить</a>
+                    <a class="btn btn-outline-secondary m-1" asp-controller="Admin" asp-action="ShowEditMedicine" asp-route-id="@item.Id" asp-route-nameMedicine="@item.NameOfMedicine" asp-route-linkToInstructions="@item.LinkToInstructions">Редактировать</a>
+                    <a class="btn btn-outline-danger m-1" asp-controller="Admin" asp-action="ShowDeleteMedicine" asp-route-id="@item.Id" asp-route-nameOfMedicine="@item.NameOfMedicine">Удалить</a>
                 </td>
             </tr>
         }

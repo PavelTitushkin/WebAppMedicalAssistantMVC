@@ -1,0 +1,35 @@
+﻿@model WebAppMedicalAssistant_Core.DTO.PrescribedMedicationDto
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="btn-close" data-bs-dismiss="modal" area-hidden="true"></button>
+    </div>
+    <h4 class="text-center">Назначенное лекарство</h4>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>Название:</dt>
+            <dd>@Html.DisplayFor(model => model.Medicine.NameOfMedicine)</dd>
+            <dt>Инструкция:</dt>
+            @if (Model.Medicine.LinkToInstructions != null)
+            {
+                <a href="@Model.Medicine.LinkToInstructions">Смотреть инструкцию</a>
+            }
+            else
+            {
+                <p>Инструкция отсутствует</p>
+            }
+            <dt>Дата начала приёма:</dt>
+            <dd>@Html.DisplayFor(model => model.StartDateOfMedication)</dd>
+            <dt>Дата окончания приёма:</dt>
+            <dd>@Html.DisplayFor(model => model.EndDateOfMedication)</dd>
+            <dt>Назначена доза:</dt>
+            <dd>@Html.DisplayFor(model => model.MedicineDose)</dd>
+            <dt>Цена лекарства:</dt>
+            <dd>@Html.DisplayFor(model => model.MedicinePrice)</dd>
+        </dl>
+    </div>
+    <div class="m-1">
+        <a class="btn btn-outline-secondary m-1" asp-controller="PrescribedMedication" asp-action="Edit" asp-route-id="@Model.Id" asp-route-medicineId="@Model.MedicineId" asp-route-startDateOfMedication="@Model.StartDateOfMedication" asp-route-endDateOfMedication="@Model.EndDateOfMedication" asp-route-medicinePrice="@Model.MedicinePrice" asp-route-medicineDose="@Model.MedicineDose">Редактировать назначенное лекарство</a>
+        <a class="btn btn-outline-danger m-1" asp-controller="PrescribedMedication" asp-action="Delete" asp-route-id="@Model.Id" asp-route-nameOfMedicine="@Model.Medicine.NameOfMedicine">Удалить назначенное лекарство</a>
+    </div>
+</div>

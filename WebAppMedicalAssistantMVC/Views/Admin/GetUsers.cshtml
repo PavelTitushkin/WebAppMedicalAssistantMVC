@@ -50,7 +50,7 @@
                     <td>
                         @if(item.RoleName != "admin")
                         {
-                            <a asp-controller="Admin" asp-action="ShowDeleteUser" asp-route-id="@item.Id" asp-route-userEmail="@item.Email" class="m-1">Удалить</a>
+                            <a class="btn btn-outline-danger m-1" asp-controller="Admin" asp-action="ShowDeleteUser" asp-route-id="@item.Id" asp-route-userEmail="@item.Email">Удалить</a>
                         }
                     </td>
                 </tr>

@@ -136,11 +136,12 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 if (!ModelState.IsValid)
                 {
                     var dto = await _prescribedMedicationService.GetPrescribedMedicationByIdAsync(model.Id);
-                    dto.NameOfMedicalExamination = model.NameOfMedicalExamination;
-                    dto.DateOfMedicalExamination = model.DateOfMedicalExamination;
-                    dto.MedicalInstitutionId = model.MedicalInstitutionId;
-                    dto.PriceOfMedicalExamination = model.PriceOfMedicalExamination;
-                    await _medicalExaminationService.UpdateMedicalExaminationAsync(dto, dto.Id);
+                    dto.StartDateOfMedication = model.StartDateOfMedication;
+                    dto.EndDateOfMedication = model.EndDateOfMedication;
+                    dto.MedicineId = model.MedicineId;
+                    dto.MedicineDose = model.MedicineDose;
+                    dto.MedicinePrice = model.MedicinePrice;
+                    await _prescribedMedicationService.UpdatePrescribedMedicationAsync(dto, dto.Id);
 
                     return Redirect(model.ReturnUrl);
 
@@ -177,15 +178,14 @@ namespace WebAppMedicalAssistantMVC.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int id, string nameOfMedicalExamination, DateTime dateOfMedicalExamination)
+        public IActionResult Delete(int id, string? nameOfMedicine)
         {
             try
             {
-                var model = new MedicalExaminationModel()
+                var model = new PrescribedMedicationModel()
                 {
                     Id = id,
-                    NameOfMedicalExamination = nameOfMedicalExamination,
-                    DateOfMedicalExamination = dateOfMedicalExamination,
+                    NameOfMedicine = nameOfMedicine,
                 };
 
                 return View(model);
@@ -201,13 +201,28 @@ namespace WebAppMedicalAssistantMVC.Controllers
         {
             try
             {
-                await _medicalExaminationService.DeleteMedicalExaminationAsync(id);
+                await _prescribedMedicationService.DeletePrescribedMedicationAsync(id);
 
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetailsPrescribedMedicationPartialView(int id)
+        {
+            try
+            {
+                var dto = await _prescribedMedicationService.GetPrescribedMedicationByIdAsync(id);
+
+                return PartialView(dto);
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
