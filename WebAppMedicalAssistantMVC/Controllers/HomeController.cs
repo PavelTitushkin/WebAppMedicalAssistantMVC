@@ -16,16 +16,21 @@ namespace WebAppMedicalAssistantMVC.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IUserService _userService;
+        private readonly IDoctorVisitService _doctorVisitService;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, IDoctorVisitService doctorVisitService)
         {
             _logger = logger;
             _userService = userService;
+            _doctorVisitService = doctorVisitService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var dateNow = DateTime.Now;
+            var dto = await _doctorVisitService.GetScheduledDoctorVisitAsync(dateNow);
+
+            return View(dto);
         }
 
         [HttpGet]

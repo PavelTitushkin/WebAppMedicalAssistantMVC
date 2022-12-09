@@ -30,4 +30,8 @@
     <ProjectReference Include="..\WebAppMedicalAssistant_DataBase\WebAppMedicalAssistant_DataBase.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\calendar-gs\" />
+  </ItemGroup>
+
 </Project>

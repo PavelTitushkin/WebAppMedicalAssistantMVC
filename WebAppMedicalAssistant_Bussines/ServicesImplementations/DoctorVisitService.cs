@@ -40,6 +40,31 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             }
         }
 
+        public async Task<List<DoctorVisitDto>> GetScheduledDoctorVisitAsync(DateTime dateNow)
+        {
+            try
+            {
+                var dto = await _unitOfWork.DoctorVisit
+                    .FindBy(entity => entity.DateVisit >= dateNow)
+                    .AsNoTracking()
+                    .Include(entity => entity.MedicalInstitution)
+                    .Include(entity => entity.Doctor)
+                    .Include(entity => entity.TransferredDisease)
+                    .ThenInclude(tranDis => tranDis.Disease)
+                    .Include(entity => entity.Appointment)
+                    .OrderBy(entity => entity.DateVisit)
+                    .Select(doctorVisit => _mapper.Map<DoctorVisitDto>(doctorVisit))
+                    .ToListAsync();
+
+                return dto;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<List<DoctorVisitDto>> GetAllDoctorVisitAsync(int userId)
         {
             try
