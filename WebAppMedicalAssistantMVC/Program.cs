@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging.Core;
 using ReflectionIT.Mvc.Paging;
+using Serilog;
+using Serilog.Events;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Data.Abstractions;
@@ -18,14 +20,16 @@ namespace WebAppMedicalAssistantMVC
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            //Add Serilog
+            builder.Host.UseSerilog((ctx, lc) =>
+                lc.WriteTo.File(@"D:\IT-Academy\Projects\WebAppMedicalAssistantMVC\data.log",
+                    LogEventLevel.Information).WriteTo.Console(LogEventLevel.Verbose));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews( opts=>
             {
                 opts.ModelBinderProviders.Insert(0, new CustomDateTimeModelBinderProvider());
             });
-
-            builder.Services?.AddPaging();
 
             //Add Authentication
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -79,6 +83,8 @@ namespace WebAppMedicalAssistantMVC
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            //Add paddig
+            builder.Services.AddPaging();
 
             var app = builder.Build();
 

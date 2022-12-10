@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Routing;
 using ReflectionIT.Mvc.Paging;
-using WebAppMedicalAssistant_Bussines.ServicesImplementations;
+using Serilog;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistantMVC.Models;
@@ -54,9 +53,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     return View(model);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -75,10 +75,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 return View(physicalTherapyModel);
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -105,10 +105,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     return View(model);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -129,9 +129,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -153,9 +154,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -173,9 +175,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -203,9 +206,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return PartialView(dto);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 

@@ -1,13 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
+using Serilog;
 using System.Diagnostics;
-using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core.Abstractions;
-using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistantMVC.Models;
-using System.IO;
 
 namespace WebAppMedicalAssistantMVC.Controllers
 {
@@ -33,23 +29,31 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var emailUser = HttpContext.User.Identity?.Name;
-            var userDto = await _userService.GetUserByEmailAsync(emailUser);
-            var dateNow = DateTime.Now;
-            var dtoDoctorVisit = await _doctorVisitService.GetScheduledDoctorVisitAsync(dateNow, userDto.Id);
-            var dtoAnalysis = await _analysisService.GetScheduledAnalysisAsync(dateNow, userDto.Id);
-            var dtoMedicalExamination = await _medicalExaminationService.GetScheduledMedicalExaminationAsync(dateNow, userDto.Id);
-            var dtoPhysicalTherapy = await _physicalTherapyService.GetScheduledPhysicalTherapyAsync(dateNow, userDto.Id);
-
-            var model = new CalendarViewModel()
+            try
             {
-                DoctorVisits = dtoDoctorVisit,
-                AnalysisVisits = dtoAnalysis,
-                MedicalExaminationVisits = dtoMedicalExamination,
-                PhysicalTherapyVisits = dtoPhysicalTherapy,
-            };
+                var emailUser = HttpContext.User.Identity?.Name;
+                var userDto = await _userService.GetUserByEmailAsync(emailUser);
+                var dateNow = DateTime.Now;
+                var dtoDoctorVisit = await _doctorVisitService.GetScheduledDoctorVisitAsync(dateNow, userDto.Id);
+                var dtoAnalysis = await _analysisService.GetScheduledAnalysisAsync(dateNow, userDto.Id);
+                var dtoMedicalExamination = await _medicalExaminationService.GetScheduledMedicalExaminationAsync(dateNow, userDto.Id);
+                var dtoPhysicalTherapy = await _physicalTherapyService.GetScheduledPhysicalTherapyAsync(dateNow, userDto.Id);
 
-            return View(model);
+                var model = new CalendarViewModel()
+                {
+                    DoctorVisits = dtoDoctorVisit,
+                    AnalysisVisits = dtoAnalysis,
+                    MedicalExaminationVisits = dtoMedicalExamination,
+                    PhysicalTherapyVisits = dtoPhysicalTherapy,
+                };
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpGet]
@@ -71,9 +75,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -94,9 +99,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -105,7 +111,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
         {
             try
             {
-                if(model.Avatar !=null)
+                if (model.Avatar != null)
                 {
                     var dto = await _userService.GetUserByEmailAsync(model.Email);
                     byte[] imageData = null;
@@ -120,9 +126,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return RedirectToAction("GetOrEditUserInfo");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -136,7 +143,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 dto.FirstName = model.FirstName;
                 dto.Birthday = model.Birthday;
                 dto.Email = model.Email;
-                if(dto.Avatar?.Length == 0)
+                if (dto.Avatar?.Length == 0)
                 {
                     byte[] imageData = null;
                     using (BinaryReader binaryReader = new BinaryReader(model.Avatar.OpenReadStream()))
@@ -150,9 +157,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return RedirectToAction("GetOrEditUserInfo");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 

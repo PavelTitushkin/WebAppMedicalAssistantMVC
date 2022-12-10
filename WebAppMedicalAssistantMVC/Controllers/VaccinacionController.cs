@@ -2,11 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Routing;
 using ReflectionIT.Mvc.Paging;
-using System.Security.Claims;
-using WebAppMedicalAssistant_Bussines.ServicesImplementations;
-using WebAppMedicalAssistant_Core;
+using Serilog;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistantMVC.Models;
@@ -56,9 +53,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     return View(model);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -80,10 +78,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 return View(model);
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -108,12 +106,13 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     return View(model);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id, string? applicationOfVaccine, string? nameOfVaccine, string? vacineDose, string? vacineSeria, int? medicalInstitutionDtoId)
         {
@@ -126,15 +125,16 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     ApplicationOfVaccine = applicationOfVaccine,
                     NameOfVaccine = nameOfVaccine,
                     VacineDose = vacineDose,
-                    VacineSeria= vacineSeria,
+                    VacineSeria = vacineSeria,
                     MedicalInstitutionId = medicalInstitutionDtoId,
                     MedicalInstitutionList = new SelectList(medicalInstitutionsDto, "Id", "NameMedicalInstitution"),
                 };
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -159,9 +159,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -179,9 +180,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -194,12 +196,11 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
-
-
     }
 }

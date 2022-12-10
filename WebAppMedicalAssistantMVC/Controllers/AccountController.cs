@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
+using Serilog;
 using System.Security.Claims;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
@@ -29,7 +29,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
             try
             {
                 var userEmail = HttpContext.User.Identity?.Name;
-                if(string.IsNullOrEmpty(userEmail)) 
+                if (string.IsNullOrEmpty(userEmail))
                 {
                     return BadRequest();
                 }
@@ -38,110 +38,170 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(userModel);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            var isPasswordCorrect = await _userService.CheckUserPasswordAsync(loginModel.Email, loginModel.Password);
-            if(isPasswordCorrect)
+            try
             {
-                var roleName = await Authenticate(loginModel.Email);
-                if (roleName == "admin")
+                var isPasswordCorrect = await _userService.CheckUserPasswordAsync(loginModel.Email, loginModel.Password);
+                if (isPasswordCorrect)
                 {
-                    return RedirectToAction("Index", "Admin");
+                    var roleName = await Authenticate(loginModel.Email);
+                    if (roleName == "admin")
+                    {
+                        return RedirectToAction("Index", "Admin");
+                    }
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return View();
                 }
 
-                return RedirectToAction("Index", "Home");
             }
-            else
+            catch (Exception e)
             {
-                return View();
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> CheckEmail(string email)
         {
-            var isUserExist = await _userService.IsUserExistAsync(email);
-            if(isUserExist)
+            try
             {
-                return Ok(false);
-            }
+                var isUserExist = await _userService.IsUserExistAsync(email);
+                if (isUserExist)
+                {
+                    return Ok(false);
+                }
 
-            return Ok(true);
+                return Ok(true);
+
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
-            if(ModelState.IsValid)
+            try
             {
-                var userRoleId = await _roleService.GetRoleIdByNameAsync("User");
-                var userDto = _mapper.Map<UserDto>(registerModel);
-                if(userDto != null && userRoleId!=null)
+                if (ModelState.IsValid)
                 {
-                    userDto.RoleId = userRoleId.Value;
-                    var result = await _userService.RegisterUser(userDto);
-                    if (result > 0)
+                    var userRoleId = await _roleService.GetRoleIdByNameAsync("User");
+                    var userDto = _mapper.Map<UserDto>(registerModel);
+                    if (userDto != null && userRoleId != null)
                     {
-                        var roleName = await Authenticate(registerModel.Email);
-                        if (roleName == "admin")
+                        userDto.RoleId = userRoleId.Value;
+                        var result = await _userService.RegisterUser(userDto);
+                        if (result > 0)
                         {
-                            return RedirectToAction("Index", "Admin");
-                        }
+                            var roleName = await Authenticate(registerModel.Email);
+                            if (roleName == "admin")
+                            {
+                                return RedirectToAction("Index", "Admin");
+                            }
 
-                        return RedirectToAction("Index", "Home");
+                            return RedirectToAction("Index", "Home");
+                        }
                     }
                 }
-            }
 
-            return View(registerModel);
+                return View(registerModel);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
+            }
         }
 
         private async Task<string> Authenticate(string email)
         {
-            var userDto = await _userService.GetUserByEmailAsync(email);
-
-            var claims = new List<Claim>()
+            try
             {
+                var userDto = await _userService.GetUserByEmailAsync(email);
+
+                var claims = new List<Claim>()
+                {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userDto.Email),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, userDto.RoleName)
-            };
+                };
 
-            var identity = new ClaimsIdentity(
-                claims,
-                "ApplicationCookie",
-                ClaimsIdentity.DefaultNameClaimType,
-                ClaimsIdentity.DefaultRoleClaimType
-                );
-            
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+                var identity = new ClaimsIdentity(
+                    claims,
+                    "ApplicationCookie",
+                    ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType
+                    );
 
-            return userDto.RoleName;
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+
+                return userDto.RoleName;
+
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e.Message}");
+                throw;
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Exit()
         {
-            await HttpContext.SignOutAsync();
-            return RedirectToAction("Login", "Account");
+            try
+            {
+                await HttpContext.SignOutAsync();
+                return RedirectToAction("Login", "Account");
+            }
+            catch (Exception e)
+            {
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
+            }
         }
     }
 }

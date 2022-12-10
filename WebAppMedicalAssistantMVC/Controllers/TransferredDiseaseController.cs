@@ -2,14 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Routing;
 using ReflectionIT.Mvc.Paging;
-using System.Security.Permissions;
-using WebAppMedicalAssistant_Bussines.ServicesImplementations;
+using Serilog;
 using WebAppMedicalAssistant_Core;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
-using WebAppMedicalAssistant_DataBase.Entities;
 using WebAppMedicalAssistantMVC.Models;
 
 namespace WebAppMedicalAssistantMVC.Controllers
@@ -56,9 +53,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     return View(model);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -84,9 +82,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 return View(model);
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -107,17 +106,13 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 model.DateOfDisease = dateOfDisease;
                 model.DateOfRecovery = dateOfRecovery;
                 model.ReturnUrl = Request.Headers["Referer"].ToString();
-                //if (model.ReturnUrl == "https://localhost:7068/TransferredDisease/CreateDisease")
-                //{
-                //    model.ReturnUrl = "https://localhost:7068/TransferredDisease/Index";
-                //}
 
                 return View(model);
-
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -134,7 +129,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     dto.DiseaseId = model.DiseaseId;
                     dto.TypeOfTreatment = model.TypeOfTreatment;
                     dto.FormOfTransferredDiseaseDto = model.FormOfTransferredDiseaseList;
-                    
+
                     await _transferredDiseaseService.UpdateTransferredDiseaseAsync(dto, dto.Id);
 
                     return Redirect(model.ReturnUrl);
@@ -142,9 +137,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -160,7 +156,6 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     model.UserId = userDto.Id;
 
                     var dto = _mapper.Map<TransferredDiseaseDto>(model);
-                    //dto.AppointmentId = null;
                     var transferredDiseaseLastId = await _transferredDiseaseService.CreateTransferredDiseaseAsync(dto);
 
                     if (model.AppointmentId != null)
@@ -176,9 +171,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
                     return View(model);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -192,10 +188,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -209,10 +205,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return Redirect(model.ReturnUrl);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -225,9 +221,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return PartialView(dto);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -244,9 +241,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -259,9 +257,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
     }

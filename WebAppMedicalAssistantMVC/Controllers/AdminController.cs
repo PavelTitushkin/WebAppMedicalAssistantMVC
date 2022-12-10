@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebAppMedicalAssistant_Bussines.ServicesImplementations;
+using Serilog;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistantMVC.Models;
 
@@ -10,14 +9,12 @@ namespace WebAppMedicalAssistantMVC.Controllers
     [Authorize(Roles = "admin")]
     public class AdminController : Controller
     {
-        private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly IMedicalInstitutionService _medicalInstitutionService;
         private readonly IMedicineService _medicineService;
 
-        public AdminController(IMapper mapper, IUserService userService, IMedicalInstitutionService medicalInstitutionService, IMedicineService medicineService)
+        public AdminController(IUserService userService, IMedicalInstitutionService medicalInstitutionService, IMedicineService medicineService)
         {
-            _mapper = mapper;
             _userService = userService;
             _medicalInstitutionService = medicalInstitutionService;
             _medicineService = medicineService;
@@ -30,10 +27,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
             {
                 return View();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -43,12 +40,13 @@ namespace WebAppMedicalAssistantMVC.Controllers
             try
             {
                 var usersDto = await _userService.GetAllUserAsync();
-                
+
                 return View(usersDto);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
         [HttpGet]
@@ -60,12 +58,13 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(medicalInstituyionsDto);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
-        
+
         [HttpGet]
         public IActionResult ShowDeleteUser(int id, string userEmail)
         {
@@ -77,9 +76,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
 
         }
@@ -95,9 +95,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -112,9 +113,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -132,9 +134,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -150,9 +153,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -165,9 +169,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return RedirectToAction("GetUsers");
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -180,9 +185,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return RedirectToAction("GetMedicalInstitutions");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -195,9 +201,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return RedirectToAction("GetMedicines");
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -211,14 +218,15 @@ namespace WebAppMedicalAssistantMVC.Controllers
                 dto.Adress = model.Adress;
                 dto.OperatingMode = model.OperatingMode;
                 dto.Contact = model.Contact;
-                
+
                 await _medicalInstitutionService.UpdateMedicalInstitutionAsync(dto, dto.Id);
 
                 return RedirectToAction("GetMedicalInstitutions");
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -235,9 +243,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return RedirectToAction("GetMedicines");
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -250,9 +259,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View(listDto);
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -265,9 +275,10 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View();
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
 
@@ -277,7 +288,7 @@ namespace WebAppMedicalAssistantMVC.Controllers
             try
             {
                 var listLinkMedicine = _medicineService.SearchMedicineInTabletkaBy(model.NameOfMedicine);
-                if(listLinkMedicine != null)
+                if (listLinkMedicine != null)
                 {
                     var result = await _medicineService.AddMedicineAsync(listLinkMedicine);
 
@@ -286,11 +297,11 @@ namespace WebAppMedicalAssistantMVC.Controllers
 
                 return View();
             }
-            catch (ArgumentException ex)
+            catch (Exception e)
             {
-                return BadRequest(ex.Message);
+                Log.Error($"{e.Message}");
+                return StatusCode(500);
             }
         }
-
     }
 }
