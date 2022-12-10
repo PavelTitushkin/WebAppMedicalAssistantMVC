@@ -1,9 +1,11 @@
-﻿using WebAppMedicalAssistant_Core.DTO;
+﻿using System.Data;
+using WebAppMedicalAssistant_Core.DTO;
 
 namespace WebAppMedicalAssistant_Core.Abstractions
 {
     public interface IMedicalExaminationService
     {
+        Task<List<MedicalExaminationDto?>> GetScheduledMedicalExaminationAsync(DateTime dateNow, int id);
         Task<List<MedicalExaminationDto>> GetAllMedicalExaminationAsync(int userId);
         Task<MedicalExaminationDto> GetMedicalExaminationByIdAsync(int id);
         Task<List<MedicalExaminationDto>> GetPeriodMedicalExaminationAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int userId);

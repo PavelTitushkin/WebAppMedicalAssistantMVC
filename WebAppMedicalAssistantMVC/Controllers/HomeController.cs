@@ -17,20 +17,39 @@ namespace WebAppMedicalAssistantMVC.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IUserService _userService;
         private readonly IDoctorVisitService _doctorVisitService;
+        private readonly IAnalysisService _analysisService;
+        private readonly IMedicalExaminationService _medicalExaminationService;
+        private readonly IPhysicalTherapyService _physicalTherapyService;
 
-        public HomeController(ILogger<HomeController> logger, IUserService userService, IDoctorVisitService doctorVisitService)
+        public HomeController(ILogger<HomeController> logger, IUserService userService, IDoctorVisitService doctorVisitService, IAnalysisService analysisService, IMedicalExaminationService medicalExaminationService, IPhysicalTherapyService physicalTherapyService)
         {
             _logger = logger;
             _userService = userService;
             _doctorVisitService = doctorVisitService;
+            _analysisService = analysisService;
+            _medicalExaminationService = medicalExaminationService;
+            _physicalTherapyService = physicalTherapyService;
         }
 
         public async Task<IActionResult> Index()
         {
+            var emailUser = HttpContext.User.Identity?.Name;
+            var userDto = await _userService.GetUserByEmailAsync(emailUser);
             var dateNow = DateTime.Now;
-            var dto = await _doctorVisitService.GetScheduledDoctorVisitAsync(dateNow);
+            var dtoDoctorVisit = await _doctorVisitService.GetScheduledDoctorVisitAsync(dateNow, userDto.Id);
+            var dtoAnalysis = await _analysisService.GetScheduledAnalysisAsync(dateNow, userDto.Id);
+            var dtoMedicalExamination = await _medicalExaminationService.GetScheduledMedicalExaminationAsync(dateNow, userDto.Id);
+            var dtoPhysicalTherapy = await _physicalTherapyService.GetScheduledPhysicalTherapyAsync(dateNow, userDto.Id);
 
-            return View(dto);
+            var model = new CalendarViewModel()
+            {
+                DoctorVisits = dtoDoctorVisit,
+                AnalysisVisits = dtoAnalysis,
+                MedicalExaminationVisits = dtoMedicalExamination,
+                PhysicalTherapyVisits = dtoPhysicalTherapy,
+            };
+
+            return View(model);
         }
 
         [HttpGet]

@@ -63,6 +63,28 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             }
         }
 
+        public async Task<List<PhysicalTherapyDto?>> GetScheduledPhysicalTherapyAsync(DateTime dateNow, int id)
+        {
+            try
+            {
+                var dto = await _unitOfWork.PhysicalTherapy
+                    .FindBy(entity => entity.UserId.Equals(id))
+                    .AsNoTracking()
+                    .Where(entity => entity.DatePhysicalTherapy >= dateNow)
+                    .Include(include => include.MedicalInstitution)
+                    .OrderBy(orderBy => orderBy.DatePhysicalTherapy)
+                    .Select(entity => _mapper.Map<PhysicalTherapyDto>(entity))
+                    .ToListAsync();
+
+                return dto;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
 
         public async Task<List<PhysicalTherapyDto>> GetPeriodPhysicalTherapyAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int id)
         {

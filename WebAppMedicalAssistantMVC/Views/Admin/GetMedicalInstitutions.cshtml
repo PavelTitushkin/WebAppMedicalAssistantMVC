@@ -26,6 +26,7 @@
                     Контакты
                 </th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -46,6 +47,8 @@
                     </td>
                     <td>
                         <a class="btn btn-outline-secondary m-1" asp-controller="Admin" asp-action="ShowEditMedicalInstitution" asp-route-id="@item.Id" asp-route-nameMedicalInstitution="@item.NameMedicalInstitution" asp-route-adress="@item.Adress" asp-route-operatingMode="@item.OperatingMode" asp-route-contact="@item.Contact">Редактировать</a>
+                    </td>
+                    <td>
                         <a class="btn btn-outline-danger m-1" asp-controller="Admin" asp-action="ShowDeleteMedicalInstitution" asp-route-id="@item.Id" asp-route-nameMedicalInstitution="@item.NameMedicalInstitution">Удалить</a>
                     </td>
                 </tr>

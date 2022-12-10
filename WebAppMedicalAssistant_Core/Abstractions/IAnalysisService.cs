@@ -1,9 +1,11 @@
-﻿using WebAppMedicalAssistant_Core.DTO;
+﻿using System.Data;
+using WebAppMedicalAssistant_Core.DTO;
 
 namespace WebAppMedicalAssistant_Core.Abstractions
 {
     public interface IAnalysisService
     {
+        Task<List<AnalysisDto?>> GetScheduledAnalysisAsync(DateTime dateNow, int id);
         Task<IOrderedQueryable<AnalysisDto>> GetAllAnalysisAsync(int userId);
         Task<AnalysisDto> GetAnalysisByIdAsync(int id);
         Task<List<AnalysisDto>> GetPeriodAnalysisAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int userId);

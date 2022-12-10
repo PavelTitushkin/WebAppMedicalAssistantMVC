@@ -43,7 +43,7 @@
                 <ul class="list-group">
                     @foreach (var item in Model.AnalysisDto)
                     {
-                        <li class="list-group-item">
+                        <li class="list-group-item bg-transparent">
                             @Html.ActionLink(item.NameOfAnalysis, "DetailsAnalysisPartialView", "Analysis", new { id = item.Id }, new { @class = "tempClass" })
                         </li>
                     }
@@ -65,7 +65,7 @@
                 <ul class="list-group">
                     @foreach (var item in Model.PrescribedMedicationsDto)
                     {
-                        <li class="list-group-item">
+                        <li class="list-group-item bg-transparent">
                             @Html.ActionLink(item.Medicine.NameOfMedicine, "DetailsPrescribedMedicationPartialView", "PrescribedMedication", new { id = item.Id }, new { @class = "tempClass" })
                         </li>
                     }
@@ -85,7 +85,7 @@
                 <ul class="list-group">
                     @foreach (var item in Model.MedicalExaminationsDto)
                     {
-                        <li class="list-group-item">
+                        <li class="list-group-item bg-transparent">
                             @Html.ActionLink(item.NameOfMedicalExamination, "DetailsMedicalExaminationPartialView", "MedicalExamination", new { id = item.Id }, new { @class = "tempClass" })
                         </li>
                     }
@@ -105,7 +105,7 @@
                 <ul class="list-group">
                     @foreach (var item in Model.PhysicalTherapysDto)
                     {
-                        <li class="list-group-item">
+                        <li class="list-group-item bg-transparent">
                             @Html.ActionLink(item.NameOfPhysicalTherapy, "DetailsPhysicalTherapyPartialView", "PhysicalTherapy", new { id = item.Id }, new { @class = "tempClass" })
                         </li>
                     }

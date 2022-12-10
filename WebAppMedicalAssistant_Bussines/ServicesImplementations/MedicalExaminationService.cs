@@ -101,6 +101,30 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             }
         }
 
+        public async Task<List<MedicalExaminationDto?>> GetScheduledMedicalExaminationAsync(DateTime dateNow, int id)
+        {
+            try
+            {
+                var dto = await _unitOfWork.MedicalExamination
+                    .FindBy(entity => entity.UserId == id)
+                    .AsNoTracking()
+                    .Where(entity => entity.DateOfMedicalExamination >= dateNow)
+                    .Include(include => include.MedicalInstitution)
+                    .Include(include => include.ScanOfMedicalExaminations)
+                    .OrderBy(entity => entity.DateOfMedicalExamination)
+                    .Select(entity => _mapper.Map<MedicalExaminationDto>(entity))
+                    .ToListAsync();
+
+                return dto;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+
         public async Task<List<MedicalExaminationDto>> GetPeriodMedicalExaminationAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int userId)
         {
             try
@@ -239,6 +263,5 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 throw;
             }
         }
-
     }
 }

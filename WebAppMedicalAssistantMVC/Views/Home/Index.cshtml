@@ -1,113 +1,215 @@
-﻿@model IEnumerable<WebAppMedicalAssistant_Core.DTO.DoctorVisitDto>
+﻿@model CalendarViewModel
 @{
     ViewData["Title"] = "My Medical Assistant";
     Layout = "_Layout";
 }
 
-
-<h3>
-    Напоминания
-</h3>
-<div>
-    @foreach (var item in Model)
-    {
-        <div class="card col-12 event-card">
-            <div class="card-body">
-                <h5 class="card-title">Записть к врачу</h5>
-
-                <h6 class="card-subtitle mb-2 text-muted">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
-                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
-                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
-                    </svg>
-                    @item.DateVisit.ToString("R")
-                </h6>
-                @if (item.DiseaseDto != null)
+<div class="row">
+    <h3 class="text-center">
+        Мои напоминания
+    </h3>
+    <div id="modDialog" class="modal fade">
+        <div id="dialogContent" class="modal-dialog"></div>
+    </div>
+    <div class="overflow-auto vh-100 col border border-secondary rounded-3 m-3">
+        <div>
+            @if (Model.DoctorVisits != null)
+            {
+                <h4 class="text-center m-1">Ближайшие записи к врачу</h4>
+                if(Model.DoctorVisits.Any())
                 {
-                    <p class="card-text">
-                        @item.DiseaseDto.NameOfDisease
-                    </p>
+                    @foreach (var item in Model.DoctorVisits)
+                    {
+                        <div class="card col-12 event-card bg-transparent">
+                            <div class="card-body">
+                                <h5 class="card-title">Записть к врачу</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                    </svg>
+                                    @item?.DateVisit.ToString("f")
+                                </h6>
+                                @if (item?.DiseaseDto != null)
+                                {
+                                    <p class="card-text">
+                                        @Html.ActionLink(item.DiseaseDto.NameOfDisease, "DetailsTransferredDiseasePartialView", "TransferredDisease", new { id = item.TransferredDiseaseId }, new { @class = "tempClass" })
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="card-text">
+                                        Диагноз не назначен
+                                    </p>
+                                }
+                                @if (item?.MedicalInstitution.NameMedicalInstitution != null)
+                                {
+                                    <p>
+                                        @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView", "MedicalInstitution", new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
                 }
                 else
                 {
-                    <p class="card-text">
-                        Диагноз не назначен
-                    </p>
-
+                    <h5 class=" text-center m-1">Отсутствуют</h5>
                 }
-                @if (item.MedicalInstitution.NameMedicalInstitution != null)
-                {
-                    <p>
-                        @item.MedicalInstitution.NameMedicalInstitution
-                    </p>
-                }
-                <a href="#" class="card-link">Another link</a>
-            </div>
+            }
         </div>
-    }
+    </div>
+    <div class="overflow-auto vh-100 col border border-secondary rounded-3 m-3">
+        <div>
+            @if (Model.AnalysisVisits != null)
+            {
+                <h4 class="text-center m-1">Ближайшие записи на анализы</h4>
+                if (Model.AnalysisVisits.Any())
+                {
+                    @foreach (var item in Model.AnalysisVisits)
+                    {
+                        <div class="card col-12 event-card bg-transparent">
+                            <div class="card-body">
+                                <h5 class="card-title">Записть на анализ</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                    </svg>
+                                    @item?.DateOfAnalysis.ToString("f")
+                                </h6>
+                                @if (item?.NameOfAnalysis != null)
+                                {
+                                    <p class="card-text">
+                                        @Html.ActionLink(item.NameOfAnalysis, "DetailsAnalysisPartialView", "Analysis", new { id = item.Id }, new { @class = "tempClass" })
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="card-text">
+                                        Название анализа отсутствует
+                                    </p>
+                                }
+                                @if (item?.MedicalInstitution.NameMedicalInstitution != null)
+                                {
+                                    <p>
+                                        @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView", "MedicalInstitution", new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h5 class=" text-center m-1">Отсутствуют</h5>
+                }
+            }
+        </div>
+    </div>
+    <div class="overflow-auto vh-100 col border border-secondary rounded-3 m-3">
+        <div>
+            @if (Model.MedicalExaminationVisits != null)
+            {
+                <h4 class="text-center m-1">Ближайшие записи на мед. исследования</h4>
+                if (Model.MedicalExaminationVisits.Any())
+                {
+                    @foreach (var item in Model.MedicalExaminationVisits)
+                    {
+                        <div class="card col-12 event-card bg-transparent">
+                            <div class="card-body">
+                                <h5 class="card-title">Записть на мед. исследование</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                    </svg>
+                                    @item?.DateOfMedicalExamination.ToString("f")
+                                </h6>
+                                @if (item?.NameOfMedicalExamination != null)
+                                {
+                                    <p class="card-text">
+                                        @Html.ActionLink(item.NameOfMedicalExamination, "DetailsMedicalExaminationPartialView", "MedicalExamination", new { id = item.Id }, new { @class = "tempClass" })
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="card-text">
+                                        Описание отсутствует
+                                    </p>
+                                }
+                                @if (item?.MedicalInstitution.NameMedicalInstitution != null)
+                                {
+                                    <p>
+                                        @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView", "MedicalInstitution", new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h5 class=" text-center m-1">Отсутствуют</h5>
+                }
+            }
+        </div>
+    </div>
+    <div class="overflow-auto vh-100 col border border-secondary rounded-3 m-3">
+        <div>
+            @if (Model.PhysicalTherapyVisits != null)
+            {
+                <h4 class="text-center m-1">Ближайшие записи на физиотерапии</h4>
+                if (Model.PhysicalTherapyVisits.Any())
+                {
+                    @foreach (var item in Model.PhysicalTherapyVisits)
+                    {
+                        <div class="card col-12 event-card bg-transparent">
+                            <div class="card-body">
+                                <h5 class="card-title">Записть на физиотеапию</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z" />
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z" />
+                                    </svg>
+                                    @item?.DatePhysicalTherapy.ToString("f")
+                                </h6>
+                                @if (item?.NameOfPhysicalTherapy != null)
+                                {
+                                    <p class="card-text">
+                                        @Html.ActionLink(item.NameOfPhysicalTherapy, "DetailsPhysicalTherapyPartialView", "PhysicalTherapy", new { id = item.Id }, new { @class = "tempClass" })
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p class="card-text">
+                                        Описание отсутствует
+                                    </p>
+                                }
+                                @if (item?.MedicalInstitution.NameMedicalInstitution != null)
+                                {
+                                    <p>
+                                        @Html.ActionLink(item.MedicalInstitution.NameMedicalInstitution, "DetailsMedicalInstitutionPartialView", "MedicalInstitution", new { id = item.MedicalInstitutionId }, new { @class = "tempClass" })
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h5 class=" text-center m-1">Отсутствуют</h5>
+                }
+            }
+        </div>
+    </div>
 </div>
 
+@section Scripts
+    {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
-@*<div id="calendar" style="padding: 1rem;"></div>
-
-
-@section CssStyles {
-    <link rel="stylesheet" href="~/lib/calendar-gs/calendar-gc.css" />
+    <script src="~/js/modalWindow.js" asp-append-version="true"></script>
 }
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
-    </script>
-    <script src="~/lib/calendar-gc/calendar-gc.js"></script>
 
-    <script>
-            $(function (e) {
-            var calendar = $("#calendar").calendarGC({
-                dayBegin: 1,
-                prevIcon: '&#x3c;',
-                nextIcon: '&#x3e;',
-                onPrevMonth: function (e) {
-                    console.log("prev");
-                    console.log(e)
-                },
-                onNextMonth: function (e) {
-                    console.log("next");
-                    console.log(e)
-                },
-                events: [
-                    {
-                        date: new Date('2022-11-28 20:15:00 GMT+3'),
-                        eventName: "Holiday",
-                        className: "badge bg-danger",
-                        onclick(e, data) {
-                            console.log(data);
-                        },
-                        dateColor: "red"
-                    },
-                    {
-                        date: new Date("2022-11-29"),
-                        eventName: "Holiday with wife",
-                        className: "badge bg-danger",
-                        onclick(e, data) {
-                            console.log(data);
-                        },
-                        dateColor: "red"
-                    },
-                    {
-                        date: new Date("2022-11-30"),
-                        eventName: "Working day",
-                        className: "badge bg-success",
-                        onclick(e, data) {
-                            console.log(data);
-                        },
-                        dateColor: "green"
-                    }
-                ],
-                onclickDate: function (e, data) {
-                    console.log(e, data);
-                }
-            });
-        })
-    </script>
-}
-*@

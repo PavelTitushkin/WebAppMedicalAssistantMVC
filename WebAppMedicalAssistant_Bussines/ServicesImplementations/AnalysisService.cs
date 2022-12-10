@@ -45,6 +45,27 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             }
         }
 
+        public async Task<List<AnalysisDto?>> GetScheduledAnalysisAsync(DateTime dateNow, int id)
+        {
+            try
+            {
+                var dto = await _unitOfWork.Analysis
+                    .FindBy(entity => entity.UserId.Equals(id))
+                    .AsNoTracking()
+                    .Where(entity => entity.DateOfAnalysis >= dateNow)
+                    .Include(include => include.MedicalInstitution)
+                    .OrderBy(entity => entity.DateOfAnalysis)
+                    .Select(analysis => _mapper.Map<AnalysisDto>(analysis))
+                    .ToListAsync();
+
+                return dto;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public async Task<IOrderedQueryable<AnalysisDto>> GetAllAnalysisAsync(int userId)
         {
             try
@@ -72,6 +93,7 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             {
                 var listAnalysis = await _unitOfWork.Analysis
                     .FindBy(entity => entity.UserId.Equals(userId))
+                    .AsNoTracking()
                     .Where(entityData => entityData.DateOfAnalysis >= SearchDateStart && entityData.DateOfAnalysis <= SearchDateEnd)
                     .Include(include => include.MedicalInstitution)
                     .OrderBy(entity => entity.DateOfAnalysis)

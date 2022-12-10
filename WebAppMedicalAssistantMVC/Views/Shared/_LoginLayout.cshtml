@@ -9,23 +9,26 @@
     <link rel="stylesheet" href="~/WebAppMedicalAssistantMVC.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <div class="nav justify-content-center border border-dark border-3 rounded-3 p-3 text-center text-primary m-1 fs-2">
-            <a class="nav-link" asp-controller="Home" asp-action="Index">My Medical Assistant</a>
-        </div>
-    </header>
+    <div class="bg-image" style="background-image: url(https://catherineasquithgallery.com/uploads/posts/2021-02/1614381947_1-p-svetlii-fon-meditsina-1.jpg);">
+        <header>
+            <div class="nav justify-content-center border border-dark border-3 rounded-3 p-3 text-center text-primary m-1 fs-2">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">My Medical Assistant</a>
+            </div>
+        </header>
 
-    <div class="m-1 p-1 border border-dark border-2 rounded-3">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        <div class="m-1 p-1 border border-dark border-2 rounded-3">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2022 - My Medical Assistant
+            </div>
+        </footer>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2022 - My Medical Assistant - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

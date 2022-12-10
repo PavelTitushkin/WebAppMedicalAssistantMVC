@@ -40,13 +40,15 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
             }
         }
 
-        public async Task<List<DoctorVisitDto>> GetScheduledDoctorVisitAsync(DateTime dateNow)
+        public async Task<List<DoctorVisitDto?>> GetScheduledDoctorVisitAsync(DateTime dateNow, int id)
         {
             try
             {
+
                 var dto = await _unitOfWork.DoctorVisit
-                    .FindBy(entity => entity.DateVisit >= dateNow)
+                    .FindBy(entity=> entity.UserId == id)
                     .AsNoTracking()
+                    .Where(entity => entity.DateVisit >= dateNow)
                     .Include(entity => entity.MedicalInstitution)
                     .Include(entity => entity.Doctor)
                     .Include(entity => entity.TransferredDisease)

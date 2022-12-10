@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using WebAppMedicalAssistant_Core.DTO;
+﻿using WebAppMedicalAssistant_Core.DTO;
 
 namespace WebAppMedicalAssistant_Core.Abstractions
 {
     public interface IPhysicalTherapyService
     {
+        Task<List<PhysicalTherapyDto?>> GetScheduledPhysicalTherapyAsync(DateTime dateNow, int id);
         Task<List<PhysicalTherapyDto>> GetAllPhysicalTherapyAsync(int id);
         Task<List<PhysicalTherapyDto>> GetPeriodPhysicalTherapyAsync(DateTime SearchDateStart, DateTime SearchDateEnd, int id);
         Task<PhysicalTherapyDto> GetPhysicalTherapyByIdAsync(int id);
