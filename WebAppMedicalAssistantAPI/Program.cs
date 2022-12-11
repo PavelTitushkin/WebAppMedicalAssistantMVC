@@ -1,54 +1,49 @@
 using MediatR;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Packaging.Core;
-using ReflectionIT.Mvc.Paging;
 using Serilog;
 using Serilog.Events;
 using WebAppMedicalAssistant_Bussines.ServicesImplementations;
 using WebAppMedicalAssistant_Core.Abstractions;
-using WebAppMedicalAssistant_Data.Abstractions;
 using WebAppMedicalAssistant_Data.Abstractions.Repositories;
-using WebAppMedicalAssistant_Data.CQS.Queries;
-using WebAppMedicalAssistant_Data.Repositories;
+using WebAppMedicalAssistant_Data.Abstractions;
 using WebAppMedicalAssistant_DataBase;
 using WebAppMedicalAssistant_DataBase.Entities;
-using WebAppMedicalAssistantMVC.Infrastructure;
+using WebAppMedicalAssistant_Data.Repositories;
+using System.Text.Json.Serialization;
+using WebAppMedicalAssistant_Data.CQS.Queries;
 
-namespace WebAppMedicalAssistantMVC
+namespace WebAppMedicalAssistantAPI
 {
     public class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             //Add Serilog
             builder.Host.UseSerilog((ctx, lc) =>
-                lc.WriteTo.File(@"D:\IT-Academy\Projects\WebAppMedicalAssistantMVC\data.log",
+                lc.WriteTo.File(@"D:\IT-Academy\Projects\WebAppMedicalAssistantMVC\dataApi.log",
                     LogEventLevel.Information).WriteTo.Console(LogEventLevel.Verbose));
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews( opts=>
+
+            //builder.Services.AddControllers();
+
+            builder.Services.AddControllers().AddJsonOptions(options =>
             {
-                opts.ModelBinderProviders.Insert(0, new CustomDateTimeModelBinderProvider());
+                options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
 
-            //Add Authentication
-            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.ExpireTimeSpan = TimeSpan.FromHours(12);
-                    options.LoginPath = new PathString(@"/Account/Login");
-                    options.LogoutPath = new PathString(@"/Account/Login");
-                    options.AccessDeniedPath = new PathString(@"/Account/Login");
-                });
-            
             //Connection Db
             var connectionString = builder.Configuration.GetConnectionString("DbMedicalAssistant");
             builder.Services.AddDbContext<MedicalAssistantContext>(optionsBuilder => optionsBuilder.UseSqlServer(connectionString));
 
-            //Add Auto-mapper
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.IncludeXmlComments(builder.Configuration["DocXml"]);
+            });
 
             //Add Dependencies
             builder.Services.AddScoped<IFluorographyService, FluorographyService>();
@@ -85,41 +80,28 @@ namespace WebAppMedicalAssistantMVC
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            //Add Automapper
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             //Add MediatR
             builder.Services.AddMediatR(typeof(GetAllDoctorVisitQuery).Assembly);
 
-            //Add paddig
-            builder.Services.AddPaging();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (!app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment())
             {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
-            app.UseRouting();
-
-            app.UseAuthentication(); //set HttpContext.User
             app.UseAuthorization();
+            
 
-            app.MapControllerRoute(
-                name: "Login",
-                pattern: "{controller=Account}/{action=Login}/{id?}");
-
-            app.MapControllerRoute(
-                name: "admin",
-                pattern: "{controller=Admin}/{action=Index}/{id?}");
-
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.MapControllers();
 
             app.Run();
         }

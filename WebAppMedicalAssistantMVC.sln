@@ -11,9 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppMedicalAssistant_Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppMedicalAssistant_Bussines", "WebAppMedicalAssistant_Bussines\WebAppMedicalAssistant_Bussines.csproj", "{CB1E998D-F332-40B1-941D-BB4E58199207}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppMedicalAssistant_Data.Abstractions", "WebAppMedicalAssistant_Data.Abstractions\WebAppMedicalAssistant_Data.Abstractions.csproj", "{A4E61422-C13E-4AE1-B75A-1F35BB9450B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppMedicalAssistant_Data.Abstractions", "WebAppMedicalAssistant_Data.Abstractions\WebAppMedicalAssistant_Data.Abstractions.csproj", "{A4E61422-C13E-4AE1-B75A-1F35BB9450B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppMedicalAssistant_Data.Repositories", "WebAppMedicalAssistant_Data.Repositories\WebAppMedicalAssistant_Data.Repositories.csproj", "{8487D9D0-BC9B-40A2-BA0D-E0D496E9B4B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppMedicalAssistant_Data.Repositories", "WebAppMedicalAssistant_Data.Repositories\WebAppMedicalAssistant_Data.Repositories.csproj", "{8487D9D0-BC9B-40A2-BA0D-E0D496E9B4B7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppMedicalAssistantAPI", "WebAppMedicalAssistantAPI\WebAppMedicalAssistantAPI.csproj", "{A56F2130-0405-49B1-8A0C-11A6542320CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppMedicalAssistant_Data.CQS", "WebAppMedicalAssistant_Data.CQS\WebAppMedicalAssistant_Data.CQS.csproj", "{61EF3085-CB08-40D8-9226-DC1F81E7ABCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,14 @@ Global
 		{8487D9D0-BC9B-40A2-BA0D-E0D496E9B4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8487D9D0-BC9B-40A2-BA0D-E0D496E9B4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8487D9D0-BC9B-40A2-BA0D-E0D496E9B4B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A56F2130-0405-49B1-8A0C-11A6542320CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A56F2130-0405-49B1-8A0C-11A6542320CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A56F2130-0405-49B1-8A0C-11A6542320CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A56F2130-0405-49B1-8A0C-11A6542320CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61EF3085-CB08-40D8-9226-DC1F81E7ABCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61EF3085-CB08-40D8-9226-DC1F81E7ABCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61EF3085-CB08-40D8-9226-DC1F81E7ABCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61EF3085-CB08-40D8-9226-DC1F81E7ABCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

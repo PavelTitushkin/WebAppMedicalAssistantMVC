@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using WebAppMedicalAssistant_Core;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
+using WebAppMedicalAssistant_Data.CQS.Queries;
 using WebAppMedicalAssistant_DataBase.Entities;
 
 namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
@@ -17,11 +19,13 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediator _mediator;
 
-        public DoctorVisitService(IMapper mapper, IUnitOfWork unitOfWork)
+        public DoctorVisitService(IMapper mapper, IUnitOfWork unitOfWork, IMediator mediator)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
 
         public async Task<int> CreateDoctorVisitAsync(DoctorVisitDto doctorVisitDto)
@@ -59,7 +63,6 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                     .ToListAsync();
 
                 return dto;
-
             }
             catch (Exception)
             {
@@ -71,19 +74,23 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
         {
             try
             {
-                var listDoctorVisit = await _unitOfWork.DoctorVisit.Get()
-                    .AsNoTracking()
-                    .Where(user => user.UserId.Equals(userId))
-                    .Include(entity => entity.MedicalInstitution)
-                    .Include(entity => entity.Doctor)
-                    .Include(entity => entity.TransferredDisease)
-                    .ThenInclude(tranDis=>tranDis.Disease)
-                    .Include(entity => entity.Appointment)
-                    .OrderBy(entity=> entity.DateVisit)
-                    .Select(doctorVisit => _mapper.Map<DoctorVisitDto>(doctorVisit))
-                    .ToListAsync();
+                var dto = await _mediator.Send(new GetAllDoctorVisitQuery() { Id = userId });
 
-                return listDoctorVisit;
+                return dto;
+
+                //var listDoctorVisit = await _unitOfWork.DoctorVisit.Get()
+                //    .AsNoTracking()
+                //    .Where(user => user.UserId.Equals(userId))
+                //    .Include(entity => entity.MedicalInstitution)
+                //    .Include(entity => entity.Doctor)
+                //    .Include(entity => entity.TransferredDisease)
+                //    .ThenInclude(tranDis=>tranDis.Disease)
+                //    .Include(entity => entity.Appointment)
+                //    .OrderBy(entity=> entity.DateVisit)
+                //    .Select(doctorVisit => _mapper.Map<DoctorVisitDto>(doctorVisit))
+                //    .ToListAsync();
+
+                //return listDoctorVisit;
             }
             catch (Exception)
             {

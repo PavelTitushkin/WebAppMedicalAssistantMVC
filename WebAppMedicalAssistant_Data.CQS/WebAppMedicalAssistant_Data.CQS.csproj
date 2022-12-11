@@ -7,16 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Handlers\CommandHandlers\" />
+    <Folder Include="Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageReference Include="MediatR" Version="11.1.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WebAppMedicalAssistant_Core\WebAppMedicalAssistant_Core.csproj" />
-    <ProjectReference Include="..\WebAppMedicalAssistant_Data.Abstractions\WebAppMedicalAssistant_Data.Abstractions.csproj" />
-    <ProjectReference Include="..\WebAppMedicalAssistant_Data.CQS\WebAppMedicalAssistant_Data.CQS.csproj" />
     <ProjectReference Include="..\WebAppMedicalAssistant_DataBase\WebAppMedicalAssistant_DataBase.csproj" />
   </ItemGroup>
 

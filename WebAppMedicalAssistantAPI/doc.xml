@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebAppMedicalAssistantAPI</name>
+    </assembly>
+    <members>
+        <member name="T:WebAppMedicalAssistantAPI.Controllers.DoctorVisitController">
+            <summary>
+            Controller for work with doctor visits
+            </summary>
+        </member>
+        <member name="M:WebAppMedicalAssistantAPI.Controllers.DoctorVisitController.Index(System.DateTime,System.DateTime,System.Boolean)">
+            <summary>
+            Get all doctor visits
+            </summary>
+            <param name="searchDateStart"></param>
+            <param name="searchDateEnd"></param>
+            <param name="allDates"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
