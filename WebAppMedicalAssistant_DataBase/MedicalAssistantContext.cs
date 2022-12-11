@@ -21,6 +21,7 @@ namespace WebAppMedicalAssistant_DataBase
         public DbSet<Role> Roles { get; set; }
         public DbSet<ScanOfAnalysisDocument> ScanOfAnalysisDocuments { get; set; }
         public DbSet<ScanOfMedicalExamination> ScanOfMedicalExaminations { get; set; }
+        public DbSet<RefreshTokens> RefreshTokens { get; set; }
 
         public MedicalAssistantContext(DbContextOptions<MedicalAssistantContext> options) : base(options)
         {

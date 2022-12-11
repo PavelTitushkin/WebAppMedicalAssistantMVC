@@ -21,5 +21,6 @@
         public List<PrescribedMedication>? PrescribedMedication { get; set; }
         public List<TransferredDisease>? TransferredDiseases { get; set; }
         public List<PhysicalTherapy>? PhysicalTherapies { get; set; }
+        public List<RefreshTokens>? RefreshTokens { get; set; }
     }
 }

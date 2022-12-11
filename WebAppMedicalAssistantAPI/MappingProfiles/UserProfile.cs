@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_DataBase.Entities;
+using WebAppMedicalAssistantAPI.Model.Requests;
 
 namespace WebAppMedicalAssistantMVC.MappingProfiles
 {
@@ -13,6 +14,8 @@ namespace WebAppMedicalAssistantMVC.MappingProfiles
                 .ForMember(dto => dto.Id, opt => opt.MapFrom(entity => entity.Id));
 
             CreateMap<UserDto, User>();
+
+            CreateMap<RegisterUserRequestModel, UserDto>();
         }
     }
 }

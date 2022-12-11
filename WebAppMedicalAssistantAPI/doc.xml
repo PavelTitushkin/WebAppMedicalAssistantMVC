@@ -4,6 +4,18 @@
         <name>WebAppMedicalAssistantAPI</name>
     </assembly>
     <members>
+        <member name="T:WebAppMedicalAssistantAPI.Controllers.AccountController">
+            <summary>
+            Controller for user operation
+            </summary>
+        </member>
+        <member name="M:WebAppMedicalAssistantAPI.Controllers.AccountController.Register(WebAppMedicalAssistantAPI.Model.Requests.RegisterUserRequestModel)">
+            <summary>
+            Register user
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="T:WebAppMedicalAssistantAPI.Controllers.DoctorVisitController">
             <summary>
             Controller for work with doctor visits
@@ -16,6 +28,32 @@
             <param name="searchDateStart"></param>
             <param name="searchDateEnd"></param>
             <param name="allDates"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WebAppMedicalAssistantAPI.Controllers.TokenController">
+            <summary>
+            Working with jwt
+            </summary>
+        </member>
+        <member name="M:WebAppMedicalAssistantAPI.Controllers.TokenController.CreateJwtToken(WebAppMedicalAssistantAPI.Model.Requests.AuthorizationUserRequestModel)">
+            <summary>
+            Login user with Jwt
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAppMedicalAssistantAPI.Controllers.TokenController.RefreshToken(WebAppMedicalAssistantAPI.Model.Requests.RefreshTokenRequestModel)">
+            <summary>
+            Refresh token
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAppMedicalAssistantAPI.Controllers.TokenController.RevokeToken(WebAppMedicalAssistantAPI.Model.Requests.RefreshTokenRequestModel)">
+            <summary>
+            Revoke token
+            </summary>
+            <param name="request"></param>
             <returns></returns>
         </member>
     </members>

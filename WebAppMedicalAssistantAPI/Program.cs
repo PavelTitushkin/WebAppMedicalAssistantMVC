@@ -11,6 +11,10 @@ using WebAppMedicalAssistant_DataBase.Entities;
 using WebAppMedicalAssistant_Data.Repositories;
 using System.Text.Json.Serialization;
 using WebAppMedicalAssistant_Data.CQS.Queries;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using WebAppMedicalAssistantAPI.Utils;
 
 namespace WebAppMedicalAssistantAPI
 {
@@ -44,6 +48,28 @@ namespace WebAppMedicalAssistantAPI
             {
                 options.IncludeXmlComments(builder.Configuration["DocXml"]);
             });
+
+            //Add Authentication with Jwt
+            builder.Services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(opt =>
+                {
+                    opt.RequireHttpsMetadata = false;
+                    opt.SaveToken = true;
+                    opt.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidIssuer = builder.Configuration["Token:Issuer"],
+                        ValidAudience = builder.Configuration["Token:Issuer"],
+                        IssuerSigningKey =
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:JwtSecret"])),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
             //Add Dependencies
             builder.Services.AddScoped<IFluorographyService, FluorographyService>();
@@ -80,6 +106,8 @@ namespace WebAppMedicalAssistantAPI
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            builder.Services.AddScoped<IJwtUtil, JwtUtilSha256>();
+
             //Add Automapper
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -88,19 +116,18 @@ namespace WebAppMedicalAssistantAPI
 
 
             var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseStaticFiles();
+            
+            app.UseRouting();
 
             app.UseHttpsRedirection();
 
+            app.UseSwagger();
+            app.UseSwaggerUI();
+
+            app.UseAuthentication();
             app.UseAuthorization();
             
-
             app.MapControllers();
 
             app.Run();

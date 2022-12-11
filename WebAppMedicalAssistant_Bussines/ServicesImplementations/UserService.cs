@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -10,6 +11,7 @@ using WebAppMedicalAssistant_Core;
 using WebAppMedicalAssistant_Core.Abstractions;
 using WebAppMedicalAssistant_Core.DTO;
 using WebAppMedicalAssistant_Data.Abstractions;
+using WebAppMedicalAssistant_Data.CQS.Queries;
 using WebAppMedicalAssistant_DataBase.Entities;
 
 namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
@@ -19,12 +21,14 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediator _mediator;
 
-        public UserService(IMapper mapper, IConfiguration configuration, IUnitOfWork unitOfWork)
+        public UserService(IMapper mapper, IConfiguration configuration, IUnitOfWork unitOfWork, IMediator mediator)
         {
             _mapper = mapper;
             _configuration = configuration;
             _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
 
         public async Task<bool> CheckUserPasswordAsync(string email, string password)
@@ -174,6 +178,20 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 var hashBytes = md5.ComputeHash(inputBytes);
 
                 return Convert.ToHexString(hashBytes);
+            }
+        }
+
+        public async Task<UserDto?> GetUserByRefreshTokenAsync(Guid id)
+        {
+            try
+            {
+                var user = await _mediator.Send(new GetUserByRefreshTokenQuery() { RefreshToken = id });
+
+                return user;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
