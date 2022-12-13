@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebAppMedicalAssistantAPI.Utils;
+using WebAppMedicalAssistant_Bussines.EmailService;
+using WebAppMedicalAssistant_Core.Abstractions.EmailService;
 
 namespace WebAppMedicalAssistantAPI
 {
@@ -31,12 +33,15 @@ namespace WebAppMedicalAssistantAPI
 
             // Add services to the container.
 
-            //builder.Services.AddControllers();
 
             builder.Services.AddControllers().AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
             });
+
+            //Add EmailConfig
+            var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+            builder.Services.AddSingleton(emailConfig);
 
             //Connection Db
             var connectionString = builder.Configuration.GetConnectionString("DbMedicalAssistant");
@@ -86,6 +91,9 @@ namespace WebAppMedicalAssistantAPI
             builder.Services.AddScoped<IPhysicalTherapyService, PhysicalTherapyService>();
             builder.Services.AddScoped<IMedicineService, MedicineService>();
 
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
+
             builder.Services.AddScoped<IRepository<Analysis>, Repository<Analysis>>();
             builder.Services.AddScoped<IRepository<Appointment>, Repository<Appointment>>();
             builder.Services.AddScoped<IRepository<Disease>, Repository<Disease>>();
@@ -113,7 +121,7 @@ namespace WebAppMedicalAssistantAPI
 
             //Add MediatR
             builder.Services.AddMediatR(typeof(GetAllDoctorVisitQuery).Assembly);
-
+            ////builder.Services.AddMediatR(typeof(GetUsersWithNearestDoctorVisitQuery).Assembly);
 
             var app = builder.Build();
             app.UseStaticFiles();

@@ -16,6 +16,11 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="T:WebAppMedicalAssistantAPI.Controllers.AdminController">
+            <summary>
+            Works with admin
+            </summary>
+        </member>
         <member name="T:WebAppMedicalAssistantAPI.Controllers.DoctorVisitController">
             <summary>
             Controller for work with doctor visits

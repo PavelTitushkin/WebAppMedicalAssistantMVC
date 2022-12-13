@@ -11,5 +11,6 @@
         public string PasswordHash { get; set; }
         public string RoleName { get; set; }
         public int RoleId { get; set; }
+        public List<DoctorVisitDto?>? DoctorVisits { get; set; }
     }
 }
