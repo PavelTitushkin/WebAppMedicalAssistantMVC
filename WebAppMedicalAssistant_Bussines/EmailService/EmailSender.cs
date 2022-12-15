@@ -1,12 +1,6 @@
 ﻿using MailKit.Net.Smtp;
-using Microsoft.Identity.Client;
 using MimeKit;
 using MimeKit.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebAppMedicalAssistant_Core.Abstractions.EmailService;
 
 namespace WebAppMedicalAssistant_Bussines.EmailService
@@ -19,20 +13,6 @@ namespace WebAppMedicalAssistant_Bussines.EmailService
         {
             _emailConfiguration = emailConfiguration;
         }
-
-        //public async Task SendEmailAsync(Message message)
-        //{
-        //    try
-        //    {
-        //        var emailMessage = CreateEmailMessage(message);
-
-        //        await SendAsync(emailMessage);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        throw;
-        //    }
-        //}
 
         public async Task SendRangeEmailAsync(List<Message> message)
         {

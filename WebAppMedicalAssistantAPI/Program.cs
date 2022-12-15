@@ -17,6 +17,8 @@ using System.Text;
 using WebAppMedicalAssistantAPI.Utils;
 using WebAppMedicalAssistant_Bussines.EmailService;
 using WebAppMedicalAssistant_Core.Abstractions.EmailService;
+using Hangfire;
+using Hangfire.SqlServer;
 
 namespace WebAppMedicalAssistantAPI
 {
@@ -92,7 +94,7 @@ namespace WebAppMedicalAssistantAPI
             builder.Services.AddScoped<IMedicineService, MedicineService>();
 
             builder.Services.AddScoped<IEmailSender, EmailSender>();
-            builder.Services.AddScoped<IAdminService, AdminService>();
+            builder.Services.AddScoped<IEmailService, EmailService>();
 
             builder.Services.AddScoped<IRepository<Analysis>, Repository<Analysis>>();
             builder.Services.AddScoped<IRepository<Appointment>, Repository<Appointment>>();
@@ -121,10 +123,27 @@ namespace WebAppMedicalAssistantAPI
 
             //Add MediatR
             builder.Services.AddMediatR(typeof(GetAllDoctorVisitQuery).Assembly);
-            ////builder.Services.AddMediatR(typeof(GetUsersWithNearestDoctorVisitQuery).Assembly);
+
+            // Add Hangfire services.
+            builder.Services.AddHangfire(configuration => configuration
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(connectionString, new SqlServerStorageOptions
+                {
+                    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+                    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+                    QueuePollInterval = TimeSpan.Zero,
+                    UseRecommendedIsolationLevel = true,
+                    DisableGlobalLocks = true
+                }));
+
+            // Add the processing server as IHostedService
+             builder.Services.AddHangfireServer();
 
             var app = builder.Build();
             app.UseStaticFiles();
+            app.UseHangfireDashboard();
             
             app.UseRouting();
 
@@ -137,6 +156,7 @@ namespace WebAppMedicalAssistantAPI
             app.UseAuthorization();
             
             app.MapControllers();
+            app.MapHangfireDashboard();
 
             app.Run();
         }

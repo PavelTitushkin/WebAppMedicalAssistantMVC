@@ -16,11 +16,6 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="T:WebAppMedicalAssistantAPI.Controllers.AdminController">
-            <summary>
-            Works with admin
-            </summary>
-        </member>
         <member name="T:WebAppMedicalAssistantAPI.Controllers.DoctorVisitController">
             <summary>
             Controller for work with doctor visits
@@ -33,6 +28,17 @@
             <param name="searchDateStart"></param>
             <param name="searchDateEnd"></param>
             <param name="allDates"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WebAppMedicalAssistantAPI.Controllers.EmailQueueController">
+            <summary>
+            Works with email
+            </summary>
+        </member>
+        <member name="M:WebAppMedicalAssistantAPI.Controllers.EmailQueueController.SendEmail">
+            <summary>
+            Send email
+            </summary>
             <returns></returns>
         </member>
         <member name="T:WebAppMedicalAssistantAPI.Controllers.TokenController">

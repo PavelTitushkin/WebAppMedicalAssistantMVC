@@ -12,6 +12,7 @@ namespace WebAppMedicalAssistantAPI.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DoctorVisitController : ControllerBase
     {
         private readonly IDoctorVisitService _doctorVisitService;
@@ -37,8 +38,8 @@ namespace WebAppMedicalAssistantAPI.Controllers
         {
             try
             {
-                //var emailUser = HttpContext.User.Identity.Name;
-                //var userDto = await _userService.GetUserByEmailAsync(emailUser);
+                var emailUser = HttpContext.User.Identity.Name;
+                var userDto = await _userService.GetUserByEmailAsync(emailUser);
                 var id = 3;
                 if (!allDates)
                 {
