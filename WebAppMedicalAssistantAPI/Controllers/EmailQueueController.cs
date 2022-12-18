@@ -12,6 +12,7 @@ namespace WebAppMedicalAssistantAPI.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class EmailQueueController : ControllerBase
     {
         private readonly IEmailService _emailService;
@@ -29,7 +30,6 @@ namespace WebAppMedicalAssistantAPI.Controllers
         [ProducesResponseType(typeof(Unit), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Nullable), StatusCodes.Status404NotFound)]
-        [Authorize]
         public async Task<IActionResult> SendEmail()
         {
             try

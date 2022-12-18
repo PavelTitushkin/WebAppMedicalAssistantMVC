@@ -31,7 +31,6 @@
         <div class="mb-3">
             <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
             <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
-            <a asp-controller="MedicalInstitution" asp-action="Create">Добавить медицинское учреждение</a>
         </div>
         <div>
             <input asp-for="AppointmentId" type="hidden" />

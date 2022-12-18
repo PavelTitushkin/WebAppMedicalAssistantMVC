@@ -295,8 +295,8 @@ namespace WebAppMedicalAssistant_Bussines.ServicesImplementations
                 var entityDoctorVisit = await _unitOfWork.DoctorVisit
                     .FindBy(entity => entity.Id.Equals(id))
                     .Include(include => include.Appointment)
-                    .ThenInclude(i=>i.Analysis)
-                    .Include(include=>include.MedicalInstitution)
+                    .ThenInclude(i => i.Analysis)
+                    .Include(include => include.MedicalInstitution)
                     .Include(include => include.TransferredDisease)
                     .Include(include => include.Doctor)
                     .Include(include => include.User)

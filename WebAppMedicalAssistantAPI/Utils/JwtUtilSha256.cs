@@ -31,10 +31,11 @@ namespace WebAppMedicalAssistantAPI.Utils
 
                 var claims = new List<Claim>()
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, dto?.Email),
+                    new Claim(JwtRegisteredClaimNames.Email, dto?.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("D")), //jwt uniq id from spec
                     new Claim(ClaimTypes.NameIdentifier, dto.Id.ToString("D")),
                     new Claim(ClaimTypes.Role, dto.RoleName),
+                    new Claim(ClaimTypes.Name, dto.Email)
                 };
 
                 var jwtToken = new JwtSecurityToken(_configuration["Token:Issuer"],

@@ -27,17 +27,8 @@
         <div class="mb-3">
             <label for="MedicalInstitutionId" class="form-label">Медицинское учреждение:</label>
             <select asp-for="MedicalInstitutionId" asp-items="@Model.MedicalInstitutionList"></select>
-            <a asp-controller="MedicalInstitution" asp-action="Create">Добавить медицинское учреждение</a>
         </div>
-@*        <div class="mb-3">
-            <label for="Avatar">Добавить изображение</label>
-            <input asp-for="ScanOfAnalysisOne" type="file" class="form-control" />
-            <input asp-for="ScanOfAnalysisTwo" type="file" class="form-control" />
-            <input asp-for="ScanOfAnalysisThree" type="file" class="form-control" />
-            <input asp-for="ScanOfAnalysisFour" type="file" class="form-control" />
-            <input asp-for="ScanOfAnalysisFive" type="file" class="form-control" />
-        </div>
-*@        <div>
+        <div>
             <input asp-for="AppointmentId" type="hidden" />
             <input asp-for="ReturnUrl" type="hidden" />
         </div>

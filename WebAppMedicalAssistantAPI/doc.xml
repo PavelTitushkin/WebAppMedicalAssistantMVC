@@ -30,6 +30,13 @@
             <param name="allDates"></param>
             <returns></returns>
         </member>
+        <member name="M:WebAppMedicalAssistantAPI.Controllers.DoctorVisitController.Create(WebAppMedicalAssistantAPI.Model.Requests.DoctorVisitRequestModel)">
+            <summary>
+            Create doctor visit
+            </summary>
+            <param name="doctorVisitModel"></param>
+            <returns></returns>
+        </member>
         <member name="T:WebAppMedicalAssistantAPI.Controllers.EmailQueueController">
             <summary>
             Works with email

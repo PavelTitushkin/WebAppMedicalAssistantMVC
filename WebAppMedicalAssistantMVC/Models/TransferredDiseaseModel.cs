@@ -1,13 +1,17 @@
-﻿using WebAppMedicalAssistant_Core.DTO;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using WebAppMedicalAssistant_Core;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebAppMedicalAssistantMVC.Models
 {
     public class TransferredDiseaseModel
     {
-        public int Id { get;set; }
+        public int Id { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DateOfDisease { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DateOfRecovery { get; set; }
         public bool TypeOfTreatment { get; set; }
         public int FormOfTransferredDiseaseListId { get; set; }

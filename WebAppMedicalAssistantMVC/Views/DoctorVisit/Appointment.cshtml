@@ -47,15 +47,13 @@
                             @Html.ActionLink(item.NameOfAnalysis, "DetailsAnalysisPartialView", "Analysis", new { id = item.Id }, new { @class = "tempClass" })
                         </li>
                     }
+                    <a class="btn btn-outline-success" asp-controller="Analysis" asp-action="Create" asp-route-id="@Model.Id">Добавить</a>
                 </ul>
-                <div>
-                    <a class="btn btn-outline-success" asp-controller="Analysis" asp-action="Create" asp-route-id="@Model.Id">Добавить анализ</a>
-                </div>
             }
             else
             {
                 <p>Нет назначенных анализов</p>
-                @Html.ActionLink("Добавить", "Create", "Analysis", new {id = Model.Id})
+                <a class="btn btn-outline-success" asp-controller="Analysis" asp-action="Create" asp-route-id="@Model.Id">Добавить</a>
             }
         </div>
         <div class="col border border-secondary rounded-3 m-1 p-1">
